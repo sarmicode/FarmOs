@@ -186,6 +186,17 @@
   margin: 1.1rem 0 1.25rem 0;
 }
 
+/* Typed brand wordmark above the tagline ("-FarmOS-") */
+.ag-hero-wordmark {
+  display: inline-block;
+  color: #0b3d2e;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  min-height: 1.1em;
+}
+
+.ag-hero-headline .fx-caret { background: #0b3d2e; }
+
 .ag-hero-subtext {
   color: #475569;
   margin-bottom: 2rem;
