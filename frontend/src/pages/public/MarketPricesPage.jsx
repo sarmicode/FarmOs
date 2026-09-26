@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { MandiPrices } from '../../components/MandiPrices'
 import { EnamInfo } from '../../components/EnamInfo'
 import { useLanguage } from '../../context/LanguageContext'
+import { Icon } from '../../components/ui/Icon'
 
 export const MarketPricesPage = () => {
   const { t } = useLanguage()
@@ -36,10 +37,15 @@ export const MarketPricesPage = () => {
             cursor: 'pointer',
             transition: 'all 0.2s ease',
             flex: 1,
-            minWidth: '200px'
+            minWidth: '200px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '0.5rem'
           }}
         >
-          📊 {t('market.title')}
+          <Icon name="barChart" size={18} />
+          {t('market.title')}
         </button>
 
         <button
@@ -55,10 +61,15 @@ export const MarketPricesPage = () => {
             cursor: 'pointer',
             transition: 'all 0.2s ease',
             flex: 1,
-            minWidth: '200px'
+            minWidth: '200px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '0.5rem'
           }}
         >
-          🏛️ e-NAM Market Information
+          <Icon name="landmark" size={18} />
+          e-NAM Market Information
         </button>
       </div>
 

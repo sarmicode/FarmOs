@@ -84,13 +84,13 @@
     "contactPrivate": "खरीदार के अनुरोध पर संपर्क जानकारी निजी रखी गई है"
   },
   "badges": {
-    "sourceVerified": "🟢 FarmOS सत्यापित व्यवसाय",
-    "websiteVerified": "🌐 सार्वजनिक व्यवसाय जानकारी",
-    "unverified": "🏢 सार्वजनिक सूची",
-    "registeredBuyer": "🔵 FarmOS पंजीकृत खरीदार",
-    "verifiedAccount": "🟢 सत्यापित खाता",
-    "enamRef": "🟣 e-NAM संदर्भ उपलब्ध",
-    "udyamRef": "📜 उद्यम MSME संदर्भ उपलब्ध"
+    "sourceVerified": "FarmOS सत्यापित व्यवसाय",
+    "websiteVerified": "सार्वजनिक व्यवसाय जानकारी",
+    "unverified": "सार्वजनिक सूची",
+    "registeredBuyer": "FarmOS पंजीकृत खरीदार",
+    "verifiedAccount": "सत्यापित खाता",
+    "enamRef": "e-NAM संदर्भ उपलब्ध",
+    "udyamRef": "उद्यम MSME संदर्भ उपलब्ध"
   },
   "market": {
     "title": "लाइव मंडी बाज़ार भाव",
@@ -156,7 +156,7 @@
     "accountType": "खाते का प्रकार",
     "roleFarmer": "किसान (फसल विक्रेता)",
     "roleBuyer": "खरीदार (स्वैच्छिक पंजीकृत खरीदार खाता)",
-    "buyerBusinessProfile": "🏢 खरीदार का व्यापारिक विवरण",
+    "buyerBusinessProfile": "खरीदार का व्यापारिक विवरण",
     "businessName": "व्यापार / कंपनी का नाम",
     "optEnamRef": "वैकल्पिक e-NAM संदर्भ नंबर",
     "optUdyamRef": "वैकल्पिक उद्यम/MSME संदर्भ नंबर",
@@ -166,12 +166,12 @@
     "noAccount": "खाता नहीं है?"
   },
   "farmer": {
-    "title": "🧑‍🌾 किसान डैशबोर्ड",
+    "title": "किसान डैशबोर्ड",
     "welcomeBack": "स्वागत है",
     "totalListings": "कुल फसल सूचियां",
     "activeHarvests": "सक्रिय फसलें",
     "totalQuantity": "कुल सूचीबद्ध मात्रा",
-    "postNewHarvest": "➕ नई फसल जोड़ें",
+    "postNewHarvest": "नई फसल जोड़ें",
     "cropName": "फसल का नाम *",
     "unit": "इकाई (माप) *",
     "pricePerUnit": "प्रति इकाई मूल्य (₹) *",
@@ -179,12 +179,12 @@
     "harvestDesc": "फसल का विवरण (वैकल्पिक)",
     "posting": "जोड़ा जा रहा है...",
     "postHarvestBtn": "फसल सूची पोस्ट करें",
-    "myHarvests": "📋 मेरी फसल सूचियां",
+    "myHarvests": "मेरी फसल सूचियां",
     "noHarvests": "कोई फसल सूची नहीं मिली",
     "noHarvestsDesc": "आपने अभी तक कोई फसल सूचीबद्ध नहीं की है। अपनी पहली फसल जोड़ने के लिए ऊपर दिए गए फॉर्म को भरें!"
   },
   "buyer": {
-    "title": "🏢 खरीदार डैशबोर्ड",
+    "title": "खरीदार डैशबोर्ड",
     "browseMarketplace": "फसल बाज़ार देखें",
     "myOrders": "मेरे ख़रीद के ऑर्डर",
     "availableProduce": "उपलब्ध फसल सूचियां",
@@ -194,14 +194,14 @@
     "orderStatus": "ऑर्डर की स्थिति"
   },
   "admin": {
-    "title": "⚙️ FarmOS प्रशासन पोर्टल",
+    "title": "FarmOS प्रशासन पोर्टल",
     "subtitle": "पंजीकृत खरीदारों के आवेदनों की समीक्षा करें और बाहरी व्यापारी निर्देशिका प्रविष्टियों का प्रबंधन करें।",
     "tabPendingBuyers": "⏳ लंबित खरीदार अनुमोदन",
-    "tabTraderManagement": "🏬 सार्वजनिक व्यापारी निर्देशिका प्रबंधन",
-    "tabSystemStats": "📊 सिस्टम सांख्यिकी",
-    "verifyBuyerBtn": "✅ खरीदार सत्यापित करें",
-    "rejectBuyerBtn": "❌ अस्वीकार करें",
-    "addPublicRecordBtn": "➕ नया सत्यापित रिकॉर्ड जोड़ें",
+    "tabTraderManagement": "सार्वजनिक व्यापारी निर्देशिका प्रबंधन",
+    "tabSystemStats": "सिस्टम सांख्यिकी",
+    "verifyBuyerBtn": "खरीदार सत्यापित करें",
+    "rejectBuyerBtn": "अस्वीकार करें",
+    "addPublicRecordBtn": "नया सत्यापित रिकॉर्ड जोड़ें",
     "totalUsers": "कुल उपयोगकर्ता",
     "totalFarmers": "कुल किसान",
     "totalBuyers": "कुल खरीदार",

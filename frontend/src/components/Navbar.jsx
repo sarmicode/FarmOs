@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../context/LanguageContext'
+import { Icon } from './ui/Icon'
 
 export const Navbar = () => {
   const { user, isAuthenticated, logout } = useAuth()
@@ -68,11 +69,9 @@ export const Navbar = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontWeight: 800,
-            fontSize: '1.25rem',
             boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)'
           }}>
-            🌿
+            <Icon name="leaf" size={24} color="#ffffff" />
           </div>
           <span style={{ fontSize: '1.45rem', fontWeight: 800, color: '#0b3d2e', letterSpacing: '-0.025em' }}>
             Farm<span style={{ color: '#10b981' }}>OS</span>
@@ -271,6 +270,7 @@ export const Navbar = () => {
           <button
             className="mobile-hamburger"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle navigation menu"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -281,11 +281,10 @@ export const Navbar = () => {
               backgroundColor: '#f4f8f5',
               border: '1px solid #d6e4db',
               color: '#0b3d2e',
-              fontSize: '1.25rem',
               cursor: 'pointer'
             }}
           >
-            {mobileMenuOpen ? '✕' : '☰'}
+            <Icon name={mobileMenuOpen ? 'x' : 'menu'} size={22} />
           </button>
         </div>
       </div>

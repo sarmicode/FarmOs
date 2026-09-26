@@ -1,6 +1,7 @@
 import React from 'react'
+import { Icon } from './Icon'
 
-export const EmptyState = ({ icon = '🌾', title = 'No Data Available', description, actionText, onAction }) => {
+export const EmptyState = ({ icon = 'wheat', title = 'No Data Available', description, actionText, onAction }) => {
   return (
     <div style={{
       backgroundColor: '#ffffff',
@@ -10,9 +11,11 @@ export const EmptyState = ({ icon = '🌾', title = 'No Data Available', descrip
       textAlign: 'center',
       color: '#64748b'
     }}>
-      <div style={{ fontSize: '3rem', marginBottom: '0.75rem' }}>{icon}</div>
+      <div style={{ marginBottom: '0.75rem', color: '#10b981' }}>
+        <Icon name={icon} size={56} strokeWidth={1.5} />
+      </div>
       <h4 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.35rem' }}>{title}</h4>
-      {description && <p style={{ fontSize: '0.88rem', color: '#64748b', maxWidth: '420px', margin: '0 auto 1.25rem' }}>{description}</p>}
+      {description && <p style={{ fontSize: '0.88rem', color: '#64748b', maxWidth: '420px', margin: '0 auto 1.25rem auto' }}>{description}</p>}
       {actionText && onAction && (
         <button
           onClick={onAction}

@@ -5,6 +5,7 @@ import { MandiPrices } from '../../components/MandiPrices'
 import { EnamInfo } from '../../components/EnamInfo'
 import { useLanguage } from '../../context/LanguageContext'
 import TrustBadge from '../../components/TrustBadge'
+import { Icon } from '../../components/ui/Icon'
 import './marketplace.css'
 
 export const Marketplace = () => {
@@ -100,7 +101,7 @@ export const Marketplace = () => {
         quantity: qtyNum
       })
 
-      setSuccess(`🎉 Order placed successfully for ${qtyNum} ${selectedHarvest.unit} of ${selectedHarvest.crop_name}!`)
+      setSuccess(`Order placed successfully for ${qtyNum} ${selectedHarvest.unit} of ${selectedHarvest.crop_name}!`)
       setSelectedHarvest(null)
       setOrderQuantity('')
 
@@ -151,7 +152,10 @@ export const Marketplace = () => {
     <div className="marketplace-container">
       {/* Header */}
       <div className="marketplace-header">
-        <h1 className="marketplace-title">🏪 {t('nav.marketplace')}</h1>
+        <h1 className="marketplace-title" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', justifyContent: 'center' }}>
+          <Icon name="store" size={34} color="var(--accent-green-bright)" />
+          {t('nav.marketplace')}
+        </h1>
         <p className="marketplace-subtitle">
           {t('home.heroDesc')}
         </p>
@@ -175,10 +179,14 @@ export const Marketplace = () => {
               fontSize: '0.92rem',
               border: '1px solid ' + (activeTab === 'farmer_harvests' ? 'var(--accent-gold)' : 'var(--border-color)'),
               transition: 'all 0.2s ease',
-              boxShadow: activeTab === 'farmer_harvests' ? '0 4px 14px var(--accent-gold-glow)' : 'none'
+              boxShadow: activeTab === 'farmer_harvests' ? '0 4px 14px var(--accent-gold-glow)' : 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem'
             }}
           >
-            🌾 {t('buyer.availableProduce')}
+            <Icon name="wheat" size={18} />
+            {t('buyer.availableProduce')}
           </button>
 
           <button
@@ -192,10 +200,14 @@ export const Marketplace = () => {
               fontSize: '0.92rem',
               border: '1px solid ' + (activeTab === 'mandi_prices' ? 'var(--accent-gold)' : 'var(--border-color)'),
               transition: 'all 0.2s ease',
-              boxShadow: activeTab === 'mandi_prices' ? '0 4px 14px var(--accent-gold-glow)' : 'none'
+              boxShadow: activeTab === 'mandi_prices' ? '0 4px 14px var(--accent-gold-glow)' : 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem'
             }}
           >
-            📊 {t('market.title')}
+            <Icon name="barChart" size={18} />
+            {t('market.title')}
           </button>
 
           <button
@@ -209,10 +221,14 @@ export const Marketplace = () => {
               fontSize: '0.92rem',
               border: '1px solid ' + (activeTab === 'enam_info' ? 'var(--accent-gold)' : 'var(--border-color)'),
               transition: 'all 0.2s ease',
-              boxShadow: activeTab === 'enam_info' ? '0 4px 14px var(--accent-gold-glow)' : 'none'
+              boxShadow: activeTab === 'enam_info' ? '0 4px 14px var(--accent-gold-glow)' : 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem'
             }}
           >
-            🏛️ e-NAM Market Info
+            <Icon name="landmark" size={18} />
+            e-NAM Market Info
           </button>
         </div>
       </div>
@@ -234,7 +250,7 @@ export const Marketplace = () => {
           <input
             type="text"
             className="form-control"
-            placeholder="🔍 Search by crop name (e.g. Rice, Wheat) or location..."
+            placeholder="Search by crop name (e.g. Rice, Wheat) or location..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -270,7 +286,9 @@ export const Marketplace = () => {
         </div>
       ) : filteredHarvests.length === 0 ? (
         <div className="empty-state">
-          <div className="empty-icon">🌾</div>
+          <div className="empty-icon" style={{ color: 'var(--accent-green-bright)' }}>
+            <Icon name="wheat" size={48} strokeWidth={1.5} />
+          </div>
           <h3>No Produce Found</h3>
           <p>
             {searchQuery || maxPrice
@@ -291,7 +309,8 @@ export const Marketplace = () => {
                 </div>
 
                 <div className="card-location">
-                  📍 {harvest.location}
+                  <Icon name="mapPin" size={14} color="var(--text-secondary)" />
+                  {harvest.location}
                 </div>
 
                 <div className="card-price-tag">
@@ -308,11 +327,17 @@ export const Marketplace = () => {
                 {harvest.farmer_name && (
                   <div className="farmer-badge" style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', marginBottom: '0.6rem' }}>
                     <div className="farmer-name" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.4rem' }}>
-                      <span>🧑‍🌾 Farmer: <strong>{harvest.farmer_name}</strong></span>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+                        <Icon name="userRound" size={15} color="var(--text-secondary)" />
+                        {t('market.farmer')}: <strong>{harvest.farmer_name}</strong>
+                      </span>
                       <TrustBadge status={harvest.farmer_verification_status || 'verified'} role="farmer" size="sm" />
                     </div>
                     {harvest.farmer_phone && (
-                      <div className="farmer-contact">📞 {harvest.farmer_phone}</div>
+                      <div className="farmer-contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+                        <Icon name="phone" size={14} color="var(--text-secondary)" />
+                        {harvest.farmer_phone}
+                      </div>
                     )}
                   </div>
                 )}
@@ -326,7 +351,7 @@ export const Marketplace = () => {
                 onClick={() => openOrderModal(harvest)}
                 className="order-btn"
               >
-                🛒 Place Order
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}><Icon name="cart" size={15} /> Place Order</span>
               </button>
             </div>
           ))}
@@ -337,7 +362,10 @@ export const Marketplace = () => {
       {selectedHarvest && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h3 className="form-title">🛒 Order {selectedHarvest.crop_name}</h3>
+            <h3 className="form-title" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Icon name="cart" size={18} color="var(--accent-green-bright)" />
+              Order {selectedHarvest.crop_name}
+            </h3>
 
             {orderError && <div className="alert-message alert-error" style={{ marginBottom: '1rem' }}>{orderError}</div>}
 

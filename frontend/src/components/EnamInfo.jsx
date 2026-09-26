@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { getEnamInfo } from '../api/enamApi'
+import { Icon } from './ui/Icon'
 
 export const EnamInfo = () => {
   const [info, setInfo] = useState(null)
@@ -39,7 +40,9 @@ export const EnamInfo = () => {
         border: '1px solid var(--border-color)',
         color: 'var(--text-secondary)'
       }}>
-        <div style={{ fontSize: '2rem', marginBottom: '1rem', animation: 'spin 1s infinite linear' }}>⏳</div>
+        <div style={{ marginBottom: '1rem', color: 'var(--accent-gold)' }}>
+          <Icon name="hourglass" size={36} className="farmos-float" />
+        </div>
         <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-primary)' }}>
           Loading e-NAM Market Information...
         </h3>
@@ -55,10 +58,14 @@ export const EnamInfo = () => {
         borderRadius: '14px',
         padding: '1.25rem 1.5rem',
         color: '#f87171',
-        marginBottom: '2rem'
-      }}>
-        ⚠️ {error}
-      </div>
+          marginBottom: '2rem',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem'
+        }}>
+          <Icon name="alert" size={20} color="#f87171" />
+          <span>{error}</span>
+        </div>
     )
   }
 
@@ -76,7 +83,7 @@ export const EnamInfo = () => {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.4rem', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '1.4rem' }}>🏛️</span>
+              <Icon name="landmark" size={26} color="#60a5fa" />
               <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
                 e-NAM Market Information
               </h2>
@@ -97,8 +104,9 @@ export const EnamInfo = () => {
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', margin: '0 0 0.5rem 0', maxWidth: '800px' }}>
               {info?.overview}
             </p>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-              🏛️ Managed by: {info?.agency}
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+              <Icon name="landmark" size={14} color="var(--text-muted)" />
+              Managed by: {info?.agency}
             </span>
           </div>
 
@@ -120,7 +128,8 @@ export const EnamInfo = () => {
               boxShadow: '0 4px 12px rgba(37, 99, 235, 0.3)'
             }}
           >
-            🌐 Open enam.gov.in ↗
+            <Icon name="globe" size={16} color="#ffffff" />
+            Open enam.gov.in ↗
           </a>
         </div>
       </div>
@@ -149,7 +158,7 @@ export const EnamInfo = () => {
             transition: 'all 0.2s ease'
           }}
         >
-          <span style={{ fontSize: '1.5rem' }}>📍</span>
+          <Icon name="mapPin" size={24} color="#60a5fa" />
           <div>
             <strong style={{ display: 'block', fontSize: '0.92rem', color: 'var(--text-primary)' }}>APMC Mandi Directory</strong>
             <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Search official e-NAM onboarded mandis ↗</span>
@@ -173,7 +182,7 @@ export const EnamInfo = () => {
             transition: 'all 0.2s ease'
           }}
         >
-          <span style={{ fontSize: '1.5rem' }}>📈</span>
+          <Icon name="barChart" size={24} color="#60a5fa" />
           <div>
             <strong style={{ display: 'block', fontSize: '0.92rem', color: 'var(--text-primary)' }}>Official Trade Dashboard</strong>
             <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>View e-NAM portal trading reports ↗</span>
@@ -197,7 +206,7 @@ export const EnamInfo = () => {
             transition: 'all 0.2s ease'
           }}
         >
-          <span style={{ fontSize: '1.5rem' }}>🧑‍🌾</span>
+          <Icon name="tractor" size={24} color="#60a5fa" />
           <div>
             <strong style={{ display: 'block', fontSize: '0.92rem', color: 'var(--text-primary)' }}>Farmer Registration</strong>
             <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Official e-NAM portal registration ↗</span>
@@ -206,8 +215,9 @@ export const EnamInfo = () => {
       </div>
 
       {/* Core Platform Advantages Grid */}
-      <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem' }}>
-        ✨ Core Advantages of Trading on e-NAM
+      <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <Icon name="sparkles" size={22} color="var(--accent-gold)" />
+        Core Advantages of Trading on e-NAM
       </h3>
 
       <div className="enam-adv-grid" style={{
@@ -234,8 +244,9 @@ export const EnamInfo = () => {
       </div>
 
       {/* Step-by-Step Farmer Trade Workflow */}
-      <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem' }}>
-        📋 How Farmers Trade Produce on e-NAM Mandis
+      <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <Icon name="clipboard" size={22} color="var(--accent-gold)" />
+        How Farmers Trade Produce on e-NAM Mandis
       </h3>
 
       <div style={{
@@ -290,20 +301,21 @@ export const EnamInfo = () => {
         padding: '1.5rem 1.75rem'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.6rem' }}>
-          <span style={{ fontSize: '1.3rem' }}>💡</span>
+          <Icon name="lightbulb" size={22} color="var(--accent-gold)" />
           <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--accent-gold)', margin: 0 }}>
             FarmOS Best Selling Strategy Guide
           </h3>
         </div>
 
-        <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: '0 0 1rem 0' }}>
-          1. 📊 Check <strong>Live Mandi Prices</strong> on FarmOS to know the current baseline benchmark rate (₹/quintal) in your state.<br />
-          2. 🏛️ Search the official <strong>e-NAM Mandi Directory</strong> to locate e-NAM onboarded APMC mandis near you.<br />
-          3. 🌾 Compare with <strong>Direct Buyer Offers</strong> on the FarmOS Direct Farmer Harvests marketplace for maximum net earnings.
+        <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.9', margin: '0 0 1rem 0' }}>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}><Icon name="barChart" size={15} color="var(--accent-gold)" />1. Check <strong>Live Mandi Prices</strong> on FarmOS to know the current baseline benchmark rate (₹/quintal) in your state.</span><br />
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}><Icon name="landmark" size={15} color="var(--accent-gold)" />2. Search the official <strong>e-NAM Mandi Directory</strong> to locate e-NAM onboarded APMC mandis near you.</span><br />
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}><Icon name="wheat" size={15} color="var(--accent-gold)" />3. Compare with <strong>Direct Buyer Offers</strong> on the FarmOS Direct Farmer Harvests marketplace for maximum net earnings.</span>
         </p>
 
-        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontStyle: 'italic', display: 'block' }}>
-          📌 Note: e-NAM electronic trading is conducted exclusively through licensed APMC mandis and official portal enam.gov.in.
+        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontStyle: 'italic', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+          <Icon name="pin" size={14} color="var(--text-muted)" />
+          Note: e-NAM electronic trading is conducted exclusively through licensed APMC mandis and official portal enam.gov.in.
         </span>
       </div>
 

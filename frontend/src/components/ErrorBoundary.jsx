@@ -1,4 +1,5 @@
 import React from 'react';
+import { Icon } from './ui/Icon';
 
 export class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -41,10 +42,12 @@ export class ErrorBoundary extends React.Component {
             padding: '2.5rem',
             boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
           }}>
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⚠️</div>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.75rem', color: '#f43f5e' }}>
-              Something went wrong
-            </h2>
+          <div style={{ marginBottom: '1rem', color: '#f43f5e' }}>
+            <Icon name="alert" size={56} strokeWidth={1.6} />
+          </div>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.75rem', color: '#f43f5e' }}>
+            Something went wrong
+          </h2>
             <p style={{ color: '#94a3b8', fontSize: '0.95rem', marginBottom: '1.5rem', lineHeight: 1.5 }}>
               FarmOS encountered an unexpected error while rendering this component. Please refresh the page to try again.
             </p>
@@ -58,10 +61,14 @@ export class ErrorBoundary extends React.Component {
                 padding: '0.75rem 1.5rem',
                 fontSize: '0.95rem',
                 fontWeight: 600,
-                cursor: 'pointer'
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem'
               }}
             >
-              🔄 Refresh Page
+              <Icon name="refresh" size={18} />
+              Refresh Page
             </button>
           </div>
         </div>

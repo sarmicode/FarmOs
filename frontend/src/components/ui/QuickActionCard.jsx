@@ -1,4 +1,5 @@
 import React from 'react'
+import { Icon } from './Icon'
 
 export const QuickActionCard = ({ icon, title, description, color = 'emerald', onClick }) => {
   const colorStyles = {
@@ -36,10 +37,9 @@ export const QuickActionCard = ({ icon, title, description, color = 'emerald', o
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: '1.3rem',
         flexShrink: 0
       }}>
-        {icon}
+        <Icon name={icon} size={22} color={selectedColor.color} />
       </div>
 
       <div>

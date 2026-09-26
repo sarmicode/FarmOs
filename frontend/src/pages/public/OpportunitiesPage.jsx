@@ -8,6 +8,7 @@ import { OpportunityCard } from '../../components/ui/OpportunityCard'
 import { MarketComparison } from '../../components/MarketComparison'
 import { PotentialBuyersCard } from '../../components/PotentialBuyersCard'
 import { LoadingState } from '../../components/ui/LoadingState'
+import { Icon } from '../../components/ui/Icon'
 
 export const OpportunitiesPage = () => {
   const { user } = useAuth()
@@ -114,7 +115,7 @@ export const OpportunitiesPage = () => {
       {/* Page Title & Subtitle */}
       <div style={{ marginBottom: '1.75rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.35rem' }}>
-          <span style={{ fontSize: '1.8rem' }}>🎯</span>
+          <Icon name="target" size={30} color="#0b3d2e" />
           <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0b3d2e', margin: 0, letterSpacing: '-0.02em' }}>
             Market Opportunities & Comparison
           </h1>
@@ -126,8 +127,9 @@ export const OpportunitiesPage = () => {
 
       {/* Error Alert */}
       {error && (
-        <div style={{ backgroundColor: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626', padding: '1rem', borderRadius: '14px', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
-          ⚠️ {error}
+        <div style={{ backgroundColor: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626', padding: '1rem', borderRadius: '14px', marginBottom: '1.5rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Icon name="alert" size={18} color="#dc2626" />
+          <span>{error}</span>
         </div>
       )}
 
@@ -142,8 +144,9 @@ export const OpportunitiesPage = () => {
       }}>
         {harvests.length > 0 && (
           <div style={{ marginBottom: '1.25rem', paddingBottom: '1rem', borderBottom: '1px solid #e4eee7' }}>
-            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#0b3d2e', marginBottom: '0.4rem' }}>
-              📋 Select Your Registered Harvest:
+            <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', fontWeight: 700, color: '#0b3d2e', marginBottom: '0.4rem' }}>
+              <Icon name="clipboard" size={16} color="#0b3d2e" />
+              Select Your Registered Harvest:
             </label>
             <select
               value={selectedHarvestId}
@@ -162,7 +165,7 @@ export const OpportunitiesPage = () => {
               <option value="">-- Choose from your listed harvests --</option>
               {harvests.map(h => (
                 <option key={h.id} value={h.id}>
-                  🌾 {h.crop_name} ({h.quantity} {h.unit}) • ₹{h.price}/unit • 📍 {h.location}
+                  {h.crop_name} ({h.quantity} {h.unit}) • ₹{h.price}/unit • {h.location}
                 </option>
               ))}
             </select>
@@ -229,10 +232,14 @@ export const OpportunitiesPage = () => {
                 borderRadius: '10px',
                 border: 'none',
                 cursor: 'pointer',
-                boxShadow: '0 4px 12px rgba(11, 61, 46, 0.2)'
+                boxShadow: '0 4px 12px rgba(11, 61, 46, 0.2)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem'
               }}
             >
-              {loading ? 'Evaluating...' : '🔍 Compare Markets'}
+              {loading ? 'Evaluating...' : (<><Icon name="search" size={16} /> Compare Markets</>)}
             </button>
           </div>
         </form>
@@ -268,7 +275,7 @@ export const OpportunitiesPage = () => {
           <div style={{ backgroundColor: '#ffffff', border: '1px solid #d6e4db', borderRadius: '20px', padding: '1.5rem', marginTop: '1.75rem', boxShadow: '0 4px 20px rgba(11, 35, 25, 0.04)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.5rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                <span style={{ fontSize: '1.2rem' }}>🤝</span>
+                <Icon name="handshake" size={22} color="#0b3d2e" />
                 <div>
                   <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0b3d2e', margin: 0 }}>Matching Verified Buyers</h3>
                   <span style={{ fontSize: '0.8rem', color: '#647d70' }}>Connect with buyers looking for {crop}</span>
@@ -280,9 +287,9 @@ export const OpportunitiesPage = () => {
             </div>
 
             <PotentialBuyersCard buyers={potentialBuyers.length > 0 ? potentialBuyers : [
-              { id: 1, business_name: 'AgriTrade Foods', verification_status: 'verified', badge_label: '🟢 FarmOS Verified Business', location: 'Kolkata, West Bengal', commodities: 'Potato, Onion', buying_capacity: '10,000 kg', show_contact_publicly: true, public_phone: '+91 98765 43210' },
-              { id: 2, business_name: 'GreenHarvest Ltd', verification_status: 'website_verified', badge_label: '🌐 Public Business Info', location: 'Howrah, West Bengal', commodities: 'Potato, Vegetables', buying_capacity: '5,000 kg', show_contact_publicly: true, public_phone: '+91 98765 11223' },
-              { id: 3, business_name: 'FreshMart Traders', verification_status: 'unverified', badge_label: '🏢 Public Listing', location: 'Kolkata, West Bengal', commodities: 'Potato, Tomato', buying_capacity: '3,000 kg', show_contact_publicly: false }
+              { id: 1, business_name: 'AgriTrade Foods', verification_status: 'verified', badge_label: 'FarmOS Verified Business', location: 'Kolkata, West Bengal', commodities: 'Potato, Onion', buying_capacity: '10,000 kg', show_contact_publicly: true, public_phone: '+91 98765 43210' },
+              { id: 2, business_name: 'GreenHarvest Ltd', verification_status: 'website_verified', badge_label: 'Public Business Info', location: 'Howrah, West Bengal', commodities: 'Potato, Vegetables', buying_capacity: '5,000 kg', show_contact_publicly: true, public_phone: '+91 98765 11223' },
+              { id: 3, business_name: 'FreshMart Traders', verification_status: 'unverified', badge_label: 'Public Listing', location: 'Kolkata, West Bengal', commodities: 'Potato, Tomato', buying_capacity: '3,000 kg', show_contact_publicly: false }
             ]} />
           </div>
         </div>

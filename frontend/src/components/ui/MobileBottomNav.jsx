@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import { Icon } from './Icon'
 
 export const MobileBottomNav = () => {
   const { user, isAuthenticated } = useAuth()
@@ -16,10 +17,10 @@ export const MobileBottomNav = () => {
   }
 
   const items = [
-    { label: 'Home', path: getDashboardPath(), icon: '🏠' },
-    { label: 'Market', path: '/market-prices', icon: '📈' },
-    { label: 'Orders', path: '/orders', icon: '📦' },
-    { label: 'Profile', path: '/profile', icon: '👤' }
+    { label: 'Home', path: getDashboardPath(), icon: 'layout' },
+    { label: 'Market', path: '/market-prices', icon: 'chartUp' },
+    { label: 'Orders', path: '/orders', icon: 'package' },
+    { label: 'Profile', path: '/profile', icon: 'user' }
   ]
 
   return (
@@ -41,7 +42,7 @@ export const MobileBottomNav = () => {
               color: isActive ? '#10b981' : '#64748b'
             }}
           >
-            <span style={{ fontSize: '1.2rem' }}>{item.icon}</span>
+            <Icon name={item.icon} size={20} />
             <span>{item.label}</span>
           </Link>
         )

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { PotentialBuyersCard } from './PotentialBuyersCard'
 import { useLanguage } from '../context/LanguageContext'
+import { Icon } from './ui/Icon'
 
 const VEHICLES = {
   mini_truck: { id: 'mini_truck', name: 'Mini Truck (1T / Tata Ace / Pickup)', capacity: 1000, rate: 20, min: 500 },
@@ -79,7 +80,7 @@ export const MarketComparison = ({ data }) => {
       }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.3rem' }}>
-            <span style={{ fontSize: '1.3rem' }}>🏆</span>
+            <Icon name="trophy" size={22} color="#f59e0b" />
             <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#f59e0b', margin: 0 }}>
               {t('opportunity.recommendedMarket')}: {rec.market}
             </h3>
@@ -95,8 +96,9 @@ export const MarketComparison = ({ data }) => {
               {t('opportunity.opportunityScore')}: {rec.farmos_opportunity_score}/100
             </span>
           </div>
-          <span style={{ fontSize: '0.82rem', color: '#8b949e' }}>
-            📍 {rec.district}, {rec.state} • {t('common.commodity')}: <strong>{data.commodity}</strong> ({data.user_quantity || ''} {data.user_unit || ''})
+          <span style={{ fontSize: '0.82rem', color: '#8b949e', display: 'inline-flex', alignItems: 'center', gap: '0.3rem', flexWrap: 'wrap' }}>
+            <Icon name="mapPin" size={14} color="#8b949e" />
+            {rec.district}, {rec.state} • {t('common.commodity')}: <strong>{data.commodity}</strong> ({data.user_quantity || ''} {data.user_unit || ''})
           </span>
         </div>
 
@@ -115,7 +117,7 @@ export const MarketComparison = ({ data }) => {
         </div>
       </div>
 
-      {/* 🚚 Smart Freight Logistics Card */}
+      {/* Smart Freight Logistics Card */}
       {hasFreight && (
         <div style={{
           backgroundColor: 'rgba(30, 41, 59, 0.7)',
@@ -126,7 +128,7 @@ export const MarketComparison = ({ data }) => {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.75rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ fontSize: '1.2rem' }}>🚚</span>
+              <Icon name="truck" size={20} color="#60a5fa" />
               <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#60a5fa', margin: 0 }}>
                 {t('opportunity.logisticsTitle')}
               </h4>
@@ -210,8 +212,8 @@ export const MarketComparison = ({ data }) => {
             Why FarmOS Recommends This Market:
           </strong>
           {rec.why.map((bullet, i) => (
-            <div key={i} style={{ color: '#c9d1d9', marginBottom: '0.2rem', display: 'flex', gap: '0.4rem' }}>
-              <span style={{ color: '#4ade80' }}>✓</span>
+            <div key={i} style={{ color: '#c9d1d9', marginBottom: '0.2rem', display: 'flex', gap: '0.4rem', alignItems: 'flex-start' }}>
+              <Icon name="checkCircle" size={15} color="#4ade80" style={{ marginTop: '2px' }} />
               <span>{bullet}</span>
             </div>
           ))}
@@ -247,7 +249,10 @@ export const MarketComparison = ({ data }) => {
                   fontWeight: isWinner ? 700 : 400
                 }}>
                   <td style={{ padding: '0.6rem 0.75rem', color: isWinner ? '#fbbf24' : '#f0f6fc' }}>
-                    {isWinner && '🏆 '}{item.market} ({item.district})
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                      {isWinner && <Icon name="trophy" size={15} color="#fbbf24" />}
+                      {item.market} ({item.district})
+                    </span>
                   </td>
                   <td style={{ padding: '0.6rem 0.75rem', color: '#f59e0b' }}>
                     ₹{Number(item.modal_price).toLocaleString()}/qtl
@@ -317,12 +322,13 @@ export const MarketComparison = ({ data }) => {
       }}>
         {rec.warnings && rec.warnings.map((warn, wIdx) => (
           <div key={wIdx} style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-            <span>⚠</span>
+            <Icon name="alert" size={14} color="#fbbf24" />
             <span>{warn}</span>
           </div>
         ))}
-        <div style={{ marginTop: '0.25rem', color: '#c9d1d9' }}>
-          🏛️ <strong>Source:</strong> {data.data_source || 'Govt of India Agmarknet (data.gov.in)'} • 
+        <div style={{ marginTop: '0.25rem', color: '#c9d1d9', display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
+          <Icon name="landmark" size={14} color="#c9d1d9" />
+          <strong>Source:</strong> {data.data_source || 'Govt of India Agmarknet (data.gov.in)'} • 
           <span style={{ marginLeft: '0.4rem', fontStyle: 'italic' }}>
             Freight estimates use standard per-km transport rate models & road distance routing.
           </span>

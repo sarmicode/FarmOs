@@ -1,4 +1,5 @@
 import React from 'react'
+import { Icon } from './Icon'
 
 export const MarketCard = ({ market, isBest = false, onViewDetails }) => {
   if (!market) return null
@@ -42,15 +43,15 @@ export const MarketCard = ({ market, isBest = false, onViewDetails }) => {
         {/* Metrics Rows */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', fontSize: '0.85rem', color: '#475569', marginBottom: '1.25rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span>🚗 Distance</span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}><Icon name="car" size={15} color="#64748b" /> Distance</span>
             <span style={{ fontWeight: 700, color: '#0f172a' }}>{market.distance || '120 km'}</span>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span>🚚 Freight Cost</span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}><Icon name="truck" size={15} color="#64748b" /> Freight Cost</span>
             <span style={{ fontWeight: 700, color: '#0f172a' }}>₹{market.freight ? Number(market.freight).toLocaleString() : '2,800'}</span>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '0.35rem', borderTop: '1px solid #f1f5f9' }}>
-            <span style={{ fontWeight: 700, color: '#0f172a' }}>📈 Net Return</span>
+            <span style={{ fontWeight: 700, color: '#0f172a', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}><Icon name="chartUp" size={15} color="#64748b" /> Net Return</span>
             <span style={{ fontWeight: 800, color: isBest ? '#10b981' : '#059669', fontSize: '0.95rem' }}>
               ₹{market.net_return ? Number(market.net_return).toLocaleString() : '7,700'}
             </span>
