@@ -227,7 +227,7 @@ input, select, textarea, button {
 .farmos-bob { animation: farmos-bob 5s ease-in-out infinite; }
 .farmos-pulse-glow { animation: farmos-pulse-glow 2.4s ease-out infinite; }
 .farmos-pop-in { animation: farmos-pop-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
-.farmos-rise { animation: farmos-rise 0.5 cubic-bezier(0.16, 1, 0.3, 1) both; }
+.farmos-rise { animation: farmos-rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
 .farmos-shimmer {
   background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0) 100%);
@@ -253,4 +253,245 @@ button, a, .farmos-transition {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+
+/* =========================================================
+   FarmOS UI Kit v2 — buttons, focus, skeletons, effects
+   ========================================================= */
+
+:root {
+  --fx-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html { scroll-behavior: smooth; }
+
+/* Keyboard-visible focus rings (mouse clicks stay clean) */
+:focus-visible {
+  outline: 3px solid rgba(16, 185, 129, 0.55);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+button:focus:not(:focus-visible), a:focus:not(:focus-visible) { outline: none; }
+
+::selection { background: rgba(16, 185, 129, 0.28); color: #0b2319; }
+
+/* ---------- Button system ---------- */
+.fx-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.78rem 1.5rem;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 0.92rem;
+  line-height: 1;
+  border: 1px solid transparent;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+  isolation: isolate;
+  min-height: 44px; /* comfortable touch target */
+  transition: transform 0.2s var(--fx-ease), box-shadow 0.25s var(--fx-ease), background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.fx-btn:disabled, .fx-btn[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; }
+.fx-btn:not(:disabled):hover { transform: translateY(-2px); }
+.fx-btn:not(:disabled):active { transform: translateY(0) scale(0.98); }
+
+/* light-sweep shine on hover */
+.fx-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.28) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.7s var(--fx-ease);
+  pointer-events: none;
+  z-index: -1;
+}
+.fx-btn:not(:disabled):hover::after { transform: translateX(120%); }
+
+.fx-btn-primary { background: linear-gradient(135deg, #0b3d2e 0%, #166534 100%); color: #fff; box-shadow: 0 6px 18px rgba(11, 61, 46, 0.28); }
+.fx-btn-primary:not(:disabled):hover { box-shadow: 0 12px 28px rgba(11, 61, 46, 0.36); }
+
+.fx-btn-emerald { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #fff; box-shadow: 0 6px 18px rgba(16, 185, 129, 0.32); }
+.fx-btn-emerald:not(:disabled):hover { box-shadow: 0 12px 30px rgba(16, 185, 129, 0.42); }
+
+.fx-btn-secondary { background: #dcfce7; border-color: #a7f3d0; color: #166534; }
+.fx-btn-secondary:not(:disabled):hover { background: #bbf7d0; color: #0b3d2e; }
+
+.fx-btn-outline { background: #fff; border-color: #d6e4db; color: #0b3d2e; box-shadow: var(--ag-shadow-sm); }
+.fx-btn-outline:not(:disabled):hover { border-color: #10b981; color: #166534; box-shadow: var(--ag-shadow-md); }
+
+.fx-btn-ghost { background: transparent; color: #0b3d2e; }
+.fx-btn-ghost:not(:disabled):hover { background: rgba(16, 185, 129, 0.1); }
+
+.fx-btn-danger { background: rgba(239, 68, 68, 0.1); color: #dc2626; border-color: rgba(239, 68, 68, 0.2); }
+.fx-btn-danger:not(:disabled):hover { background: rgba(239, 68, 68, 0.18); }
+
+.fx-btn-dark { background: #0b2319; color: #fff; border-color: rgba(16,185,129,0.5); box-shadow: 0 8px 24px rgba(16,185,129,0.22); }
+
+.fx-btn-sm { padding: 0.5rem 0.95rem; font-size: 0.82rem; border-radius: 11px; min-height: 36px; }
+.fx-btn-lg { padding: 0.95rem 2.1rem; font-size: 1rem; border-radius: 16px; min-height: 52px; }
+.fx-btn-block { width: 100%; }
+.fx-btn-icon { width: 42px; height: 42px; padding: 0; border-radius: 12px; }
+
+/* ripple element injected by <Button /> */
+.fx-ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  background: rgba(255, 255, 255, 0.45);
+  animation: fx-ripple 0.6s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes fx-ripple { to { transform: scale(4); opacity: 0; } }
+@keyframes fx-ping { 75%, 100% { transform: scale(2.4); opacity: 0; } }
+
+/* spinner for loading buttons */
+.fx-spinner {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid currentColor; border-right-color: transparent;
+  animation: spin 0.7s linear infinite;
+}
+
+/* ---------- Skeleton loaders ---------- */
+.fx-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: #e8f0eb;
+  border-radius: 10px;
+}
+.fx-skeleton::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+  transform: translateX(-100%);
+  animation: fx-skeleton 1.4s infinite;
+}
+@keyframes fx-skeleton { 100% { transform: translateX(100%); } }
+
+/* ---------- Spotlight card (mouse-tracking glow) ---------- */
+.fx-spotlight {
+  position: relative;
+  overflow: hidden;
+  --spot-x: 50%;
+  --spot-y: 50%;
+}
+.fx-spotlight::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(420px circle at var(--spot-x) var(--spot-y), rgba(16, 185, 129, 0.16), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.fx-spotlight:hover::before { opacity: 1; }
+.fx-spotlight > * { position: relative; z-index: 1; }
+
+/* ---------- Gradient text & border glow ---------- */
+.fx-gradient-text {
+  background: linear-gradient(120deg, #0b3d2e 0%, #10b981 55%, #34d399 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: farmos-gradient 6s ease infinite;
+}
+
+.fx-glow-border {
+  position: relative;
+}
+.fx-glow-border::after {
+  content: '';
+  position: absolute; inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--fx-angle, 0deg), transparent 0 60%, #34d399 80%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: fx-rotate 4s linear infinite;
+  pointer-events: none;
+}
+@property --fx-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+@keyframes fx-rotate { to { --fx-angle: 360deg; } }
+
+/* ---------- Marquee / ticker ---------- */
+.fx-marquee {
+  display: flex;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.fx-marquee-track {
+  display: flex;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  min-width: 100%;
+  animation: fx-marquee var(--marquee-speed, 40s) linear infinite;
+  padding-right: 0.75rem;
+}
+.fx-marquee:hover .fx-marquee-track { animation-play-state: paused; }
+@keyframes fx-marquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+
+/* ---------- Animated dashed connector (workflow) ---------- */
+@keyframes fx-dash { to { stroke-dashoffset: -24; } }
+.fx-dash-flow { stroke-dasharray: 6 6; animation: fx-dash 1.2s linear infinite; }
+
+/* ---------- Toggle switch ---------- */
+.fx-switch {
+  position: relative; width: 46px; height: 26px; border-radius: 999px;
+  background: #cbd5e1; border: none; cursor: pointer; transition: background 0.25s;
+  flex-shrink: 0;
+}
+.fx-switch[aria-checked="true"] { background: #10b981; }
+.fx-switch::after {
+  content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%;
+  background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); transition: transform 0.25s var(--fx-ease);
+}
+.fx-switch[aria-checked="true"]::after { transform: translateX(20px); }
+
+/* ---------- Segmented control ---------- */
+.fx-segmented {
+  display: inline-flex; padding: 3px; gap: 2px; border-radius: 14px;
+  background: #ebf3ed; border: 1px solid #d6e4db; position: relative;
+  max-width: 100%; overflow-x: auto; scrollbar-width: none;
+}
+.fx-segmented::-webkit-scrollbar { display: none; }
+.fx-segmented button {
+  position: relative; padding: 0.5rem 0.95rem; border-radius: 11px; font-weight: 700; font-size: 0.85rem;
+  background: transparent; color: #647d70; white-space: nowrap; min-height: 38px; z-index: 1;
+}
+.fx-segmented button[data-active="true"] { color: #0b3d2e; }
+.fx-segmented .fx-segmented-thumb {
+  position: absolute; inset: 0; border-radius: 11px; background: #fff;
+  box-shadow: 0 2px 8px rgba(11,35,25,0.1); z-index: 0;
+}
+
+/* ---------- Range slider ---------- */
+.fx-range { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 999px; background: linear-gradient(90deg, #10b981 var(--pct, 50%), #d6e4db var(--pct, 50%)); outline: none; }
+.fx-range::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 3px solid #10b981; box-shadow: 0 2px 8px rgba(16,185,129,0.35); cursor: grab; transition: transform 0.15s; }
+.fx-range::-webkit-slider-thumb:hover { transform: scale(1.12); }
+.fx-range::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(1.2); }
+.fx-range::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 3px solid #10b981; cursor: grab; }
+
+/* ---------- Layout helpers ---------- */
+.fx-safe-bottom { padding-bottom: calc(1rem + var(--safe-bottom)); }
+.mobile-bottom-nav { height: calc(62px + var(--safe-bottom)); padding-bottom: var(--safe-bottom); }
+
+/* Tablet: keep touch targets & grids comfortable */
+@media (min-width: 769px) and (max-width: 1100px) {
+  .ag-container { padding: 0 1.25rem; }
+}
+
+/* Reduced motion: also disable decorative loops */
+@media (prefers-reduced-motion: reduce) {
+  .fx-marquee-track, .fx-gradient-text, .fx-glow-border::after, .fx-dash-flow { animation: none !important; }
+  html { scroll-behavior: auto; }
 }
