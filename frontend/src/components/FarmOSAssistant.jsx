@@ -184,6 +184,26 @@ export const FarmOSAssistant = ({ isCompact = false }) => {
 
   useEffect(() => () => recognitionRef.current?.stop?.(), [])
 
+  // ---- Chat options: clear conversation / copy last answer ----
+  const [copied, setCopied] = useState(false)
+  const lastAssistantText = [...messages].reverse().find((m) => m.sender === 'assistant' && m.id !== 1)?.text || ''
+  const clearChat = () => {
+    if (loading) return
+    recognitionRef.current?.stop?.()
+    setMessages([{ id: 1, sender: 'assistant', text: t('assistant.subtitle'), context: null }])
+    setInputMessage('')
+  }
+  const copyLastAnswer = async () => {
+    if (!lastAssistantText) return
+    try {
+      await navigator.clipboard.writeText(lastAssistantText)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    } catch (err) {
+      console.warn('Clipboard unavailable:', err)
+    }
+  }
+
   // Example Prompt Chips
   const exampleQuestions = [
     t('assistant.prompt1'),
@@ -304,22 +324,28 @@ export const FarmOSAssistant = ({ isCompact = false }) => {
           </div>
         </div>
 
-        <span style={{
-          backgroundColor: 'rgba(46, 160, 67, 0.15)',
-          border: '1px solid rgba(46, 160, 67, 0.3)',
-          color: '#4ade80',
-          fontSize: '0.75rem',
-          fontWeight: 700,
-          padding: '0.25rem 0.75rem',
-          borderRadius: '20px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.4rem'
-        }}>
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#4ade80' }} />
-          Online
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+          <span className="assistant-online-pill" style={{
+            backgroundColor: 'rgba(46, 160, 67, 0.15)', border: '1px solid rgba(46, 160, 67, 0.3)', color: '#4ade80',
+            fontSize: '0.72rem', fontWeight: 700, padding: '0.25rem 0.7rem', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '0.4rem'
+          }}>
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#4ade80' }} />
+            Online
+          </span>
+          <button type="button" onClick={copyLastAnswer} disabled={!lastAssistantText} title="Copy last answer" aria-label="Copy last answer" className="assistant-tool-btn">
+            <Icon name={copied ? 'check' : 'copy'} size={16} />
+          </button>
+          <button type="button" onClick={clearChat} disabled={messages.length <= 1 || loading} title="Clear chat" aria-label="Clear chat" className="assistant-tool-btn">
+            <Icon name="trash" size={16} />
+          </button>
+        </div>
       </div>
+      <style>{`
+        .assistant-tool-btn { width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,0.06); color: var(--text-secondary); border: 1px solid var(--border-color); display: grid; place-items: center; }
+        .assistant-tool-btn:hover:not(:disabled) { background: rgba(255,255,255,0.12); color: #fff; }
+        .assistant-tool-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        @media (max-width: 480px) { .assistant-online-pill { display: none !important; } }
+      `}</style>
 
       {/* Example Question Chips Bar */}
       <div style={{
@@ -535,22 +561,32 @@ export const FarmOSAssistant = ({ isCompact = false }) => {
         <button
           type="submit"
           disabled={loading || !inputMessage.trim()}
-          className="fx-btn"
-          style={{
-            padding: '0.85rem 1.4rem',
-            borderRadius: '14px',
-            background: 'linear-gradient(135deg, var(--accent-gold), var(--accent-gold-muted))',
-            color: '#ffffff',
-            fontWeight: 800,
-            fontSize: '0.92rem',
-            boxShadow: '0 4px 14px var(--accent-gold-glow)',
-            minHeight: 46
-          }}
+          aria-label={t('assistant.send')}
+          title={t('assistant.send')}
+          className="assistant-send-btn"
         >
-          <span className="assistant-send-label">{t('assistant.send')}</span>
-          <Icon name="send" size={16} />
+          {loading ? (
+            <span className="fx-spinner" aria-hidden="true" />
+          ) : (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M12 19V5" />
+              <path d="m5 12 7-7 7 7" />
+            </svg>
+          )}
         </button>
-        <style>{`@media (max-width: 480px){ .assistant-send-label{ display:none; } }`}</style>
+        <style>{`
+          .assistant-send-btn {
+            width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+            background: #ffffff; color: #0b2319;
+            border: 2px solid var(--accent-green-bright);
+            display: grid; place-items: center;
+            box-shadow: 0 6px 18px rgba(63,185,80,0.35);
+            transition: transform 0.2s var(--fx-ease), box-shadow 0.2s, background 0.2s, color 0.2s;
+          }
+          .assistant-send-btn:not(:disabled):hover { transform: translateY(-2px) scale(1.05); background: var(--accent-green-bright); color: #fff; }
+          .assistant-send-btn:not(:disabled):active { transform: scale(0.94); }
+          .assistant-send-btn:disabled { background: rgba(255,255,255,0.08); color: #6b7f74; border-color: rgba(255,255,255,0.15); box-shadow: none; cursor: not-allowed; }
+        `}</style>
       </form>
     </div>
   )
