@@ -149,6 +149,61 @@ export const FarmOSAssistant = ({ isCompact = false }) => {
 
   const messagesEndRef = useRef(null)
 
+  // ---- Voice input (Web Speech API, browser-side only) ----
+  const recognitionRef = useRef(null)
+  const [listening, setListening] = useState(false)
+  const SpeechRecognition = typeof window !== 'undefined' ? (window.SpeechRecognition || window.webkitSpeechRecognition) : null
+  const voiceSupported = Boolean(SpeechRecognition)
+
+  const toggleVoice = () => {
+    if (!voiceSupported || loading) return
+    if (listening) {
+      recognitionRef.current?.stop()
+      return
+    }
+    try {
+      const rec = new SpeechRecognition()
+      rec.lang = language === 'hi' ? 'hi-IN' : 'en-IN'
+      rec.interimResults = true
+      rec.continuous = false
+      rec.onstart = () => setListening(true)
+      rec.onend = () => setListening(false)
+      rec.onerror = () => setListening(false)
+      rec.onresult = (ev) => {
+        let transcript = ''
+        for (let i = ev.resultIndex; i < ev.results.length; i++) transcript += ev.results[i][0].transcript
+        setInputMessage(transcript)
+      }
+      recognitionRef.current = rec
+      rec.start()
+    } catch (err) {
+      console.warn('Voice input unavailable:', err)
+      setListening(false)
+    }
+  }
+
+  useEffect(() => () => recognitionRef.current?.stop?.(), [])
+
+  // ---- Chat options: clear conversation / copy last answer ----
+  const [copied, setCopied] = useState(false)
+  const lastAssistantText = [...messages].reverse().find((m) => m.sender === 'assistant' && m.id !== 1)?.text || ''
+  const clearChat = () => {
+    if (loading) return
+    recognitionRef.current?.stop?.()
+    setMessages([{ id: 1, sender: 'assistant', text: t('assistant.subtitle'), context: null }])
+    setInputMessage('')
+  }
+  const copyLastAnswer = async () => {
+    if (!lastAssistantText) return
+    try {
+      await navigator.clipboard.writeText(lastAssistantText)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    } catch (err) {
+      console.warn('Clipboard unavailable:', err)
+    }
+  }
+
   // Example Prompt Chips
   const exampleQuestions = [
     t('assistant.prompt1'),
@@ -269,22 +324,28 @@ export const FarmOSAssistant = ({ isCompact = false }) => {
           </div>
         </div>
 
-        <span style={{
-          backgroundColor: 'rgba(46, 160, 67, 0.15)',
-          border: '1px solid rgba(46, 160, 67, 0.3)',
-          color: '#4ade80',
-          fontSize: '0.75rem',
-          fontWeight: 700,
-          padding: '0.25rem 0.75rem',
-          borderRadius: '20px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.4rem'
-        }}>
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#4ade80' }} />
-          Online
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+          <span className="assistant-online-pill" style={{
+            backgroundColor: 'rgba(46, 160, 67, 0.15)', border: '1px solid rgba(46, 160, 67, 0.3)', color: '#4ade80',
+            fontSize: '0.72rem', fontWeight: 700, padding: '0.25rem 0.7rem', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '0.4rem'
+          }}>
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#4ade80' }} />
+            Online
+          </span>
+          <button type="button" onClick={copyLastAnswer} disabled={!lastAssistantText} title="Copy last answer" aria-label="Copy last answer" className="assistant-tool-btn">
+            <Icon name={copied ? 'check' : 'copy'} size={16} />
+          </button>
+          <button type="button" onClick={clearChat} disabled={messages.length <= 1 || loading} title="Clear chat" aria-label="Clear chat" className="assistant-tool-btn">
+            <Icon name="trash" size={16} />
+          </button>
+        </div>
       </div>
+      <style>{`
+        .assistant-tool-btn { width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,0.06); color: var(--text-secondary); border: 1px solid var(--border-color); display: grid; place-items: center; }
+        .assistant-tool-btn:hover:not(:disabled) { background: rgba(255,255,255,0.12); color: #fff; }
+        .assistant-tool-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        @media (max-width: 480px) { .assistant-online-pill { display: none !important; } }
+      `}</style>
 
       {/* Example Question Chips Bar */}
       <div style={{
@@ -451,45 +512,81 @@ export const FarmOSAssistant = ({ isCompact = false }) => {
           gap: '0.8rem'
         }}
       >
-        <input
-          type="text"
-          placeholder={t('assistant.inputPlaceholder')}
-          value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
-          disabled={loading}
-          style={{
-            flex: 1,
-            padding: '0.85rem 1.1rem',
-            borderRadius: '14px',
-            backgroundColor: 'rgba(255, 255, 255, 0.05)',
-            border: '1px solid var(--border-color)',
-            color: 'var(--text-primary)',
-            fontSize: '0.92rem',
-            outline: 'none'
-          }}
-        />
+        <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center' }}>
+          <input
+            type="text"
+            placeholder={listening ? (language === 'hi' ? 'सुन रहा हूँ…' : 'Listening…') : t('assistant.inputPlaceholder')}
+            value={inputMessage}
+            onChange={(e) => setInputMessage(e.target.value)}
+            disabled={loading}
+            aria-label="Message"
+            style={{
+              flex: 1,
+              padding: '0.85rem 3rem 0.85rem 1.1rem',
+              borderRadius: '14px',
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              border: `1px solid ${listening ? 'var(--accent-green-bright)' : 'var(--border-color)'}`,
+              boxShadow: listening ? '0 0 0 3px rgba(63,185,80,0.25)' : 'none',
+              color: 'var(--text-primary)',
+              fontSize: '0.92rem',
+              outline: 'none',
+              transition: 'border-color 0.2s, box-shadow 0.2s'
+            }}
+          />
+          {voiceSupported && (
+            <button
+              type="button"
+              onClick={toggleVoice}
+              disabled={loading}
+              aria-pressed={listening}
+              aria-label={listening ? 'Stop voice input' : 'Speak your question'}
+              title={listening ? 'Stop' : 'Speak your question'}
+              style={{
+                position: 'absolute', right: 8, width: 34, height: 34, borderRadius: 10,
+                background: listening ? 'var(--accent-green)' : 'rgba(255,255,255,0.08)',
+                color: listening ? '#fff' : 'var(--text-secondary)',
+                display: 'grid', placeItems: 'center',
+                animation: listening ? 'farmos-pulse-glow 1.4s ease-out infinite' : 'none'
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                <line x1="12" x2="12" y1="19" y2="22" />
+              </svg>
+            </button>
+          )}
+        </div>
 
         <button
           type="submit"
           disabled={loading || !inputMessage.trim()}
-          style={{
-            padding: '0.85rem 1.5rem',
-            borderRadius: '14px',
-            background: 'linear-gradient(135deg, var(--accent-gold), var(--accent-gold-muted))',
-            color: '#080a0e',
-            fontWeight: 700,
-            fontSize: '0.92rem',
-            opacity: loading || !inputMessage.trim() ? 0.6 : 1,
-            boxShadow: '0 4px 14px var(--accent-gold-glow)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.4rem',
-            transition: 'all 0.2s'
-          }}
+          aria-label={t('assistant.send')}
+          title={t('assistant.send')}
+          className="assistant-send-btn"
         >
-          <span>{t('assistant.send')}</span>
-          <Icon name="arrowRight" size={16} />
+          {loading ? (
+            <span className="fx-spinner" aria-hidden="true" />
+          ) : (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M12 19V5" />
+              <path d="m5 12 7-7 7 7" />
+            </svg>
+          )}
         </button>
+        <style>{`
+          .assistant-send-btn {
+            width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+            background: #ffffff; color: #0b2319;
+            border: 2px solid var(--accent-green-bright);
+            display: grid; place-items: center;
+            box-shadow: 0 6px 18px rgba(63,185,80,0.35);
+            transition: transform 0.2s var(--fx-ease), box-shadow 0.2s, background 0.2s, color 0.2s;
+          }
+          .assistant-send-btn:not(:disabled):hover { transform: translateY(-2px) scale(1.05); background: var(--accent-green-bright); color: #fff; }
+          .assistant-send-btn:not(:disabled):active { transform: scale(0.94); }
+          .assistant-send-btn:disabled { background: rgba(255,255,255,0.08); color: #6b7f74; border-color: rgba(255,255,255,0.15); box-shadow: none; cursor: not-allowed; }
+        `}</style>
       </form>
     </div>
   )

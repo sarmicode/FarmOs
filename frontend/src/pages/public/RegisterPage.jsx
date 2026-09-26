@@ -3,6 +3,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import API from '../../api/axios'
 import { useAuth } from '../../context/AuthContext'
 import { useLanguage } from '../../context/LanguageContext'
+import { AuthShell, PasswordField } from '../../components/ui/AuthShell'
+import { Button } from '../../components/ui/Button'
+import { Icon } from '../../components/ui/Icon'
+import { motion, AnimatePresence } from 'framer-motion'
 import './auth.css'
 
 export const RegisterPage = () => {
@@ -102,25 +106,54 @@ export const RegisterPage = () => {
   }
 
   return (
-    <div className="auth-wrapper">
-      <div className="auth-card" style={{ maxWidth: formData.role === 'buyer' ? '600px' : '480px', transition: 'all 0.3s' }}>
-        <h2 className="auth-title">{t('auth.join')}</h2>
-        <p className="auth-subtitle">{t('auth.joinSub')}</p>
+    <AuthShell
+      title={t('auth.join')}
+      subtitle={t('auth.joinSub')}
+      wide={formData.role === 'buyer'}
+      footer={<>{t('auth.alreadyAccount')} <Link to="/login">{t('nav.login')}</Link></>}
+    >
+        <AnimatePresence>
+          {error && (
+            <motion.div key="err" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="alert-message alert-error" role="alert" style={{ marginBottom: '1rem' }}>
+              {error}
+            </motion.div>
+          )}
+          {success && (
+            <motion.div key="ok" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="alert-message alert-success" role="status" style={{ marginBottom: '1rem' }}>
+              {success}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {error && <div className="alert-message alert-error">{error}</div>}
-        {success && <div className="alert-message alert-success">{success}</div>}
-
-        <form onSubmit={handleSubmit} className="auth-form" style={{ marginTop: (error || success) ? '1rem' : '0' }}>
+        <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="role">{t('auth.accountType')} *</label>
-            <select
-              id="role"
-              name="role"
-              className="form-control"
-              value={formData.role}
-              onChange={handleChange}
-              required
-            >
+            <label>{t('auth.accountType')} *</label>
+            <div className="role-picker" role="radiogroup" aria-label={t('auth.accountType')}>
+              {[
+                { id: 'farmer', label: t('auth.roleFarmer'), icon: 'wheat', desc: 'Sell harvests, compare mandis' },
+                { id: 'buyer', label: t('auth.roleBuyer'), icon: 'store', desc: 'Source produce from farmers' },
+              ].map((r) => {
+                const active = formData.role === r.id
+                return (
+                  <motion.button
+                    type="button" key={r.id} role="radio" aria-checked={active}
+                    whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }}
+                    onClick={() => handleChange({ target: { name: 'role', value: r.id, type: 'button' } })}
+                    className={`role-option ${active ? 'is-active' : ''}`}
+                  >
+                    {active && <motion.span layoutId="role-active" className="role-option-bg" transition={{ type: 'spring', stiffness: 400, damping: 32 }} />}
+                    <span className="role-option-icon"><Icon name={r.icon} size={20} /></span>
+                    <span style={{ position: 'relative', zIndex: 1 }}>
+                      <span style={{ display: 'block', fontWeight: 800, fontSize: '0.92rem' }}>{r.label}</span>
+                      <span style={{ display: 'block', fontSize: '0.72rem', opacity: 0.8 }}>{r.desc}</span>
+                    </span>
+                    {active && <Icon name="checkCircle" size={18} color="#10b981" style={{ marginLeft: 'auto', position: 'relative', zIndex: 1 }} />}
+                  </motion.button>
+                )
+              })}
+            </div>
+            {/* keep a real select for form semantics / autofill */}
+            <select id="role" name="role" value={formData.role} onChange={handleChange} required style={{ display: 'none' }} aria-hidden="true" tabIndex={-1}>
               <option value="farmer">{t('auth.roleFarmer')}</option>
               <option value="buyer">{t('auth.roleBuyer')}</option>
             </select>
@@ -157,19 +190,14 @@ export const RegisterPage = () => {
           </div>
 
           <div className="form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem' }}>
-            <div className="form-group">
-              <label htmlFor="password">{t('auth.password')} *</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                className="form-control"
-                placeholder="At least 6 characters"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-            </div>
+            <PasswordField
+              label={`${t('auth.password')} *`}
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="At least 6 characters"
+              autoComplete="new-password"
+              showStrength
+            />
 
             <div className="form-group">
               <label htmlFor="phone">{t('auth.phoneNum')} *</label>
@@ -320,15 +348,10 @@ export const RegisterPage = () => {
             </div>
           )}
 
-          <button type="submit" className="auth-btn" disabled={loading} style={{ marginTop: '1rem' }}>
+          <Button type="submit" variant="primary" size="lg" block loading={loading} icon="rocket" style={{ marginTop: '1rem' }}>
             {loading ? t('common.loading') : t('nav.register')}
-          </button>
+          </Button>
         </form>
-
-        <p className="auth-footer-text">
-          {t('auth.alreadyAccount')} <Link to="/login">{t('nav.login')}</Link>
-        </p>
-      </div>
-    </div>
+    </AuthShell>
   )
 }
