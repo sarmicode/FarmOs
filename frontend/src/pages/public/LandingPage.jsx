@@ -169,7 +169,7 @@ export const LandingPage = () => {
               <motion.h1 variants={fadeInUp} className="ag-heading-xl ag-hero-headline">
                 {/* Brand wordmark types itself out first… */}
                 <Typewriter
-                  text="-FarmOS-"
+                  text="FarmOS"
                   speed={70}
                   delay={350}
                   onDone={() => setHeadlineTyped(true)}
