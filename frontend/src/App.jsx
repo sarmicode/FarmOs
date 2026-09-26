@@ -19,9 +19,12 @@ import { AdminDashboard } from './pages/admin/AdminDashboard'
 import { ProfilePage } from './pages/user/ProfilePage'
 import { SettingsPage } from './pages/user/SettingsPage'
 import { NotFoundPage } from './pages/NotFoundPage'
+import { ScrollToTop } from './components/ScrollToTop'
 
 function App() {
   return (
+    <>
+    <ScrollToTop />
     <Routes>
       {/* Public Unauthenticated Routes */}
       <Route element={<MainLayout />}>
@@ -82,6 +85,7 @@ function App() {
       {/* 404 Route */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
+    </>
   )
 }
 

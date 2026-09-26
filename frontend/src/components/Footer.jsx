@@ -2,12 +2,13 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 import { Icon } from './ui/Icon'
+import { Button } from './ui/Button'
 
 export const Footer = () => {
   const { t } = useLanguage()
 
   return (
-    <footer style={{
+    <footer className="farmos-footer" style={{
       backgroundColor: '#0b2319',
       borderTop: '1px solid rgba(255, 255, 255, 0.1)',
       color: '#f8fafc',
@@ -79,16 +80,23 @@ export const Footer = () => {
       </div>
 
       <div style={{
-        maxWidth: '1380px',
-        margin: '0 auto',
-        paddingTop: '1.75rem',
-        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-        textAlign: 'center',
-        color: '#8fa598',
-        fontSize: '0.88rem'
+        maxWidth: '1380px', margin: '0 auto', paddingTop: '1.5rem', borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap',
+        color: '#8fa598', fontSize: '0.88rem'
       }}>
-        &copy; {new Date().getFullYear()} FarmOS AgTech Platform. All rights reserved.
+        <span>&copy; {new Date().getFullYear()} FarmOS AgTech Platform. All rights reserved.</span>
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+          <Button to="/assistant" variant="dark" size="sm" icon="sparkles">Ask FarmOS AI</Button>
+          <Button to="/market-prices" variant="ghost" size="sm" icon="chartUp" style={{ color: '#cde0d5' }}>Live prices</Button>
+        </div>
       </div>
+      <style>{`
+        .farmos-footer a:not(.fx-btn) { position: relative; transition: color 0.2s; }
+        .farmos-footer a:not(.fx-btn):hover { color: #34d399 !important; }
+        .farmos-footer li a::after { content: ''; position: absolute; left: 0; bottom: -2px; width: 0; height: 1px; background: #34d399; transition: width 0.25s var(--fx-ease); }
+        .farmos-footer li a:hover::after { width: 100%; }
+        @media (max-width: 768px) { .farmos-footer { padding: 3rem 1.25rem calc(5.5rem + var(--safe-bottom)) !important; } }
+      `}</style>
     </footer>
   )
 }
