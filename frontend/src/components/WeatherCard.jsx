@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLanguage } from '../context/LanguageContext'
+import { Icon } from './ui/Icon'
 
 export const WeatherCard = ({ weatherData }) => {
   const { t } = useLanguage()
@@ -30,13 +31,14 @@ export const WeatherCard = ({ weatherData }) => {
         }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.3rem' }}>
-              <span style={{ fontSize: '1.8rem' }}>☁️</span>
+              <Icon name="cloudSun" size={30} color="var(--accent-gold)" />
               <h2 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
                 {t('weather.title')}
               </h2>
             </div>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', margin: 0 }}>
-              📍 {t('common.location')}: <strong>{latitude.toFixed(4)}° N, {longitude.toFixed(4)}° E</strong> ({timezone} • Elev: {elevation}m)
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', margin: 0, display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+              <Icon name="mapPin" size={15} color="var(--text-secondary)" />
+              <span>{t('common.location')}: <strong>{latitude.toFixed(4)}° N, {longitude.toFixed(4)}° E</strong> ({timezone} • Elev: {elevation}m)</span>
             </p>
           </div>
 
@@ -93,8 +95,9 @@ export const WeatherCard = ({ weatherData }) => {
             <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.04em', display: 'block' }}>
               {t('weather.humidity')}
             </span>
-            <span style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-              💧 {current.humidity}%
+            <span style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--text-primary)', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+              <Icon name="droplets" size={26} color="var(--text-primary)" />
+              {current.humidity}%
             </span>
             <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'block', marginTop: '0.2rem' }}>
               Relative humidity
@@ -112,8 +115,9 @@ export const WeatherCard = ({ weatherData }) => {
             <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.04em', display: 'block' }}>
               {t('weather.precipitation')}
             </span>
-            <span style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-              🌧️ {current.precipitation} mm
+            <span style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--text-primary)', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+              <Icon name="cloudRain" size={26} color="var(--text-primary)" />
+              {current.precipitation} mm
             </span>
             <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'block', marginTop: '0.2rem' }}>
               Rain: {current.rain} mm
@@ -131,8 +135,9 @@ export const WeatherCard = ({ weatherData }) => {
             <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.04em', display: 'block' }}>
               {t('weather.windSpeed')}
             </span>
-            <span style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-              💨 {current.wind_speed} <span style={{ fontSize: '1.1rem' }}>km/h</span>
+            <span style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--text-primary)', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+              <Icon name="wind" size={26} color="var(--text-primary)" />
+              {current.wind_speed} <span style={{ fontSize: '1.1rem' }}>km/h</span>
             </span>
             <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'block', marginTop: '0.2rem' }}>
               10m altitude wind
@@ -144,8 +149,9 @@ export const WeatherCard = ({ weatherData }) => {
       {/* 7-Day Forecast Section */}
       {daily_forecast && daily_forecast.length > 0 && (
         <div>
-          <h3 style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1.25rem' }}>
-            📅 7-Day Agricultural Forecast
+          <h3 style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Icon name="calendar" size={22} color="var(--accent-gold)" />
+            7-Day Agricultural Forecast
           </h3>
 
           <div className="weather-forecast-grid" style={{
@@ -174,8 +180,9 @@ export const WeatherCard = ({ weatherData }) => {
                   {day.max_temp}° <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500 }}>/ {day.min_temp}°C</span>
                 </div>
 
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                  🌧️ Rain: {day.precipitation_sum} mm
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                  <Icon name="cloudRain" size={14} color="var(--text-muted)" />
+                  Rain: {day.precipitation_sum} mm
                 </div>
               </div>
             ))}

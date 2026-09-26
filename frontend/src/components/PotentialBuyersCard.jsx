@@ -1,8 +1,19 @@
-import React from 'react';
-import { useLanguage } from '../context/LanguageContext';
+import React from 'react'
+import { useLanguage } from '../context/LanguageContext'
+import { Icon, StatusDot } from './ui/Icon'
+
+// Strip emoji / pictographs that the backend may still embed inside
+// `badge_label` strings, so the UI never renders OS-dependent glyphs.
+const stripEmoji = (value) =>
+  typeof value === 'string'
+    ? value
+        .replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}\u{1F1E6}-\u{1F1FF}\u{2190}-\u{21FF}]/gu, '')
+        .replace(/\s{2,}/g, ' ')
+        .trim()
+    : ''
 
 export const PotentialBuyersCard = ({ buyers = [] }) => {
-  const { t } = useLanguage();
+  const { t } = useLanguage()
   if (!buyers || buyers.length === 0) {
     return (
       <div style={{
@@ -12,11 +23,15 @@ export const PotentialBuyersCard = ({ buyers = [] }) => {
         padding: '1rem 1.25rem',
         marginTop: '1rem',
         color: '#8b949e',
-        fontSize: '0.85rem'
+        fontSize: '0.85rem',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.5rem'
       }}>
-        ℹ️ {t('opportunity.noPotentialBuyers')} <a href="/traders" style={{ color: '#fbbf24' }}>{t('opportunity.checkDirectory')}</a>
+        <Icon name="info" size={18} color="#8b949e" />
+        <span>{t('opportunity.noPotentialBuyers')} <a href="/traders" style={{ color: '#fbbf24' }}>{t('opportunity.checkDirectory')}</a></span>
       </div>
-    );
+    )
   }
 
   return (
@@ -32,7 +47,7 @@ export const PotentialBuyersCard = ({ buyers = [] }) => {
     }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.85rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <span style={{ fontSize: '1.25rem' }}>🤝</span>
+          <Icon name="handshake" size={22} color="#60a5fa" />
           <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#60a5fa', margin: 0 }}>
             {t('opportunity.potentialBuyersTitle')} ({buyers.length})
           </h3>
@@ -48,24 +63,28 @@ export const PotentialBuyersCard = ({ buyers = [] }) => {
         gap: '1rem'
       }}>
         {buyers.map((b, idx) => {
-          const badgeLabel = b?.badge_label || (
-            b?.verification_status === 'source_verified' || b?.verification_status === 'verified'
-              ? '🟢 FarmOS Verified Business'
-              : b?.verification_status === 'website_verified'
-                ? '🌐 Public Business Info'
-                : '🏢 Public Listing'
-          );
-
-          const isVerified = typeof badgeLabel === 'string' && badgeLabel.includes('🟢');
-          const isWebsiteVerified = typeof badgeLabel === 'string' && badgeLabel.includes('🌐');
-          const phoneNum = b?.public_phone || b?.phone;
+          // Derive trust state from the robust `verification_status` field rather
+          // than parsing emoji out of `badge_label` (which previously made the
+          // colour logic fragile and coupled to display strings).
+          const status = b?.verification_status
+          const isVerified = status === 'source_verified' || status === 'verified'
+          const isWebsiteVerified = status === 'website_verified'
+          const dotColor = isVerified ? '#22c55e' : isWebsiteVerified ? '#3b82f6' : '#a855f7'
+          const badgeLabel = stripEmoji(b?.badge_label) || (
+            isVerified
+              ? 'FarmOS Verified Business'
+              : isWebsiteVerified
+                ? 'Public Business Info'
+                : 'Public Listing'
+          )
+          const phoneNum = b?.public_phone || b?.phone
 
           return (
             <div
               key={b?.id || idx}
               style={{
                 backgroundColor: 'rgba(13, 17, 23, 0.7)',
-                border: b?.verification_status === 'source_verified' || b?.verification_status === 'verified'
+                border: isVerified
                   ? '1px solid rgba(34, 197, 94, 0.4)'
                   : '1px solid rgba(255, 255, 255, 0.1)',
                 borderRadius: '12px',
@@ -93,16 +112,20 @@ export const PotentialBuyersCard = ({ buyers = [] }) => {
                     fontSize: '0.7rem',
                     fontWeight: 700,
                     padding: '0.15rem 0.45rem',
-                    borderRadius: '10px'
+                    borderRadius: '10px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.35rem'
                   }}>
+                    <StatusDot color={dotColor} size={8} />
                     {badgeLabel}
                   </span>
                 </div>
 
-                <div style={{ fontSize: '0.8rem', color: '#c9d1d9', display: 'flex', flexDirection: 'column', gap: '0.25rem', marginBottom: '0.75rem' }}>
-                  <div>📍 <strong>Location:</strong> {b?.location || 'Location Not Specified'}</div>
-                  <div>📦 <strong>Capacity:</strong> {b?.buying_capacity || 'N/A'}</div>
-                  <div>🌾 <strong>Commodities:</strong> <span style={{ color: '#fbbf24' }}>{b?.commodities || 'Various Crops'}</span></div>
+                <div style={{ fontSize: '0.8rem', color: '#c9d1d9', display: 'flex', flexDirection: 'column', gap: '0.3rem', marginBottom: '0.75rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}><Icon name="mapPin" size={14} color="#8b949e" /><span><strong>Location:</strong> {b?.location || 'Location Not Specified'}</span></div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}><Icon name="package" size={14} color="#8b949e" /><span><strong>Capacity:</strong> {b?.buying_capacity || 'N/A'}</span></div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}><Icon name="wheat" size={14} color="#8b949e" /><span><strong>Commodities:</strong> <span style={{ color: '#fbbf24' }}>{b?.commodities || 'Various Crops'}</span></span></div>
                 </div>
               </div>
 
@@ -121,10 +144,14 @@ export const PotentialBuyersCard = ({ buyers = [] }) => {
                       color: '#60a5fa',
                       fontSize: '0.75rem',
                       fontWeight: 700,
-                      textDecoration: 'none'
+                      textDecoration: 'none',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.3rem'
                     }}
                   >
-                    🌐 Website
+                    <Icon name="globe" size={13} />
+                    Website
                   </a>
                 )}
 
@@ -139,10 +166,14 @@ export const PotentialBuyersCard = ({ buyers = [] }) => {
                       color: '#4ade80',
                       fontSize: '0.75rem',
                       fontWeight: 700,
-                      textDecoration: 'none'
+                      textDecoration: 'none',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.3rem'
                     }}
                   >
-                    📞 Call
+                    <Icon name="phone" size={13} />
+                    Call
                   </a>
                 )}
 
@@ -159,17 +190,21 @@ export const PotentialBuyersCard = ({ buyers = [] }) => {
                       color: '#c9d1d9',
                       fontSize: '0.75rem',
                       fontWeight: 600,
-                      textDecoration: 'none'
+                      textDecoration: 'none',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.3rem'
                     }}
                   >
-                    🔗 Source
+                    <Icon name="link" size={13} />
+                    Source
                   </a>
                 )}
               </div>
             </div>
-          );
+          )
         })}
       </div>
     </div>
-  );
-};
+  )
+}

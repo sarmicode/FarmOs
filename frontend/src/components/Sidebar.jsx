@@ -2,6 +2,7 @@ import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../context/LanguageContext'
+import { Icon } from './ui/Icon'
 
 export const Sidebar = () => {
   const { user, isAuthenticated } = useAuth()
@@ -222,7 +223,7 @@ export const Sidebar = () => {
             justifyContent: 'center',
             color: '#10b981'
           }}>
-            🌱
+            <Icon name="sprout" size={18} color="#10b981" />
           </div>
           <span style={{ fontSize: '0.9rem', fontWeight: 800, color: '#ffffff' }}>FarmOS</span>
         </div>

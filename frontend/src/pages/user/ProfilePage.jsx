@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthContext'
 import { useLanguage } from '../../context/LanguageContext'
 import TrustBadge from '../../components/TrustBadge'
 import { getProfileApi, updateProfileApi } from '../../api/userApi'
+import { Icon } from '../../components/ui/Icon'
 
 const ProfilePage = () => {
   const { user, updateUser } = useAuth()
@@ -151,7 +152,7 @@ const ProfilePage = () => {
           alignItems: 'center'
         }}>
           <span>{message.text}</span>
-          <button onClick={() => setMessage({ type: '', text: '' })} style={{ background: 'none', border: 'none', color: 'inherit', fontWeight: 'bold', fontSize: '1.2rem', cursor: 'pointer' }}>✕</button>
+          <button onClick={() => setMessage({ type: '', text: '' })} style={{ background: 'none', border: 'none', color: 'inherit', fontWeight: 'bold', fontSize: '1.2rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}><Icon name="x" size={18} /></button>
         </div>
       )}
 
@@ -197,16 +198,18 @@ const ProfilePage = () => {
             <div style={{ display: 'flex', gap: '0.75rem' }}>
               <button
                 onClick={() => setShowEditModal(true)}
-                style={{ padding: '0.6rem 1.25rem', backgroundColor: '#10b981', color: '#ffffff', fontWeight: 700, borderRadius: '10px', fontSize: '0.85rem', cursor: 'pointer' }}
+                style={{ padding: '0.6rem 1.25rem', backgroundColor: '#10b981', color: '#ffffff', fontWeight: 700, borderRadius: '10px', fontSize: '0.85rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}
               >
-                ✏️ Edit Profile
+                <Icon name="pencil" size={15} />
+                Edit Profile
               </button>
               {(user?.role === 'farmer' || user?.role === 'buyer') && user?.verification_status !== 'verified' && (
                 <button
                   onClick={() => setShowVerifyModal(true)}
-                  style={{ padding: '0.6rem 1.25rem', backgroundColor: '#f59e0b', color: '#0f172a', fontWeight: 700, borderRadius: '10px', fontSize: '0.85rem', cursor: 'pointer' }}
+                  style={{ padding: '0.6rem 1.25rem', backgroundColor: '#f59e0b', color: '#0f172a', fontWeight: 700, borderRadius: '10px', fontSize: '0.85rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}
                 >
-                  🛡️ Submit Verification
+                  <Icon name="shieldCheck" size={15} />
+                  Submit Verification
                 </button>
               )}
             </div>
@@ -223,7 +226,7 @@ const ProfilePage = () => {
             </div>
             <div>
               <span style={{ color: '#64748b', display: 'block', fontSize: '0.75rem' }}>Location / State</span>
-              <span style={{ color: '#10b981', fontWeight: 600 }}>📍 {user?.location || 'Not provided'}</span>
+              <span style={{ color: '#10b981', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}><Icon name="mapPin" size={14} color="#10b981" /> {user?.location || 'Not provided'}</span>
             </div>
           </div>
         </div>
@@ -271,15 +274,15 @@ const ProfilePage = () => {
                 </span>
               </label>
             </div>
-            <div style={{ marginTop: '0.75rem', fontSize: '0.78rem', color: '#64748b', fontWeight: 500 }}>
-              State: {user?.show_contact_publicly ? '🟢 Publicly Visible' : '🔒 Hidden from directory search'}
+            <div style={{ marginTop: '0.75rem', fontSize: '0.78rem', color: '#64748b', fontWeight: 500, display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+              State: {user?.show_contact_publicly ? (<><Icon name="eye" size={14} color="#22c55e" /> Publicly Visible</>) : (<><Icon name="eyeOff" size={14} color="#64748b" /> Hidden from directory search</>)}
             </div>
           </div>
 
           {/* Farmer Role Details */}
           {user?.role === 'farmer' && (
             <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '18px', padding: '1.5rem', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a', marginBottom: '1rem' }}>🌾 Agriculture Details</h3>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a', marginBottom: '1rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}><Icon name="wheat" size={20} color="#0f172a" /> Agriculture Details</h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', fontSize: '0.85rem' }}>
                 <div style={{ backgroundColor: '#f8fafc', padding: '0.75rem', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
                   <span style={{ fontSize: '0.75rem', color: '#64748b', display: 'block' }}>Farm Size</span>
@@ -304,7 +307,7 @@ const ProfilePage = () => {
           {/* Buyer Role Details */}
           {user?.role === 'buyer' && (
             <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '18px', padding: '1.5rem', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a', marginBottom: '1rem' }}>🏢 Business Information</h3>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a', marginBottom: '1rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}><Icon name="building" size={20} color="#0f172a" /> Business Information</h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', fontSize: '0.85rem' }}>
                 <div style={{ backgroundColor: '#f8fafc', padding: '0.75rem', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
                   <span style={{ fontSize: '0.75rem', color: '#64748b', display: 'block' }}>Firm Name</span>
@@ -322,7 +325,7 @@ const ProfilePage = () => {
         {/* Right Column: Verification Status Card */}
         <div>
           <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '18px', padding: '1.5rem', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
-            <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.85rem' }}>🛡️ Trust Verification</h3>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.85rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}><Icon name="shieldCheck" size={18} color="#0f172a" /> Trust Verification</h3>
             <div style={{ marginBottom: '1rem' }}>
               <TrustBadge status={user?.verification_status} role={user?.role} size="lg" />
             </div>
@@ -368,7 +371,7 @@ const ProfilePage = () => {
       {showVerifyModal && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 100, backgroundColor: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
           <div style={{ backgroundColor: '#111b15', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '20px', maxWidth: '500px', width: '100%', padding: '1.5rem' }}>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#f3f4f6', marginBottom: '0.5rem' }}>🛡️ Verification Details</h3>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#f3f4f6', marginBottom: '0.5rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}><Icon name="shieldCheck" size={18} color="#f3f4f6" /> Verification Details</h3>
             <p style={{ fontSize: '0.82rem', color: '#9ca3af', marginBottom: '1rem' }}>Enter government credentials or references for admin review.</p>
             <form onSubmit={handleSaveProfile} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div>

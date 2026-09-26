@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { getWeatherForecast } from '../../api/weatherApi'
 import { WeatherCard } from '../../components/WeatherCard'
 import { useLanguage } from '../../context/LanguageContext'
+import { Icon } from '../../components/ui/Icon'
 
 export const WeatherPage = () => {
   const { t } = useLanguage()
@@ -78,9 +79,14 @@ export const WeatherPage = () => {
           marginBottom: '0.5rem',
           background: 'linear-gradient(135deg, var(--text-primary) 0%, var(--accent-gold-light) 100%)',
           WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent'
+          WebkitTextFillColor: 'transparent',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.6rem',
+          justifyContent: 'center'
         }}>
-          🌤️ {t('weather.title')}
+          <Icon name="cloudSun" size={38} color="var(--accent-gold)" style={{ WebkitTextFillColor: 'initial' }} />
+          {t('weather.title')}
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem' }}>
           {t('weather.subtitle')}
@@ -98,8 +104,9 @@ export const WeatherPage = () => {
       }}>
         {/* Quick Presets Buttons */}
         <div style={{ marginBottom: '1.25rem' }}>
-          <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'block', marginBottom: '0.6rem' }}>
-            📍 Quick Region Presets:
+          <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'inline-flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.6rem' }}>
+            <Icon name="mapPin" size={15} color="var(--text-secondary)" />
+            Quick Region Presets:
           </span>
           <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
             {presets.map((p) => (
@@ -192,10 +199,15 @@ export const WeatherPage = () => {
               color: '#080a0e',
               fontWeight: 700,
               fontSize: '0.9rem',
-              boxShadow: '0 4px 12px var(--accent-gold-glow)'
+              boxShadow: '0 4px 12px var(--accent-gold-glow)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem'
             }}
           >
-            🔍 {t('common.search')}
+            <Icon name="search" size={16} />
+            {t('common.search')}
           </button>
         </form>
       </div>
@@ -213,7 +225,7 @@ export const WeatherPage = () => {
           alignItems: 'center',
           gap: '0.75rem'
         }}>
-          <span style={{ fontSize: '1.2rem' }}>⚠️</span>
+          <Icon name="alert" size={22} color="#f87171" />
           <div>
             <strong style={{ display: 'block', fontSize: '0.95rem' }}>{t('common.error')}</strong>
             <span style={{ fontSize: '0.88rem' }}>{error}</span>
@@ -231,7 +243,9 @@ export const WeatherPage = () => {
           border: '1px solid var(--border-color)',
           color: 'var(--text-secondary)'
         }}>
-          <div style={{ fontSize: '2rem', marginBottom: '1rem', animation: 'spin 1s infinite linear' }}>⏳</div>
+          <div style={{ marginBottom: '1rem', color: 'var(--accent-gold)' }}>
+            <Icon name="hourglass" size={36} className="farmos-float" />
+          </div>
           <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.3rem' }}>
             {t('common.loading')}
           </h3>
@@ -245,7 +259,9 @@ export const WeatherPage = () => {
           borderRadius: '18px',
           border: '1px solid var(--border-color)'
         }}>
-          <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🌤️</div>
+          <div style={{ marginBottom: '1rem', color: 'var(--accent-gold)' }}>
+            <Icon name="cloudSun" size={48} strokeWidth={1.5} />
+          </div>
           <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
             No Weather Data Found
           </h3>
