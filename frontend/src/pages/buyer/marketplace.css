@@ -3,6 +3,9 @@
   margin: 0 auto;
   padding: 2rem 1.5rem;
   color: var(--text-primary);
+  background: var(--bg-primary);
+  border-radius: 20px;
+  min-height: calc(100vh - 180px);
 }
 
 /* Header */

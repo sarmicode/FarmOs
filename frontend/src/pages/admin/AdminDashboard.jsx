@@ -5,6 +5,7 @@ import { getPendingBuyers, verifyBuyer, rejectBuyer } from '../../api/buyerApi';
 import { getPendingFarmersApi, verifyFarmerApi, rejectFarmerApi } from '../../api/adminApi';
 import TrustBadge from '../../components/TrustBadge';
 import { useLanguage } from '../../context/LanguageContext';
+import { Icon } from '../../components/ui/Icon';
 
 export const AdminDashboard = () => {
   const { t } = useLanguage();
@@ -213,8 +214,8 @@ export const AdminDashboard = () => {
         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
       }}>
         <div>
-          <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: '#f59e0b', margin: 0, letterSpacing: '-0.02em' }}>
-            🛡️ {t('admin.title')}
+          <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: '#f59e0b', margin: 0, letterSpacing: '-0.02em', display: 'inline-flex', alignItems: 'center', gap: '0.6rem' }}>
+            <Icon name="shieldCheck" size={28} color="#f59e0b" /> {t('admin.title')}
           </h1>
           <p style={{ color: '#9ca3af', fontSize: '0.88rem', margin: '0.3rem 0 0 0' }}>
             {t('admin.subtitle')}
@@ -224,13 +225,13 @@ export const AdminDashboard = () => {
 
       {/* Global Alerts */}
       {error && (
-        <div style={{ backgroundColor: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.4)', color: '#ef4444', padding: '0.85rem 1rem', borderRadius: '12px', marginBottom: '1.25rem', fontSize: '0.9rem' }}>
-          ⚠️ {error}
+        <div style={{ backgroundColor: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.4)', color: '#ef4444', padding: '0.85rem 1rem', borderRadius: '12px', marginBottom: '1.25rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Icon name="alert" size={17} color="#ef4444" /> <span>{error}</span>
         </div>
       )}
       {success && (
-        <div style={{ backgroundColor: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.4)', color: '#10b981', padding: '0.85rem 1rem', borderRadius: '12px', marginBottom: '1.25rem', fontSize: '0.9rem' }}>
-          ✅ {success}
+        <div style={{ backgroundColor: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.4)', color: '#10b981', padding: '0.85rem 1rem', borderRadius: '12px', marginBottom: '1.25rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Icon name="checkCircle" size={17} color="#10b981" /> <span>{success}</span>
         </div>
       )}
 
@@ -258,7 +259,7 @@ export const AdminDashboard = () => {
             whiteSpace: 'nowrap'
           }}
         >
-          {t('admin.tabPendingBuyers')} ({pendingBuyers.length})
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}><Icon name="users" size={16} /> {t('admin.tabPendingBuyers')} ({pendingBuyers.length})</span>
         </button>
 
         <button
@@ -274,7 +275,7 @@ export const AdminDashboard = () => {
             whiteSpace: 'nowrap'
           }}
         >
-          🌾 Pending Farmers ({pendingFarmers.length})
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}><Icon name="wheat" size={16} /> Pending Farmers ({pendingFarmers.length})</span>
         </button>
 
         <button
@@ -290,7 +291,7 @@ export const AdminDashboard = () => {
             whiteSpace: 'nowrap'
           }}
         >
-          {t('admin.tabTraderManagement')} ({publicTraders.length})
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}><Icon name="store" size={16} /> {t('admin.tabTraderManagement')} ({publicTraders.length})</span>
         </button>
 
         <button
@@ -306,7 +307,7 @@ export const AdminDashboard = () => {
             whiteSpace: 'nowrap'
           }}
         >
-          📊 System Analytics
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}><Icon name="barChart" size={16} /> System Analytics</span>
         </button>
       </div>
 
@@ -314,8 +315,9 @@ export const AdminDashboard = () => {
         <div style={{ textAlign: 'center', padding: '3rem', color: '#9ca3af' }}>Loading admin records...</div>
       ) : activeTab === 'buyers' ? (
         pendingBuyers.length === 0 ? (
-          <div style={{ backgroundColor: '#111b15', border: '1px solid rgba(31, 56, 42, 0.8)', borderRadius: '18px', padding: '3rem', textAlign: 'center', color: '#9ca3af' }}>
-            🎉 No pending buyer applications right now! All buyer accounts reviewed.
+          <div style={{ backgroundColor: '#111b15', border: '1px solid rgba(31, 56, 42, 0.8)', borderRadius: '18px', padding: '3rem', textAlign: 'center', color: '#9ca3af', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+            <Icon name="party" size={36} color="#10b981" />
+            No pending buyer applications right now! All buyer accounts reviewed.
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -346,7 +348,7 @@ export const AdminDashboard = () => {
 
                   <div style={{ fontSize: '0.85rem', color: '#9ca3af', display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
                     <div><strong>Applicant:</strong> {b.name} ({b.email} | {b.phone})</div>
-                    <div><strong>Location:</strong> 📍 {b.district || b.location}, {b.state || ''} {b.mandi ? `(Mandi: ${b.mandi})` : ''}</div>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}><strong>Location:</strong> <Icon name="mapPin" size={13} color="#9ca3af" /> {b.district || b.location}, {b.state || ''} {b.mandi ? `(Mandi: ${b.mandi})` : ''}</div>
                     <div><strong>Commodities & Capacity:</strong> {b.commodities || 'N/A'} ({b.buying_capacity})</div>
                     {b.enam_reference && <div style={{ color: '#a855f7' }}><strong>e-NAM Ref:</strong> {b.enam_reference}</div>}
                     {b.udyam_reference && <div style={{ color: '#f59e0b' }}><strong>Udyam Ref:</strong> {b.udyam_reference}</div>}
@@ -356,15 +358,15 @@ export const AdminDashboard = () => {
                 <div style={{ display: 'flex', gap: '0.65rem' }}>
                   <button
                     onClick={() => handleVerifyBuyer(b.id, b.business_name)}
-                    style={{ padding: '0.55rem 1.1rem', borderRadius: '10px', backgroundColor: '#10b981', color: '#080e0a', fontWeight: 800, border: 'none', cursor: 'pointer', fontSize: '0.85rem' }}
+                    style={{ padding: '0.55rem 1.1rem', borderRadius: '10px', backgroundColor: '#10b981', color: '#080e0a', fontWeight: 800, border: 'none', cursor: 'pointer', fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
                   >
-                    ✅ Verify
+                    <Icon name="checkCircle" size={15} /> Verify
                   </button>
                   <button
                     onClick={() => handleRejectBuyer(b.id, b.business_name)}
-                    style={{ padding: '0.55rem 1.1rem', borderRadius: '10px', backgroundColor: 'rgba(239, 68, 68, 0.15)', color: '#ef4444', fontWeight: 700, border: '1px solid rgba(239, 68, 68, 0.3)', cursor: 'pointer', fontSize: '0.85rem' }}
+                    style={{ padding: '0.55rem 1.1rem', borderRadius: '10px', backgroundColor: 'rgba(239, 68, 68, 0.15)', color: '#ef4444', fontWeight: 700, border: '1px solid rgba(239, 68, 68, 0.3)', cursor: 'pointer', fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
                   >
-                    ❌ Reject
+                    <Icon name="xCircle" size={15} /> Reject
                   </button>
                 </div>
               </div>
@@ -373,8 +375,9 @@ export const AdminDashboard = () => {
         )
       ) : activeTab === 'farmers' ? (
         pendingFarmers.length === 0 ? (
-          <div style={{ backgroundColor: '#111b15', border: '1px solid rgba(31, 56, 42, 0.8)', borderRadius: '18px', padding: '3rem', textAlign: 'center', color: '#9ca3af' }}>
-            🎉 No pending farmer verification applications right now!
+          <div style={{ backgroundColor: '#111b15', border: '1px solid rgba(31, 56, 42, 0.8)', borderRadius: '18px', padding: '3rem', textAlign: 'center', color: '#9ca3af', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+            <Icon name="party" size={36} color="#10b981" />
+            No pending farmer verification applications right now!
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -402,19 +405,19 @@ export const AdminDashboard = () => {
                   </div>
 
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.4rem', fontSize: '0.85rem', color: '#9ca3af' }}>
-                    <div>📍 Location: {f.village || f.location}</div>
-                    <div>📞 Phone: {f.phone}</div>
-                    <div>🌾 Crops: {f.crops_grown || 'N/A'}</div>
-                    <div>📏 Farm Size: {f.farm_size || 'N/A'}</div>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}><Icon name="mapPin" size={13} color="#9ca3af" /> Location: {f.village || f.location}</div>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}><Icon name="phone" size={13} color="#9ca3af" /> Phone: {f.phone}</div>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}><Icon name="wheat" size={13} color="#9ca3af" /> Crops: {f.crops_grown || 'N/A'}</div>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}><Icon name="scale" size={13} color="#9ca3af" /> Farm Size: {f.farm_size || 'N/A'}</div>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', gap: '0.65rem' }}>
-                  <button onClick={() => handleVerifyFarmer(f.id, f.name)} style={{ padding: '0.55rem 1.1rem', borderRadius: '10px', backgroundColor: '#10b981', color: '#080e0a', fontWeight: 800, border: 'none', cursor: 'pointer', fontSize: '0.85rem' }}>
-                    ✅ Verify
+                  <button onClick={() => handleVerifyFarmer(f.id, f.name)} style={{ padding: '0.55rem 1.1rem', borderRadius: '10px', backgroundColor: '#10b981', color: '#080e0a', fontWeight: 800, border: 'none', cursor: 'pointer', fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <Icon name="checkCircle" size={15} /> Verify
                   </button>
-                  <button onClick={() => handleRejectFarmer(f.id, f.name)} style={{ padding: '0.55rem 1.1rem', borderRadius: '10px', backgroundColor: 'rgba(239, 68, 68, 0.15)', color: '#ef4444', fontWeight: 700, border: '1px solid rgba(239, 68, 68, 0.3)', cursor: 'pointer', fontSize: '0.85rem' }}>
-                    ❌ Reject
+                  <button onClick={() => handleRejectFarmer(f.id, f.name)} style={{ padding: '0.55rem 1.1rem', borderRadius: '10px', backgroundColor: 'rgba(239, 68, 68, 0.15)', color: '#ef4444', fontWeight: 700, border: '1px solid rgba(239, 68, 68, 0.3)', cursor: 'pointer', fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <Icon name="xCircle" size={15} /> Reject
                   </button>
                 </div>
               </div>
@@ -451,9 +454,9 @@ export const AdminDashboard = () => {
                 });
                 setShowAddTraderModal(true);
               }}
-              style={{ padding: '0.55rem 1.1rem', borderRadius: '10px', backgroundColor: '#10b981', color: '#080e0a', fontWeight: 800, border: 'none', cursor: 'pointer', fontSize: '0.85rem' }}
+              style={{ padding: '0.55rem 1.1rem', borderRadius: '10px', backgroundColor: '#10b981', color: '#080e0a', fontWeight: 800, border: 'none', cursor: 'pointer', fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}
             >
-              ➕ Add Trader Record
+              <Icon name="plus" size={16} /> Add Trader Record
             </button>
           </div>
 
@@ -475,7 +478,7 @@ export const AdminDashboard = () => {
                       {t.business_name}
                       <div style={{ fontSize: '0.75rem', color: '#9ca3af', fontWeight: 400 }}>{t.business_type}</div>
                     </td>
-                    <td style={{ padding: '0.75rem' }}>📍 {t.district}, {t.state}</td>
+                    <td style={{ padding: '0.75rem' }}><span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}><Icon name="mapPin" size={13} color="#9ca3af" /> {t.district}, {t.state}</span></td>
                     <td style={{ padding: '0.75rem', color: '#10b981', fontWeight: 600 }}>{t.commodities}</td>
                     <td style={{ padding: '0.75rem' }}>
                       <span style={{ backgroundColor: 'rgba(16, 185, 129, 0.15)', color: '#10b981', fontSize: '0.72rem', fontWeight: 700, padding: '0.15rem 0.45rem', borderRadius: '8px' }}>
@@ -484,8 +487,8 @@ export const AdminDashboard = () => {
                     </td>
                     <td style={{ padding: '0.75rem' }}>
                       <div style={{ display: 'flex', gap: '0.4rem' }}>
-                        <button onClick={() => openEditTrader(t)} style={{ padding: '0.35rem 0.65rem', borderRadius: '6px', backgroundColor: '#16261d', color: '#f3f4f6', border: '1px solid rgba(31, 56, 42, 0.8)', cursor: 'pointer', fontSize: '0.75rem' }}>✏️ Edit</button>
-                        <button onClick={() => handleDeleteTrader(t.id, t.business_name)} style={{ padding: '0.35rem 0.65rem', borderRadius: '6px', backgroundColor: 'rgba(239, 68, 68, 0.15)', color: '#ef4444', border: 'none', cursor: 'pointer', fontSize: '0.75rem' }}>🗑️</button>
+                        <button onClick={() => openEditTrader(t)} style={{ padding: '0.35rem 0.65rem', borderRadius: '6px', backgroundColor: '#16261d', color: '#f3f4f6', border: '1px solid rgba(31, 56, 42, 0.8)', cursor: 'pointer', fontSize: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}><Icon name="pencil" size={12} /> Edit</button>
+                        <button onClick={() => handleDeleteTrader(t.id, t.business_name)} style={{ padding: '0.35rem 0.65rem', borderRadius: '6px', backgroundColor: 'rgba(239, 68, 68, 0.15)', color: '#ef4444', border: 'none', cursor: 'pointer', fontSize: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}><Icon name="trash" size={12} /></button>
                       </div>
                     </td>
                   </tr>
@@ -521,8 +524,9 @@ export const AdminDashboard = () => {
       {showAddTraderModal && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 2000, backgroundColor: 'rgba(0,0,0,0.75)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
           <div style={{ backgroundColor: '#111b15', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '20px', maxWidth: '600px', width: '100%', padding: '1.5rem', maxHeight: '90vh', overflowY: 'auto' }}>
-            <h3 style={{ marginTop: 0, color: '#10b981', fontSize: '1.1rem', fontWeight: 700 }}>
-              {editingTrader ? `✏️ Edit Public Record: ${editingTrader.business_name}` : '➕ Add Verified Public Trader Record'}
+            <h3 style={{ marginTop: 0, color: '#10b981', fontSize: '1.1rem', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Icon name={editingTrader ? 'pencil' : 'plus'} size={18} color="#10b981" />
+              {editingTrader ? `Edit Public Record: ${editingTrader.business_name}` : 'Add Verified Public Trader Record'}
             </h3>
 
             <form onSubmit={handleTraderSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>

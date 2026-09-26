@@ -18,7 +18,8 @@ import { MarketCard } from '../../components/ui/MarketCard'
 import { QuickActionCard } from '../../components/ui/QuickActionCard'
 import { FarmProfileCard } from '../../components/ui/FarmProfileCard'
 import { LoadingState } from '../../components/ui/LoadingState'
-import { EmptyState } from '../../components/ui/EmptyState'
+import { Icon } from '../../components/ui/Icon'
+import { Reveal, Stagger, StaggerItem } from '../../components/ui/Motion'
 
 import './farmer.css'
 
@@ -189,7 +190,7 @@ const FarmerDashboard = () => {
         description: formData.description
       })
 
-      setSuccess('🌾 New harvest posted successfully!')
+      setSuccess('New harvest posted successfully!')
       setFormData({
         crop_name: '',
         quantity: '',
@@ -298,51 +299,61 @@ const FarmerDashboard = () => {
 
       {/* Global Alerts */}
       {error && (
-        <div style={{ backgroundColor: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626', padding: '1rem', borderRadius: '14px', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
-          ⚠️ {error}
+        <div style={{ backgroundColor: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626', padding: '1rem', borderRadius: '14px', marginBottom: '1.5rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Icon name="alert" size={18} color="#dc2626" />
+          <span>{error}</span>
         </div>
       )}
       {success && (
-        <div style={{ backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0', color: '#166534', padding: '1rem', borderRadius: '14px', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
-          ✅ {success}
+        <div style={{ backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0', color: '#166534', padding: '1rem', borderRadius: '14px', marginBottom: '1.5rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Icon name="checkCircle" size={18} color="#166534" />
+          <span>{success}</span>
         </div>
       )}
 
       {/* 2. 4 Metric Cards Grid matching screenshot */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem', marginBottom: '1.75rem' }}>
-        <MetricCard
-          icon="🌾"
-          title="Total Harvests"
-          value={totalListings}
-          subtitle="Crops harvested"
-          color="emerald"
-          onClick={() => setActiveTab('harvests')}
-        />
-        <MetricCard
-          icon="📋"
-          title="Active Orders"
-          value={activeOrdersCount}
-          subtitle="Orders in progress"
-          color="blue"
-          onClick={() => setActiveTab('orders')}
-        />
-        <MetricCard
-          icon="🎯"
-          title="Selling Opportunities"
-          value={opportunitiesCount}
-          subtitle="Available markets"
-          color="amber"
-          onClick={() => setActiveTab('opportunities')}
-        />
-        <MetricCard
-          icon="₹"
-          title="Estimated Net Returns"
-          value={estimatedReturns}
-          subtitle="Total potential profit"
-          color="purple"
-          onClick={() => setActiveTab('opportunities')}
-        />
-      </div>
+      <Stagger as="div" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem', marginBottom: '1.75rem' }}>
+        <StaggerItem>
+          <MetricCard
+            icon="wheat"
+            title="Total Harvests"
+            value={totalListings}
+            subtitle="Crops harvested"
+            color="emerald"
+            onClick={() => setActiveTab('harvests')}
+          />
+        </StaggerItem>
+        <StaggerItem>
+          <MetricCard
+            icon="clipboard"
+            title="Active Orders"
+            value={activeOrdersCount}
+            subtitle="Orders in progress"
+            color="blue"
+            onClick={() => setActiveTab('orders')}
+          />
+        </StaggerItem>
+        <StaggerItem>
+          <MetricCard
+            icon="target"
+            title="Selling Opportunities"
+            value={opportunitiesCount}
+            subtitle="Available markets"
+            color="amber"
+            onClick={() => setActiveTab('opportunities')}
+          />
+        </StaggerItem>
+        <StaggerItem>
+          <MetricCard
+            icon="rupee"
+            title="Estimated Net Returns"
+            value={estimatedReturns}
+            subtitle="Total potential profit"
+            color="purple"
+            onClick={() => setActiveTab('opportunities')}
+          />
+        </StaggerItem>
+      </Stagger>
 
       {/* Main 2-Column Dashboard Canvas Structure matching screenshot */}
       <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 360px', gap: '1.5rem', marginBottom: '2rem' }} className="farmer-dashboard-split">
@@ -371,7 +382,7 @@ const FarmerDashboard = () => {
           {/* Section 2: MARKET COMPARISON GRID matching screenshot */}
           <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '20px', padding: '1.5rem', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem' }}>
-              <span style={{ fontSize: '1.2rem' }}>📈</span>
+              <Icon name="chartUp" size={20} color="#0f172a" />
               <div>
                 <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>Market Comparison</h3>
                 <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Compare prices and choose the best market for your harvest</span>
@@ -401,7 +412,7 @@ const FarmerDashboard = () => {
           <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '20px', padding: '1.5rem', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                <span style={{ fontSize: '1.2rem' }}>🤝</span>
+                <Icon name="handshake" size={20} color="#0f172a" />
                 <div>
                   <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>Potential Buyers</h3>
                   <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Trusted buyers looking for your produce</span>
@@ -416,9 +427,9 @@ const FarmerDashboard = () => {
               <LoadingState message="Fetching verified buyers..." />
             ) : (
               <PotentialBuyersCard buyers={potentialBuyers.length > 0 ? potentialBuyers : [
-                { id: 1, business_name: 'AgriTrade Foods', verification_status: 'verified', badge_label: '🟢 FarmOS Verified Business', location: 'Kolkata, West Bengal', commodities: 'Potato, Onion', buying_capacity: '10,000 kg', show_contact_publicly: true, public_phone: '+91 98765 43210' },
-                { id: 2, business_name: 'GreenHarvest Ltd', verification_status: 'website_verified', badge_label: '🌐 Public Business Info', location: 'Howrah, West Bengal', commodities: 'Potato, Vegetables', buying_capacity: '5,000 kg', show_contact_publicly: true, public_phone: '+91 98765 11223' },
-                { id: 3, business_name: 'FreshMart Traders', verification_status: 'unverified', badge_label: '🏢 Public Listing', location: 'Kolkata, West Bengal', commodities: 'Potato, Tomato', buying_capacity: '3,000 kg', show_contact_publicly: false }
+                { id: 1, business_name: 'AgriTrade Foods', verification_status: 'verified', badge_label: 'FarmOS Verified Business', location: 'Kolkata, West Bengal', commodities: 'Potato, Onion', buying_capacity: '10,000 kg', show_contact_publicly: true, public_phone: '+91 98765 43210' },
+                { id: 2, business_name: 'GreenHarvest Ltd', verification_status: 'website_verified', badge_label: 'Public Business Info', location: 'Howrah, West Bengal', commodities: 'Potato, Vegetables', buying_capacity: '5,000 kg', show_contact_publicly: true, public_phone: '+91 98765 11223' },
+                { id: 3, business_name: 'FreshMart Traders', verification_status: 'unverified', badge_label: 'Public Listing', location: 'Kolkata, West Bengal', commodities: 'Potato, Tomato', buying_capacity: '3,000 kg', show_contact_publicly: false }
               ]} />
             )}
           </div>
@@ -430,7 +441,7 @@ const FarmerDashboard = () => {
           {/* Section 3: QUICK ACTIONS 2x2 Grid matching screenshot */}
           <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '20px', padding: '1.5rem', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-              <span style={{ fontSize: '1.2rem' }}>⚡</span>
+              <Icon name="zap" size={20} color="#0f172a" />
               <div>
                 <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>Quick Actions</h3>
                 <span style={{ fontSize: '0.78rem', color: '#64748b' }}>Get things done, faster</span>
@@ -439,28 +450,28 @@ const FarmerDashboard = () => {
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem' }}>
               <QuickActionCard
-                icon="🌱"
+                icon="sprout"
                 title="Add Harvest"
                 description="Register crop"
                 color="emerald"
                 onClick={() => setActiveTab('harvests')}
               />
               <QuickActionCard
-                icon="📊"
+                icon="barChart"
                 title="Market Prices"
                 description="Live mandi rates"
                 color="blue"
                 onClick={() => setActiveTab('opportunities')}
               />
               <QuickActionCard
-                icon="🤝"
+                icon="handshake"
                 title="Find Buyers"
                 description="Connect buyers"
                 color="amber"
                 onClick={() => setActiveTab('buyers')}
               />
               <QuickActionCard
-                icon="💬"
+                icon="message"
                 title="Ask FarmOS AI"
                 description="Get smart advice"
                 color="purple"
@@ -472,7 +483,7 @@ const FarmerDashboard = () => {
           {/* Section 4: WEATHER WIDGET matching screenshot */}
           <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '20px', padding: '1.5rem', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-              <span style={{ fontSize: '1.2rem' }}>🌤️</span>
+              <Icon name="cloudSun" size={20} color="#0f172a" />
               <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>Weather</h3>
             </div>
 
@@ -491,17 +502,17 @@ const FarmerDashboard = () => {
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', fontSize: '0.8rem', color: '#475569', backgroundColor: '#f8fafc', padding: '0.75rem', borderRadius: '12px', marginBottom: '1rem' }}>
-                  <div>💧 Humidity: <strong>72%</strong></div>
-                  <div>🌬️ Wind: <strong>12 km/h</strong></div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}><Icon name="droplet" size={14} color="#475569" /> Humidity: <strong>72%</strong></div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}><Icon name="wind" size={14} color="#475569" /> Wind: <strong>12 km/h</strong></div>
                 </div>
 
                 {/* 7-day Mini Forecast Row */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', gap: '0.2rem', textAlign: 'center', fontSize: '0.72rem', color: '#64748b' }}>
-                  <div><div>Today</div><div style={{ fontSize: '1rem', margin: '2px 0' }}>🌤️</div><strong style={{ color: '#0f172a' }}>29°/24°</strong></div>
-                  <div><div>Tue</div><div style={{ fontSize: '1rem', margin: '2px 0' }}>☀️</div><strong style={{ color: '#0f172a' }}>30°/25°</strong></div>
-                  <div><div>Wed</div><div style={{ fontSize: '1rem', margin: '2px 0' }}>🌦️</div><strong style={{ color: '#0f172a' }}>31°/26°</strong></div>
-                  <div><div>Thu</div><div style={{ fontSize: '1rem', margin: '2px 0' }}>☀️</div><strong style={{ color: '#0f172a' }}>32°/26°</strong></div>
-                  <div><div>Fri</div><div style={{ fontSize: '1rem', margin: '2px 0' }}>🌤️</div><strong style={{ color: '#0f172a' }}>31°/25°</strong></div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}><div>Today</div><Icon name="cloudSun" size={16} color="#64748b" /><strong style={{ color: '#0f172a' }}>29°/24°</strong></div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}><div>Tue</div><Icon name="sun" size={16} color="#f59e0b" /><strong style={{ color: '#0f172a' }}>30°/25°</strong></div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}><div>Wed</div><Icon name="cloudRain" size={16} color="#64748b" /><strong style={{ color: '#0f172a' }}>31°/26°</strong></div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}><div>Thu</div><Icon name="sun" size={16} color="#f59e0b" /><strong style={{ color: '#0f172a' }}>32°/26°</strong></div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}><div>Fri</div><Icon name="cloudSun" size={16} color="#64748b" /><strong style={{ color: '#0f172a' }}>31°/25°</strong></div>
                 </div>
               </div>
             )}
@@ -517,7 +528,7 @@ const FarmerDashboard = () => {
       {activeTab === 'harvests' && (
         <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '20px', padding: '1.75rem', marginTop: '1.5rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-            <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a' }}>📋 Post & Manage Your Harvests</h3>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}><Icon name="clipboard" size={20} color="#0f172a" /> Post & Manage Your Harvests</h3>
             <button onClick={() => setActiveTab('overview')} style={{ padding: '0.4rem 0.85rem', backgroundColor: '#f1f5f9', color: '#475569', borderRadius: '8px', fontSize: '0.8rem', fontWeight: 700 }}>Close View</button>
           </div>
 

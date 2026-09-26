@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getMarketPrices } from '../api/marketApi'
 import { useLanguage } from '../context/LanguageContext'
+import { Icon } from './ui/Icon'
 
 export const MandiPrices = () => {
   const { t } = useLanguage()
@@ -81,7 +82,7 @@ export const MandiPrices = () => {
       }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.4rem' }}>
-            <span style={{ fontSize: '1.4rem' }}>📈</span>
+            <Icon name="chartUp" size={26} color="var(--accent-gold)" />
             <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
               {t('market.title')}
             </h2>
@@ -120,7 +121,8 @@ export const MandiPrices = () => {
             transition: 'all 0.2s'
           }}
         >
-          🔄 Refresh
+          <Icon name="refresh" size={16} />
+          Refresh
         </button>
       </div>
 
@@ -217,10 +219,15 @@ export const MandiPrices = () => {
               color: '#080a0e',
               fontWeight: 700,
               fontSize: '0.9rem',
-              boxShadow: '0 4px 12px var(--accent-gold-glow)'
+              boxShadow: '0 4px 12px var(--accent-gold-glow)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem'
             }}
           >
-            🔍 {t('common.search')}
+            <Icon name="search" size={16} />
+            {t('common.search')}
           </button>
           
           <button
@@ -254,7 +261,7 @@ export const MandiPrices = () => {
           alignItems: 'center',
           gap: '0.75rem'
         }}>
-          <span style={{ fontSize: '1.2rem' }}>⚠️</span>
+          <Icon name="alert" size={22} color="#f87171" />
           <div>
             <strong style={{ display: 'block', fontSize: '0.95rem' }}>{t('common.error')}</strong>
             <span style={{ fontSize: '0.88rem' }}>{error}</span>
@@ -272,7 +279,9 @@ export const MandiPrices = () => {
           border: '1px solid var(--border-color)',
           color: 'var(--text-secondary)'
         }}>
-          <div style={{ fontSize: '2rem', marginBottom: '1rem', animation: 'spin 1s infinite linear' }}>⏳</div>
+          <div style={{ marginBottom: '1rem', color: 'var(--accent-gold)' }}>
+            <Icon name="hourglass" size={36} className="farmos-float" />
+          </div>
           <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.3rem' }}>
             {t('common.loading')}
           </h3>
@@ -286,7 +295,9 @@ export const MandiPrices = () => {
           borderRadius: '18px',
           border: '1px solid var(--border-color)'
         }}>
-          <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🌾</div>
+          <div style={{ marginBottom: '1rem', color: 'var(--accent-gold)' }}>
+            <Icon name="wheat" size={48} strokeWidth={1.5} />
+          </div>
           <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
             {t('market.noPricesFound')}
           </h3>
@@ -359,9 +370,13 @@ export const MandiPrices = () => {
                       fontSize: '0.75rem',
                       padding: '0.2rem 0.55rem',
                       borderRadius: '8px',
-                      whiteSpace: 'nowrap'
+                      whiteSpace: 'nowrap',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.3rem'
                     }}>
-                      📅 {item.arrival_date || 'Today'}
+                      <Icon name="calendar" size={13} />
+                      {item.arrival_date || 'Today'}
                     </span>
                   </div>
 
@@ -374,11 +389,13 @@ export const MandiPrices = () => {
                     marginBottom: '1.25rem',
                     fontSize: '0.85rem'
                   }}>
-                    <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.2rem' }}>
-                      🏛️ {t('common.mandi')}: {item.market}
+                    <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.2rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                      <Icon name="landmark" size={15} color="var(--accent-gold)" />
+                      {t('common.mandi')}: {item.market}
                     </div>
-                    <div style={{ color: 'var(--text-secondary)' }}>
-                      📍 {item.district}, {item.state}
+                    <div style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                      <Icon name="mapPin" size={15} color="var(--text-secondary)" />
+                      {item.district}, {item.state}
                     </div>
                   </div>
 

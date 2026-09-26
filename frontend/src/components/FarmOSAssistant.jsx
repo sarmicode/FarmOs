@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { sendChatMessage } from '../api/chatApi'
 import { MarketComparison } from './MarketComparison'
 import { useLanguage } from '../context/LanguageContext'
+import { Icon } from './ui/Icon'
 
 // Helper function to render simple markdown formatting (bold, headers, tables, bullet lists)
 const renderFormattedText = (text) => {
@@ -196,7 +197,7 @@ export const FarmOSAssistant = ({ isCompact = false }) => {
           {
             id: Date.now() + 1,
             sender: 'assistant',
-            text: '⚠️ Sorry, I encountered an issue generating a response. Please try again.',
+            text: 'Sorry, I encountered an issue generating a response. Please try again.',
             isError: true
           }
         ])
@@ -209,8 +210,8 @@ export const FarmOSAssistant = ({ isCompact = false }) => {
         {
           id: Date.now() + 1,
           sender: 'assistant',
-          text: `⚠️ Connection Error: ${errorText}`,
-          isError: true
+        text: `Connection Error: ${errorText}`,
+        isError: true
         }
       ])
     } finally {
@@ -254,10 +255,9 @@ export const FarmOSAssistant = ({ isCompact = false }) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '1.4rem',
             boxShadow: '0 4px 12px var(--accent-gold-glow)'
           }}>
-            🤖
+            <Icon name="bot" size={24} color="#0b2319" />
           </div>
           <div>
             <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
@@ -298,8 +298,9 @@ export const FarmOSAssistant = ({ isCompact = false }) => {
         WebkitOverflowScrolling: 'touch',
         flexShrink: 0
       }}>
-        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-          💡 Try asking:
+        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+          <Icon name="lightbulb" size={15} color="var(--text-muted)" />
+          Try asking:
         </span>
         {exampleQuestions.map((q, idx) => (
           <button
@@ -370,10 +371,10 @@ export const FarmOSAssistant = ({ isCompact = false }) => {
                 letterSpacing: '0.04em'
               }}>
                 {msg.context.type === 'opportunity'
-                  ? '🏆 FarmOS Opportunity Engine Evaluated'
+                  ? 'FarmOS Opportunity Engine Evaluated'
                   : msg.context.type === 'market'
-                    ? '📊 Real-Time Mandi Data Injected'
-                    : '🌤️ Live Open-Meteo Weather Injected'}
+                    ? 'Real-Time Mandi Data Injected'
+                    : 'Live Open-Meteo Weather Injected'}
               </span>
             )}
 
@@ -427,7 +428,7 @@ export const FarmOSAssistant = ({ isCompact = false }) => {
             color: 'var(--text-secondary)',
             fontSize: '0.88rem'
           }}>
-            <span style={{ fontSize: '1.2rem', animation: 'spin 1s infinite linear' }}>⏳</span>
+            <span style={{ display: 'inline-flex', color: 'var(--accent-gold)' }}><Icon name="hourglass" size={20} className="farmos-float" /></span>
             <span>FarmOS Assistant is analyzing & fetching real-time data...</span>
           </div>
         )}
@@ -487,7 +488,7 @@ export const FarmOSAssistant = ({ isCompact = false }) => {
           }}
         >
           <span>{t('assistant.send')}</span>
-          <span>➔</span>
+          <Icon name="arrowRight" size={16} />
         </button>
       </form>
     </div>

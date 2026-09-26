@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { FarmOSAssistant } from './FarmOSAssistant'
+import { Icon } from './ui/Icon'
 
 export const FloatingAssistant = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -28,8 +29,8 @@ export const FloatingAssistant = () => {
           title="Open FarmOS AI Assistant"
           aria-label="Ask FarmOS AI"
         >
-          <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#10b981', color: '#0b2319', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem', fontWeight: 800 }}>
-            🍃
+          <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#10b981', color: '#0b2319', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name="leaf" size={15} color="#0b2319" />
           </div>
           <span>Ask FarmOS AI</span>
         </button>
@@ -62,7 +63,8 @@ export const FloatingAssistant = () => {
             flexShrink: 0
           }}>
             <span style={{ fontSize: '0.9rem', color: '#ffffff', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              🍃 FarmOS AI Assistant
+              <Icon name="leaf" size={18} color="#34d399" />
+              FarmOS AI Assistant
             </span>
             <button
               onClick={() => setIsOpen(false)}
@@ -70,14 +72,15 @@ export const FloatingAssistant = () => {
                 background: 'none',
                 border: 'none',
                 color: '#94a3b8',
-                fontSize: '1.2rem',
                 cursor: 'pointer',
-                padding: '0.2rem 0.5rem'
+                padding: '0.2rem 0.5rem',
+                display: 'flex',
+                alignItems: 'center'
               }}
               title="Close Assistant"
               aria-label="Close Assistant"
             >
-              ✕
+              <Icon name="x" size={20} />
             </button>
           </div>
 

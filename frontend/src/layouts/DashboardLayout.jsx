@@ -1,12 +1,15 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
 import { Navbar } from '../components/Navbar'
 import { Sidebar } from '../components/Sidebar'
 import { Footer } from '../components/Footer'
 import { FloatingAssistant } from '../components/FloatingAssistant'
 import { MobileBottomNav } from '../components/ui/MobileBottomNav'
+import { PageTransition } from '../components/ui/Motion'
 
 export const DashboardLayout = () => {
+  const { pathname } = useLocation()
   return (
     <div style={{ display: 'flex', minHeight: '100vh', width: '100%', backgroundColor: '#f3f7f4', overflowX: 'hidden' }}>
       {/* Left Dark Forest Sidebar */}
@@ -19,7 +22,11 @@ export const DashboardLayout = () => {
         <Navbar />
 
         <main style={{ flex: 1, padding: '1.75rem 2rem', width: '100%', maxWidth: '1440px', margin: '0 auto', paddingBottom: '80px' }} className="dashboard-main-content">
-          <Outlet />
+          <AnimatePresence mode="wait">
+            <PageTransition key={pathname}>
+              <Outlet />
+            </PageTransition>
+          </AnimatePresence>
         </main>
 
         <Footer />

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Icon } from './Icon'
 
 export const OpportunityCard = ({ data, onViewClick }) => {
   if (!data) {
@@ -25,8 +26,8 @@ export const OpportunityCard = ({ data, onViewClick }) => {
       {/* Card Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-          <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#e6f4ea', color: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800 }}>
-            🌱
+          <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#e6f4ea', color: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name="sprout" size={18} color="#10b981" />
           </div>
           <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>
             Best Opportunity for Your Harvest
@@ -58,10 +59,10 @@ export const OpportunityCard = ({ data, onViewClick }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: '3rem',
-          flexShrink: 0
+          flexShrink: 0,
+          color: '#10b981'
         }}>
-          🥔
+          <Icon name="wheat" size={56} strokeWidth={1.5} />
         </div>
 
         {/* Info Items */}
@@ -77,8 +78,9 @@ export const OpportunityCard = ({ data, onViewClick }) => {
 
           <div>
             <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, display: 'block' }}>Best Market</span>
-            <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
-              📍 {bestMarket.market || 'Birbhum APMC'}
+            <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+              <Icon name="mapPin" size={15} color="#64748b" />
+              {bestMarket.market || 'Birbhum APMC'}
             </span>
           </div>
 
@@ -91,15 +93,17 @@ export const OpportunityCard = ({ data, onViewClick }) => {
 
           <div>
             <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, display: 'block' }}>Distance</span>
-            <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
-              🚗 {bestMarket.distance || '198 km'}
+            <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+              <Icon name="car" size={15} color="#64748b" />
+              {bestMarket.distance || '198 km'}
             </span>
           </div>
 
           <div>
             <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, display: 'block' }}>Travel Time</span>
-            <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
-              ⏱️ {bestMarket.travel_time || '2h 41m'}
+            <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+              <Icon name="timer" size={15} color="#64748b" />
+              {bestMarket.travel_time || '2h 41m'}
             </span>
           </div>
         </div>

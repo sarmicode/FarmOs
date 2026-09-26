@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
+import { Icon } from './ui/Icon'
 
 export const Footer = () => {
   const { t } = useLanguage()
@@ -33,10 +34,9 @@ export const Footer = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '1.2rem',
               fontWeight: 800
             }}>
-              🌿
+              <Icon name="leaf" size={22} color="#ffffff" />
             </div>
             <span>Farm<span style={{ color: '#34d399' }}>OS</span></span>
           </div>

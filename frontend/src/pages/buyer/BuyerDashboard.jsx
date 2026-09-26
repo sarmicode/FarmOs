@@ -6,6 +6,7 @@ import TrustBadge from '../../components/TrustBadge'
 import { getBuyerOrdersApi } from '../../api/orderApi'
 import { MandiPrices } from '../../components/MandiPrices'
 import { useNavigate } from 'react-router-dom'
+import { Icon } from '../../components/ui/Icon'
 
 const BuyerDashboard = () => {
   const { user } = useAuth()
@@ -93,7 +94,7 @@ const BuyerDashboard = () => {
         harvest_id: selectedHarvest.id,
         quantity: qty
       })
-      setOrderSuccess('🎉 Purchase order created successfully! Submitted to farmer for approval.')
+      setOrderSuccess('Purchase order created successfully! Submitted to farmer for approval.')
       setSelectedHarvest(null)
       fetchOrders()
       fetchMarketplace()
@@ -137,13 +138,14 @@ const BuyerDashboard = () => {
       }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'wrap' }}>
-            <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: '#0b3d2e', letterSpacing: '-0.02em' }}>
-              {user?.business_name || user?.name} 🏢
+            <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: '#0b3d2e', letterSpacing: '-0.02em', display: 'inline-flex', alignItems: 'center', gap: '0.6rem' }}>
+              <Icon name="building" size={26} color="#0b3d2e" />
+              {user?.business_name || user?.name}
             </h1>
             <TrustBadge status={user?.verification_status} role="buyer" size="md" />
           </div>
           <p style={{ color: '#647d70', fontSize: '0.9rem', marginTop: '0.4rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <span>📍 <strong style={{ color: '#10231b' }}>{user?.state ? `${user.state}, ${user.district || ''}` : user?.location || 'Location Not Specified'}</strong></span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}><Icon name="mapPin" size={14} color="#647d70" /> <strong style={{ color: '#10231b' }}>{user?.state ? `${user.state}, ${user.district || ''}` : user?.location || 'Location Not Specified'}</strong></span>
             {user?.mandi && <span>• Mandi: <strong style={{ color: '#166534' }}>{user.mandi}</strong></span>}
           </p>
         </div>
@@ -164,7 +166,7 @@ const BuyerDashboard = () => {
               gap: '0.5rem'
             }}
           >
-            <span>🏢</span> Business Profile
+            <Icon name="building" size={16} color="#0b3d2e" /> Business Profile
           </a>
         </div>
       </div>
@@ -173,7 +175,7 @@ const BuyerDashboard = () => {
       {orderSuccess && (
         <div style={{ backgroundColor: '#dcfce7', border: '1px solid #a7f3d0', color: '#166534', padding: '1rem', borderRadius: '14px', marginBottom: '1.5rem', fontSize: '0.9rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span>{orderSuccess}</span>
-          <button onClick={() => setOrderSuccess('')} style={{ background: 'none', border: 'none', color: '#166534', fontWeight: 'bold', fontSize: '1.2rem', cursor: 'pointer' }}>✕</button>
+          <button onClick={() => setOrderSuccess('')} style={{ background: 'none', border: 'none', color: '#166534', fontWeight: 'bold', fontSize: '1.2rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}><Icon name="x" size={18} /></button>
         </div>
       )}
 
@@ -183,7 +185,7 @@ const BuyerDashboard = () => {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
             <span style={{ fontSize: '0.8rem', color: '#647d70', fontWeight: 600, textTransform: 'uppercase' }}>Orders Placed</span>
             <div style={{ width: '36px', height: '36px', borderRadius: '10px', backgroundColor: '#ebf3ed', color: '#0b3d2e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>
-              📦
+              <Icon name="package" size={18} />
             </div>
           </div>
           <div style={{ fontSize: '2.1rem', fontWeight: 800, color: '#10231b', lineHeight: 1.1 }}>{totalOrdersCount}</div>
@@ -194,7 +196,7 @@ const BuyerDashboard = () => {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
             <span style={{ fontSize: '0.8rem', color: '#647d70', fontWeight: 600, textTransform: 'uppercase' }}>Pending Approval</span>
             <div style={{ width: '36px', height: '36px', borderRadius: '10px', backgroundColor: '#fef3c7', color: '#d97706', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>
-              ⏳
+              <Icon name="hourglass" size={18} />
             </div>
           </div>
           <div style={{ fontSize: '2.1rem', fontWeight: 800, color: '#d97706', lineHeight: 1.1 }}>{pendingOrdersCount}</div>
@@ -205,7 +207,7 @@ const BuyerDashboard = () => {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
             <span style={{ fontSize: '0.8rem', color: '#647d70', fontWeight: 600, textTransform: 'uppercase' }}>Accepted Orders</span>
             <div style={{ width: '36px', height: '36px', borderRadius: '10px', backgroundColor: '#dcfce7', color: '#166534', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>
-              ✅
+              <Icon name="checkCircle" size={18} />
             </div>
           </div>
           <div style={{ fontSize: '2.1rem', fontWeight: 800, color: '#166534', lineHeight: 1.1 }}>{acceptedOrdersCount}</div>
@@ -216,7 +218,7 @@ const BuyerDashboard = () => {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
             <span style={{ fontSize: '0.8rem', color: '#647d70', fontWeight: 600, textTransform: 'uppercase' }}>Verification Status</span>
             <div style={{ width: '36px', height: '36px', borderRadius: '10px', backgroundColor: '#ebf3ed', color: '#0b3d2e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>
-              🛡️
+              <Icon name="shieldCheck" size={18} />
             </div>
           </div>
           <div style={{ marginTop: '0.2rem' }}>
@@ -250,7 +252,7 @@ const BuyerDashboard = () => {
             whiteSpace: 'nowrap'
           }}
         >
-          📦 My Orders ({orders.length})
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}><Icon name="package" size={16} /> My Orders ({orders.length})</span>
         </button>
 
         <button
@@ -266,7 +268,7 @@ const BuyerDashboard = () => {
             whiteSpace: 'nowrap'
           }}
         >
-          🌾 Browse Produce
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}><Icon name="wheat" size={16} /> Browse Produce</span>
         </button>
 
         <button
@@ -282,7 +284,7 @@ const BuyerDashboard = () => {
             whiteSpace: 'nowrap'
           }}
         >
-          📈 Mandi Price Directory
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}><Icon name="chartUp" size={16} /> Mandi Price Directory</span>
         </button>
 
         <button
@@ -298,7 +300,7 @@ const BuyerDashboard = () => {
             whiteSpace: 'nowrap'
           }}
         >
-          🛡️ Verification Credentials
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}><Icon name="shieldCheck" size={16} /> Verification Credentials</span>
         </button>
       </div>
 
@@ -306,9 +308,9 @@ const BuyerDashboard = () => {
       {activeTab === 'orders' && (
         <div style={{ backgroundColor: '#111b15', border: '1px solid rgba(31, 56, 42, 0.8)', borderRadius: '18px', padding: '1.5rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#f3f4f6' }}>📦 Purchase Orders Placed</h2>
-            <button onClick={fetchOrders} style={{ padding: '0.35rem 0.75rem', backgroundColor: '#16261d', border: '1px solid rgba(31, 56, 42, 0.8)', color: '#9ca3af', borderRadius: '8px', fontSize: '0.78rem', cursor: 'pointer' }}>
-              🔄 Refresh
+            <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#f3f4f6', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}><Icon name="package" size={18} color="#f3f4f6" /> Purchase Orders Placed</h2>
+            <button onClick={fetchOrders} style={{ padding: '0.35rem 0.75rem', backgroundColor: '#16261d', border: '1px solid rgba(31, 56, 42, 0.8)', color: '#9ca3af', borderRadius: '8px', fontSize: '0.78rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+              <Icon name="refresh" size={13} color="#9ca3af" /> Refresh
             </button>
           </div>
 
@@ -316,7 +318,7 @@ const BuyerDashboard = () => {
             <div style={{ textAlign: 'center', padding: '3rem', color: '#9ca3af' }}>{t('common.loading')}</div>
           ) : orders.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '3rem', color: '#9ca3af' }}>
-              <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🛒</div>
+              <div style={{ marginBottom: '0.5rem', color: '#9ca3af' }}><Icon name="cart" size={40} strokeWidth={1.5} /></div>
               <p style={{ fontWeight: 600, color: '#f3f4f6' }}>No purchase orders placed yet.</p>
               <button
                 onClick={() => setActiveTab('marketplace')}
@@ -347,7 +349,7 @@ const BuyerDashboard = () => {
                       <td style={{ padding: '0.75rem' }}>{o.quantity} {o.unit}</td>
                       <td style={{ padding: '0.75rem', color: '#10b981', fontWeight: 700 }}>₹{o.total_price}</td>
                       <td style={{ padding: '0.75rem' }}>{o.farmer_name}</td>
-                      <td style={{ padding: '0.75rem' }}>📍 {o.location}</td>
+                      <td style={{ padding: '0.75rem' }}><span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}><Icon name="mapPin" size={13} color="#9ca3af" /> {o.location}</span></td>
                       <td style={{ padding: '0.75rem' }}>
                         <span style={{
                           padding: '0.2rem 0.6rem',
@@ -392,7 +394,7 @@ const BuyerDashboard = () => {
             <div style={{ textAlign: 'center', padding: '3rem', color: '#9ca3af' }}>{t('common.loading')}</div>
           ) : filteredHarvests.length === 0 ? (
             <div style={{ backgroundColor: '#111b15', border: '1px solid rgba(31, 56, 42, 0.8)', borderRadius: '18px', padding: '3rem', textAlign: 'center', color: '#9ca3af' }}>
-              <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🌾</div>
+              <div style={{ marginBottom: '0.5rem', color: '#9ca3af' }}><Icon name="wheat" size={40} strokeWidth={1.5} /></div>
               <p>No available produce listings found matching your search.</p>
             </div>
           ) : (
@@ -411,7 +413,7 @@ const BuyerDashboard = () => {
                       <div>Stock: <strong style={{ color: '#f3f4f6' }}>{h.quantity} {h.unit}</strong></div>
                       <div>Price: <strong style={{ color: '#10b981', fontSize: '1.05rem' }}>₹{h.price} / {h.unit}</strong></div>
                       <div>Farmer: <span style={{ color: '#f3f4f6', fontWeight: 600 }}>{h.farmer_name || 'Verified Farmer'}</span></div>
-                      <div>Location: 📍 {h.location}</div>
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>Location: <Icon name="mapPin" size={13} color="#9ca3af" /> {h.location}</div>
                     </div>
 
                     {h.description && <p style={{ fontSize: '0.78rem', color: '#9ca3af', backgroundColor: '#0c140e', padding: '0.5rem 0.75rem', borderRadius: '8px', marginBottom: '0.75rem' }}>{h.description}</p>}
@@ -419,9 +421,9 @@ const BuyerDashboard = () => {
 
                   <button
                     onClick={() => handleOpenOrderModal(h)}
-                    style={{ width: '100%', padding: '0.6rem', backgroundColor: '#10b981', color: '#080e0a', fontWeight: 700, borderRadius: '10px', fontSize: '0.85rem' }}
+                    style={{ width: '100%', padding: '0.6rem', backgroundColor: '#10b981', color: '#080e0a', fontWeight: 700, borderRadius: '10px', fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem' }}
                   >
-                    🛒 Place Order
+                    <Icon name="cart" size={15} /> Place Order
                   </button>
                 </div>
               ))}
@@ -440,7 +442,7 @@ const BuyerDashboard = () => {
       {/* TAB 4: VERIFICATION CREDENTIALS */}
       {activeTab === 'verification' && (
         <div style={{ backgroundColor: '#111b15', border: '1px solid rgba(31, 56, 42, 0.8)', borderRadius: '18px', padding: '1.5rem', maxWidth: '700px' }}>
-          <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#f3f4f6', marginBottom: '0.5rem' }}>🛡️ Buyer Verification Credentials</h2>
+          <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#f3f4f6', marginBottom: '0.5rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}><Icon name="shieldCheck" size={20} color="#f3f4f6" /> Buyer Verification Credentials</h2>
           <p style={{ fontSize: '0.85rem', color: '#9ca3af', marginBottom: '1.25rem' }}>
             FarmOS verified buyers receive lower platform fees, direct contact access with farmers, and trusted buyer badges.
           </p>
@@ -460,12 +462,12 @@ const BuyerDashboard = () => {
             </div>
           </div>
 
-          <div style={{ pt: '1rem', borderTop: '1px solid rgba(31, 56, 42, 0.8)' }}>
+          <div style={{ paddingTop: '1rem', borderTop: '1px solid rgba(31, 56, 42, 0.8)' }}>
             <button
               onClick={() => navigate('/profile')}
-              style={{ padding: '0.65rem 1.25rem', backgroundColor: '#10b981', color: '#080e0a', fontWeight: 700, borderRadius: '10px', fontSize: '0.85rem' }}
+              style={{ padding: '0.65rem 1.25rem', backgroundColor: '#10b981', color: '#080e0a', fontWeight: 700, borderRadius: '10px', fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
             >
-              ✏️ Update Verification Credentials
+              <Icon name="pencil" size={15} /> Update Verification Credentials
             </button>
           </div>
         </div>
@@ -476,8 +478,8 @@ const BuyerDashboard = () => {
         <div style={{ position: 'fixed', inset: 0, zIndex: 100, backgroundColor: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
           <div style={{ backgroundColor: '#111b15', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '20px', maxWidth: '480px', width: '100%', padding: '1.5rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', borderBottom: '1px solid rgba(31, 56, 42, 0.8)', paddingBottom: '0.75rem' }}>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#f3f4f6' }}>🛒 Order Produce: {selectedHarvest.crop_name}</h3>
-              <button onClick={() => setSelectedHarvest(null)} style={{ background: 'none', border: 'none', color: '#9ca3af', fontSize: '1.2rem', cursor: 'pointer' }}>✕</button>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#f3f4f6', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}><Icon name="cart" size={18} color="#f3f4f6" /> Order Produce: {selectedHarvest.crop_name}</h3>
+              <button onClick={() => setSelectedHarvest(null)} style={{ background: 'none', border: 'none', color: '#9ca3af', fontSize: '1.2rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}><Icon name="x" size={18} /></button>
             </div>
 
             {orderError && (
@@ -487,7 +489,7 @@ const BuyerDashboard = () => {
             <form onSubmit={handlePlaceOrderSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div style={{ backgroundColor: '#0c140e', padding: '0.85rem', borderRadius: '10px', fontSize: '0.82rem', color: '#9ca3af', display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
                 <div>Farmer: <strong style={{ color: '#f3f4f6' }}>{selectedHarvest.farmer_name || 'Verified Farmer'}</strong></div>
-                <div>Location: 📍 {selectedHarvest.location}</div>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>Location: <Icon name="mapPin" size={13} color="#9ca3af" /> {selectedHarvest.location}</div>
                 <div>Price: <strong style={{ color: '#10b981' }}>₹{selectedHarvest.price} / {selectedHarvest.unit}</strong></div>
                 <div>Available: <strong style={{ color: '#f3f4f6' }}>{selectedHarvest.quantity} {selectedHarvest.unit}</strong></div>
               </div>

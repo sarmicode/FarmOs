@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getPublicTraders } from '../../api/traderApi';
 import { getRegisteredBuyers } from '../../api/buyerApi';
 import { useLanguage } from '../../context/LanguageContext';
+import { Icon, StatusDot } from '../../components/ui/Icon';
 
 export const TraderDirectoryPage = () => {
   const { t } = useLanguage();
@@ -92,7 +93,7 @@ export const TraderDirectoryPage = () => {
         boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-          <span style={{ fontSize: '2rem' }}>🏛️</span>
+          <Icon name="landmark" size={34} color="#0b2319" />
           <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0b2319', margin: 0 }}>
             Verified Agricultural Businesses & Directory
           </h1>
@@ -122,10 +123,14 @@ export const TraderDirectoryPage = () => {
             fontWeight: 700,
             fontSize: '0.95rem',
             cursor: 'pointer',
-            transition: 'all 0.2s'
+            transition: 'all 0.2s',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem'
           }}
         >
-          🏬 Public Trader Directory ({activeTab === 'traders' ? traders.length : '...'})
+          <Icon name="store" size={18} />
+          Public Trader Directory ({activeTab === 'traders' ? traders.length : '...'})
         </button>
 
         <button
@@ -139,10 +144,14 @@ export const TraderDirectoryPage = () => {
             fontWeight: 700,
             fontSize: '0.95rem',
             cursor: 'pointer',
-            transition: 'all 0.2s'
+            transition: 'all 0.2s',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem'
           }}
         >
-          🔵 FarmOS Registered Buyers ({activeTab === 'buyers' ? buyers.length : '...'})
+          <StatusDot color="#3b82f6" size={12} />
+          FarmOS Registered Buyers ({activeTab === 'buyers' ? buyers.length : '...'})
         </button>
       </div>
 
@@ -273,10 +282,10 @@ export const TraderDirectoryPage = () => {
                 }}
               >
                 <option value="">All Verification Levels</option>
-                <option value="source_verified">🟢 FarmOS Verified Business (Govt Evidence)</option>
-                <option value="website_verified">🌐 Public Business Info (Official Website)</option>
-                <option value="unverified">🏢 Public Business Listing</option>
-                <option value="needs_review">⚠️ Needs Review</option>
+                <option value="source_verified">FarmOS Verified Business (Govt Evidence)</option>
+                <option value="website_verified">Public Business Info (Official Website)</option>
+                <option value="unverified">Public Business Listing</option>
+                <option value="needs_review">Needs Review</option>
               </select>
             </div>
           )}
@@ -293,10 +302,14 @@ export const TraderDirectoryPage = () => {
               fontWeight: 700,
               fontSize: '0.88rem',
               border: 'none',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem'
             }}
           >
-            🔍 Search Directory
+            <Icon name="search" size={16} />
+            Search Directory
           </button>
           <button
             type="button"
@@ -384,9 +397,13 @@ export const TraderDirectoryPage = () => {
                         fontSize: '0.72rem',
                         fontWeight: 700,
                         padding: '0.2rem 0.55rem',
-                        borderRadius: '12px'
+                        borderRadius: '12px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.35rem'
                       }}>
-                        🟢 FarmOS Verified Business
+                        <StatusDot color="#22c55e" size={8} />
+                        FarmOS Verified Business
                       </span>
                     )}
 
@@ -398,9 +415,13 @@ export const TraderDirectoryPage = () => {
                         fontSize: '0.72rem',
                         fontWeight: 700,
                         padding: '0.2rem 0.55rem',
-                        borderRadius: '12px'
+                        borderRadius: '12px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.35rem'
                       }}>
-                        🌐 Public Business Info
+                        <Icon name="globe" size={13} />
+                        Public Business Info
                       </span>
                     )}
 
@@ -412,9 +433,13 @@ export const TraderDirectoryPage = () => {
                         fontSize: '0.72rem',
                         fontWeight: 700,
                         padding: '0.2rem 0.55rem',
-                        borderRadius: '12px'
+                        borderRadius: '12px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.35rem'
                       }}>
-                        🏢 Public Listing ({t.verification_status})
+                        <Icon name="building" size={13} />
+                        Public Listing ({t.verification_status})
                       </span>
                     )}
 
@@ -426,9 +451,13 @@ export const TraderDirectoryPage = () => {
                         fontSize: '0.72rem',
                         fontWeight: 700,
                         padding: '0.2rem 0.55rem',
-                        borderRadius: '12px'
+                        borderRadius: '12px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.35rem'
                       }}>
-                        🌐 Website Verified
+                        <Icon name="globe" size={13} />
+                        Website Verified
                       </span>
                     )}
                   </div>
@@ -438,8 +467,10 @@ export const TraderDirectoryPage = () => {
                     <div>
                       <strong style={{ color: '#8b949e' }}>Type:</strong> {t.business_type}
                     </div>
-                    <div>
-                      <strong style={{ color: '#8b949e' }}>Location:</strong> 📍 {t.city || t.district}, {t.state} {t.mandi ? `(Mandi: ${t.mandi})` : ''}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                      <strong style={{ color: '#8b949e' }}>Location:</strong>
+                      <Icon name="mapPin" size={14} color="#8b949e" />
+                      {t.city || t.district}, {t.state} {t.mandi ? `(Mandi: ${t.mandi})` : ''}
                     </div>
                     <div>
                       <strong style={{ color: '#8b949e' }}>Commodities:</strong> <span style={{ color: '#fbbf24', fontWeight: 600 }}>{t.commodities}</span>
@@ -469,9 +500,10 @@ export const TraderDirectoryPage = () => {
                           href={t.source_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          style={{ color: '#60a5fa', textDecoration: 'underline', wordBreak: 'break-all' }}
+                          style={{ color: '#60a5fa', textDecoration: 'underline', wordBreak: 'break-all', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}
                         >
-                          🔗 View Source Evidence
+                          <Icon name="link" size={13} />
+                          View Source Evidence
                         </a>
                       </div>
                     )}
@@ -491,52 +523,64 @@ export const TraderDirectoryPage = () => {
                         backgroundColor: 'rgba(59, 130, 246, 0.15)',
                         border: '1px solid #3b82f6',
                         color: '#60a5fa',
-                        fontSize: '0.78rem',
-                        fontWeight: 700,
-                        textDecoration: 'none'
-                      }}
-                    >
-                      🌐 Official Website
-                    </a>
-                  )}
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      textDecoration: 'none',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.4rem'
+                    }}
+                  >
+                    <Icon name="globe" size={14} />
+                    Official Website
+                  </a>
+                )}
 
-                  {t.official_contact_url && (
-                    <a
-                      href={t.official_contact_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        padding: '0.45rem 0.85rem',
-                        borderRadius: '8px',
-                        backgroundColor: 'rgba(168, 85, 247, 0.15)',
-                        border: '1px solid #a855f7',
-                        color: '#c084fc',
-                        fontSize: '0.78rem',
-                        fontWeight: 700,
-                        textDecoration: 'none'
-                      }}
-                    >
-                      ✉ Official Contact
-                    </a>
-                  )}
+                {t.official_contact_url && (
+                  <a
+                    href={t.official_contact_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      padding: '0.45rem 0.85rem',
+                      borderRadius: '8px',
+                      backgroundColor: 'rgba(168, 85, 247, 0.15)',
+                      border: '1px solid #a855f7',
+                      color: '#c084fc',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      textDecoration: 'none',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.4rem'
+                    }}
+                  >
+                    <Icon name="mail" size={14} />
+                    Official Contact
+                  </a>
+                )}
 
-                  {t.public_phone && (
-                    <a
-                      href={`tel:${t.public_phone}`}
-                      style={{
-                        padding: '0.45rem 0.85rem',
-                        borderRadius: '8px',
-                        backgroundColor: 'rgba(34, 197, 94, 0.15)',
-                        border: '1px solid #22c55e',
-                        color: '#4ade80',
-                        fontSize: '0.78rem',
-                        fontWeight: 700,
-                        textDecoration: 'none'
-                      }}
-                    >
-                      📞 Call {t.public_phone}
-                    </a>
-                  )}
+                {t.public_phone && (
+                  <a
+                    href={`tel:${t.public_phone}`}
+                    style={{
+                      padding: '0.45rem 0.85rem',
+                      borderRadius: '8px',
+                      backgroundColor: 'rgba(34, 197, 94, 0.15)',
+                      border: '1px solid #22c55e',
+                      color: '#4ade80',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      textDecoration: 'none',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.4rem'
+                    }}
+                  >
+                    <Icon name="phone" size={14} />
+                    Call {t.public_phone}
+                  </a>
+                )}
                 </div>
               </div>
             ))}
@@ -587,9 +631,13 @@ export const TraderDirectoryPage = () => {
                       fontSize: '0.72rem',
                       fontWeight: 700,
                       padding: '0.2rem 0.55rem',
-                      borderRadius: '12px'
+                      borderRadius: '12px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.35rem'
                     }}>
-                      🔵 FarmOS Registered Buyer
+                      <StatusDot color="#3b82f6" size={8} />
+                      FarmOS Registered Buyer
                     </span>
 
                     <span style={{
@@ -599,9 +647,13 @@ export const TraderDirectoryPage = () => {
                       fontSize: '0.72rem',
                       fontWeight: 700,
                       padding: '0.2rem 0.55rem',
-                      borderRadius: '12px'
+                      borderRadius: '12px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.35rem'
                     }}>
-                      🟢 Verified Account
+                      <StatusDot color="#22c55e" size={8} />
+                      Verified Account
                     </span>
 
                     {b.has_enam_ref && (
@@ -612,9 +664,13 @@ export const TraderDirectoryPage = () => {
                         fontSize: '0.72rem',
                         fontWeight: 700,
                         padding: '0.2rem 0.55rem',
-                        borderRadius: '12px'
+                        borderRadius: '12px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.35rem'
                       }}>
-                        🟣 e-NAM Reference Provided
+                        <StatusDot color="#a855f7" size={8} />
+                        e-NAM Reference Provided
                       </span>
                     )}
 
@@ -626,17 +682,23 @@ export const TraderDirectoryPage = () => {
                         fontSize: '0.72rem',
                         fontWeight: 700,
                         padding: '0.2rem 0.55rem',
-                        borderRadius: '12px'
+                        borderRadius: '12px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.35rem'
                       }}>
-                        📜 Udyam MSME Ref Provided
+                        <Icon name="scroll" size={13} />
+                        Udyam MSME Ref Provided
                       </span>
                     )}
                   </div>
 
                   {/* Details */}
                   <div style={{ fontSize: '0.83rem', color: '#c9d1d9', display: 'flex', flexDirection: 'column', gap: '0.35rem', marginBottom: '1rem' }}>
-                    <div>
-                      <strong style={{ color: '#8b949e' }}>Location:</strong> 📍 {b.district || b.location}, {b.state || ''} {b.mandi ? `(Mandi: ${b.mandi})` : ''}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                      <strong style={{ color: '#8b949e' }}>Location:</strong>
+                      <Icon name="mapPin" size={14} color="#8b949e" />
+                      {b.district || b.location}, {b.state || ''} {b.mandi ? `(Mandi: ${b.mandi})` : ''}
                     </div>
                     <div>
                       <strong style={{ color: '#8b949e' }}>Commodities Purchased:</strong> <span style={{ color: '#fbbf24', fontWeight: 600 }}>{b.commodities || 'Various Agricultural Commodities'}</span>
@@ -655,8 +717,8 @@ export const TraderDirectoryPage = () => {
                     color: '#8b949e',
                     marginBottom: '1rem'
                   }}>
-                    <div style={{ color: '#4ade80' }}>✓ FarmOS Account & Phone Registered</div>
-                    <div style={{ color: '#4ade80' }}>✓ Business profile reviewed by Admin</div>
+                    <div style={{ color: '#4ade80', display: 'flex', alignItems: 'center', gap: '0.35rem' }}><Icon name="checkCircle" size={13} color="#4ade80" /> FarmOS Account & Phone Registered</div>
+                    <div style={{ color: '#4ade80', display: 'flex', alignItems: 'center', gap: '0.35rem' }}><Icon name="checkCircle" size={13} color="#4ade80" /> Business profile reviewed by Admin</div>
                     <div style={{ color: '#8b949e' }}>
                       Consent to display contact: <strong>{b.show_contact_publicly ? 'Explicitly Granted' : 'Private'}</strong>
                     </div>
@@ -675,36 +737,45 @@ export const TraderDirectoryPage = () => {
                           backgroundColor: 'rgba(34, 197, 94, 0.15)',
                           border: '1px solid #22c55e',
                           color: '#4ade80',
-                          fontSize: '0.78rem',
-                          fontWeight: 700,
-                          textDecoration: 'none'
-                        }}
-                      >
-                        📞 Call {b.phone}
-                      </a>
-                      <a
-                        href={`https://wa.me/${b.phone.replace(/[^0-9]/g, '')}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          padding: '0.45rem 0.85rem',
-                          borderRadius: '8px',
-                          backgroundColor: 'rgba(16, 185, 129, 0.15)',
-                          border: '1px solid #10b981',
-                          color: '#34d399',
-                          fontSize: '0.78rem',
-                          fontWeight: 700,
-                          textDecoration: 'none'
-                        }}
-                      >
-                        💬 WhatsApp
-                      </a>
-                    </>
-                  ) : (
-                    <span style={{ fontSize: '0.78rem', color: '#6b7280', fontStyle: 'italic' }}>
-                      🔒 Contact information kept private per buyer request
-                    </span>
-                  )}
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      textDecoration: 'none',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.4rem'
+                    }}
+                  >
+                    <Icon name="phone" size={14} />
+                    Call {b.phone}
+                  </a>
+                  <a
+                    href={`https://wa.me/${b.phone.replace(/[^0-9]/g, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      padding: '0.45rem 0.85rem',
+                      borderRadius: '8px',
+                      backgroundColor: 'rgba(16, 185, 129, 0.15)',
+                      border: '1px solid #10b981',
+                      color: '#34d399',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      textDecoration: 'none',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.4rem'
+                    }}
+                  >
+                    <Icon name="message" size={14} />
+                    WhatsApp
+                  </a>
+                </>
+              ) : (
+                <span style={{ fontSize: '0.78rem', color: '#6b7280', fontStyle: 'italic', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                  <Icon name="lock" size={13} color="#6b7280" />
+                  Contact information kept private per buyer request
+                </span>
+              )}
                 </div>
               </div>
             ))}
