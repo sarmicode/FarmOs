@@ -3,6 +3,10 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import API from '../../api/axios'
 import { useAuth } from '../../context/AuthContext'
 import { useLanguage } from '../../context/LanguageContext'
+import { AuthShell, PasswordField } from '../../components/ui/AuthShell'
+import { Button } from '../../components/ui/Button'
+import { Icon } from '../../components/ui/Icon'
+import { motion, AnimatePresence } from 'framer-motion'
 import './auth.css'
 
 export const LoginPage = () => {
@@ -57,16 +61,27 @@ export const LoginPage = () => {
   }
 
   return (
-    <div className="auth-wrapper">
-      <div className="auth-card">
-        <h2 className="auth-title">{t('auth.signIn')}</h2>
-        <p className="auth-subtitle">{t('auth.signInSub')}</p>
+    <AuthShell
+      title={t('auth.signIn')}
+      subtitle={t('auth.signInSub')}
+      footer={<>{t('auth.noAccount')} <Link to="/register">{t('nav.register')}</Link></>}
+    >
+      <AnimatePresence>
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -8, height: 0 }} animate={{ opacity: 1, y: 0, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
+            className="alert-message alert-error" role="alert" style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}
+          >
+            <Icon name="alert" size={16} /> {error}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-        {error && <div className="alert-message alert-error">{error}</div>}
-
-        <form onSubmit={handleSubmit} className="auth-form" style={{ marginTop: error ? '1rem' : '0' }}>
-          <div className="form-group">
-            <label htmlFor="email">{t('auth.emailAddr')}</label>
+      <form onSubmit={handleSubmit} className="auth-form">
+        <div className="form-group">
+          <label htmlFor="email">{t('auth.emailAddr')}</label>
+          <div className="input-with-icon">
+            <Icon name="mail" size={17} className="input-icon" />
             <input
               type="email"
               id="email"
@@ -75,33 +90,29 @@ export const LoginPage = () => {
               placeholder="e.g. farmer@test.com"
               value={formData.email}
               onChange={handleChange}
+              autoComplete="email"
               required
             />
           </div>
+        </div>
 
-          <div className="form-group">
-            <label htmlFor="password">{t('auth.password')}</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="form-control"
-              placeholder="••••••••"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
+        <PasswordField
+          label={t('auth.password')}
+          value={formData.password}
+          onChange={handleChange}
+          autoComplete="current-password"
+        />
 
-          <button type="submit" className="auth-btn" disabled={loading}>
-            {loading ? t('common.loading') : t('nav.login')}
-          </button>
-        </form>
+        <Button type="submit" variant="primary" size="lg" block loading={loading} icon="arrowRight" iconRight style={{ marginTop: '0.35rem' }}>
+          {loading ? t('common.loading') : t('nav.login')}
+        </Button>
+      </form>
 
-        <p className="auth-footer-text">
-          {t('auth.noAccount')} <Link to="/register">{t('nav.register')}</Link>
-        </p>
+      <div className="auth-divider"><span>quick access</span></div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.6rem' }}>
+        <Button variant="outline" size="sm" icon="chartUp" to="/market-prices">Market prices</Button>
+        <Button variant="outline" size="sm" icon="bot" to="/assistant">Ask FarmOS AI</Button>
       </div>
-    </div>
+    </AuthShell>
   )
 }
