@@ -167,10 +167,25 @@ export const LandingPage = () => {
               </motion.div>
 
               <motion.h1 variants={fadeInUp} className="ag-heading-xl ag-hero-headline">
-                <Typewriter text="Connecting Every Harvest" speed={60} delay={350} onDone={() => setHeadlineTyped(true)} />
+                {/* Brand wordmark types itself out first… */}
+                <Typewriter
+                  text="-FarmOS-"
+                  speed={70}
+                  delay={350}
+                  onDone={() => setHeadlineTyped(true)}
+                  className="ag-hero-wordmark"
+                />
                 <br />
+                {/* …then the tagline rises in word by word. */}
                 <span style={{ display: 'inline-block', minHeight: '1.1em' }}>
-                  {headlineTyped && <SplitText text="to Its Best Opportunity" as="span" delay={0.05} className="fx-gradient-text" />}
+                  {headlineTyped && (
+                    <SplitText
+                      text="Connecting Every Harvest to Its Best Opportunity"
+                      as="span"
+                      delay={0.05}
+                      className="fx-gradient-text"
+                    />
+                  )}
                 </span>
               </motion.h1>
 
