@@ -596,6 +596,9 @@
 
 @media (max-width: 768px) {
   .ag-hero-section { padding: 2.25rem 0 3rem 0; }
+  .ag-heading-lg { font-size: clamp(1.5rem, 6.2vw, 2rem); line-height: 1.2; }
+  .ag-heading-xl { font-size: clamp(1.9rem, 8.5vw, 2.6rem); }
+  .ag-body-lg { font-size: 0.95rem; }
   .ag-ticker-label span { display: none; }
   .ag-mock-stats-row { grid-template-columns: repeat(2, 1fr); }
   .ag-float-badge { font-size: 0.7rem; padding: 0.35rem 0.65rem; }
@@ -613,6 +616,8 @@
   .ag-float-badge-b { display: none; }
   .ag-hero-mock-canvas { padding: 0.75rem; }
   .ag-mock-dashboard-preview { padding: 0.85rem; }
+  .ag-heading-lg { font-size: 1.45rem; }
+  .ag-badge { font-size: 0.72rem; padding: 0.3rem 0.75rem; }
   .ag-hero-actions .fx-btn { width: 100%; }
   .ag-hero-actions > div { width: 100%; display: block !important; }
   .ag-hero-actions {

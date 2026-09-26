@@ -191,6 +191,34 @@ export const SplitText = ({ text, as = 'span', delay = 0, stagger = 0.045, class
   )
 }
 
+/** Typewriter — types `text` char by char with a blinking caret. Calls onDone when finished. */
+export const Typewriter = ({ text, speed = 55, delay = 300, caret = true, onDone, className, style, as: Tag = 'span' }) => {
+  const reduce = useReducedMotion()
+  const [count, setCount] = useState(reduce ? text.length : 0)
+  const [done, setDone] = useState(Boolean(reduce))
+  useEffect(() => {
+    if (reduce) { onDone?.(); return }
+    let i = 0
+    let timer
+    const start = setTimeout(function tick() {
+      i += 1
+      setCount(i)
+      if (i < text.length) timer = setTimeout(tick, speed + (text[i - 1] === ' ' ? 40 : 0))
+      else { setDone(true); onDone?.() }
+    }, delay)
+    return () => { clearTimeout(start); clearTimeout(timer) }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [text, speed, delay, reduce])
+  return (
+    <Tag className={className} style={style} aria-label={text}>
+      <span aria-hidden="true">{text.slice(0, count)}</span>
+      {caret && (
+        <span aria-hidden="true" className={done ? 'fx-caret fx-caret-done' : 'fx-caret'} />
+      )}
+    </Tag>
+  )
+}
+
 /** Infinite horizontal ticker. `items` are rendered twice for a seamless loop. */
 export const Ticker = ({ items, render, speed = 45, style, className = '' }) => (
   <div className={`fx-marquee ${className}`} style={style} aria-hidden="false">

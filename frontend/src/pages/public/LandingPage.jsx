@@ -9,7 +9,7 @@ import {
 import { useLanguage } from '../../context/LanguageContext'
 import { Footer } from '../../components/Footer'
 import { Reveal, Stagger, StaggerItem, AnimatedNumber } from '../../components/ui/Motion'
-import { SplitText, TiltCard, SpotlightCard, Ticker, Magnetic, LivePulse } from '../../components/ui/Effects'
+import { SplitText, TiltCard, SpotlightCard, Ticker, Magnetic, LivePulse, Typewriter } from '../../components/ui/Effects'
 import { Button } from '../../components/ui/Button'
 import { NetReturnCalculator } from '../../components/ui/NetReturnCalculator'
 import './LandingPage.css'
@@ -50,6 +50,7 @@ export const LandingPage = () => {
   const [demoCrop, setDemoCrop] = useState('Potato')
   const [demoQty, setDemoQty] = useState('500')
   const [demoLocation, setDemoLocation] = useState('Kolkata')
+  const [headlineTyped, setHeadlineTyped] = useState(false)
 
   const handleDemoSubmit = (e) => {
     e.preventDefault()
@@ -166,9 +167,11 @@ export const LandingPage = () => {
               </motion.div>
 
               <motion.h1 variants={fadeInUp} className="ag-heading-xl ag-hero-headline">
-                <SplitText text="Connecting Every Harvest" as="span" delay={0.15} />
+                <Typewriter text="Connecting Every Harvest" speed={60} delay={350} onDone={() => setHeadlineTyped(true)} />
                 <br />
-                <SplitText text="to Its Best Opportunity" as="span" delay={0.45} className="fx-gradient-text" />
+                <span style={{ display: 'inline-block', minHeight: '1.1em' }}>
+                  {headlineTyped && <SplitText text="to Its Best Opportunity" as="span" delay={0.05} className="fx-gradient-text" />}
+                </span>
               </motion.h1>
 
               <motion.p variants={fadeInUp} className="ag-body-lg ag-hero-subtext">
