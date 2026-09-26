@@ -1,4 +1,5 @@
 import React from 'react'
+import { Icon } from './Icon'
 
 export const MetricCard = ({ icon, title, value, subtitle, color = 'emerald', onClick }) => {
   const colorStyles = {
@@ -37,10 +38,9 @@ export const MetricCard = ({ icon, title, value, subtitle, color = 'emerald', on
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: '1.4rem',
           flexShrink: 0
         }}>
-          {icon}
+          <Icon name={icon} size={22} color={selectedColor.color} />
         </div>
         <div>
           <span style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', display: 'block' }}>

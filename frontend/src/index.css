@@ -33,7 +33,6 @@
   --ag-radius-full: 9999px;
 
   /* Backward Compatibility Variables */
-  --bg-primary: #f7faf8;
   --bg-secondary: #ebf3ed;
   --sidebar-bg: #0b3d2e;
   --sidebar-active: rgba(16, 185, 129, 0.18);
@@ -47,12 +46,28 @@
   --text-heading: #10231b;
   --text-body: #2d4237;
   --text-muted: #647d70;
+  --bg-primary: #0d1117;
   --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --accent-gold: #10b981;
   --accent-gold-light: #34d399;
   --accent-gold-muted: #059669;
   --accent-gold-glow: rgba(16, 185, 129, 0.25);
   --border-color: #e2e8f0;
+
+  /* ---------- Dark "market-data" surface theme ---------- */
+  /* Consumed by MandiPrices, WeatherCard, MarketComparison, EnamInfo,
+     FarmOSAssistant, Marketplace & their hosting pages. These were referenced
+     but never defined, which produced unreadable dark-on-dark text. */
+  --bg-primary: #0d1117;
+  --bg-card: #161b22;
+  --text-primary: #f0f6fc;
+  --text-secondary: #c9d1d9;
+  --border-gold: #d4af37;
+  --border-accent: rgba(46, 160, 67, 0.45);
+  --accent-green: #2ea043;
+  --accent-green-bright: #3fb950;
+  --accent-green-muted: #238636;
+  --accent-green-glow: rgba(46, 160, 67, 0.25);
 }
 
 * {
@@ -163,4 +178,79 @@ input, select, textarea, button {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- FarmOS Motion Utilities (CSS layer) ---------- */
+@keyframes farmos-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes farmos-bob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-4px) rotate(-3deg); }
+  66% { transform: translateY(2px) rotate(3deg); }
+}
+
+@keyframes farmos-pulse-glow {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.45); }
+  70% { box-shadow: 0 0 0 14px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+@keyframes farmos-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes farmos-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes farmos-pop-in {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes farmos-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.farmos-icon {
+  display: inline-block;
+}
+
+.farmos-float { animation: farmos-float 4s ease-in-out infinite; }
+.farmos-bob { animation: farmos-bob 5s ease-in-out infinite; }
+.farmos-pulse-glow { animation: farmos-pulse-glow 2.4s ease-out infinite; }
+.farmos-pop-in { animation: farmos-pop-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.farmos-rise { animation: farmos-rise 0.5 cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+.farmos-shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0) 100%);
+  background-size: 200% 100%;
+  animation: farmos-shimmer 1.6s linear infinite;
+}
+
+.farmos-animated-gradient {
+  background-size: 220% 220%;
+  animation: farmos-gradient 8s ease infinite;
+}
+
+/* Universal smooth interaction transitions for interactive surfaces */
+button, a, .farmos-transition {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+/* Accessibility: honour reduced-motion preference across the app */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import TrustBadge from '../TrustBadge'
 import { Link } from 'react-router-dom'
+import { Icon } from './Icon'
 
 export const FarmProfileCard = ({ user }) => {
   if (!user) return null
@@ -15,7 +16,7 @@ export const FarmProfileCard = ({ user }) => {
       boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)'
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-        <span style={{ fontSize: '1.2rem' }}>🧑‍🌾</span>
+        <Icon name="tractor" size={22} color="#10b981" />
         <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>
           Farm Profile
         </h3>
@@ -52,20 +53,20 @@ export const FarmProfileCard = ({ user }) => {
       {/* Details List */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.85rem', color: '#475569', marginBottom: '1.25rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <span>📍</span>
+          <Icon name="mapPin" size={16} color="#64748b" />
           <span>{user.location || user.village || 'Kolkata, West Bengal'}</span>
         </div>
 
         {user.farm_size && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span>🌱</span>
+            <Icon name="sprout" size={16} color="#64748b" />
             <span>Farm Size: <strong>{user.farm_size}</strong></span>
           </div>
         )}
 
         {user.crops_grown && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span>🌾</span>
+            <Icon name="wheat" size={16} color="#64748b" />
             <span>Main Crops: <strong>{user.crops_grown}</strong></span>
           </div>
         )}

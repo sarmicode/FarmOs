@@ -1,71 +1,76 @@
 import React from 'react'
+import { Icon } from './ui/Icon'
 
 /**
  * TrustBadge component to standardise verification status presentation across FarmOS.
- * Accepts `status`, `role`, `type`, `sourceVerified`, or `size` ('sm', 'md', 'lg').
+ * Accepts `status`, `role`, `sourceVerified`, or `size` ('sm', 'md', 'lg').
+ *
+ * NOTE: Previously this relied on Tailwind utility classes (e.g. `bg-emerald-100`),
+ * but the project does not ship Tailwind — so badges rendered completely unstyled.
+ * It now uses inline styles consistent with the rest of the app and crisp SVG icons
+ * instead of emoji.
  */
 const TrustBadge = ({ status, role = 'farmer', sourceVerified = null, size = 'md' }) => {
-  let badgeText = ''
-  let badgeColor = ''
-  let badgeIcon = ''
+  let badge = { text: '', bg: '#f1f5f9', color: '#475569', border: '#cbd5e1', icon: 'circle' }
 
-  const isVerified = status === 'verified' || status === 'government_verified' || status === 'official_registry_verified' || sourceVerified === 'FarmOS Verified Business'
+  const isVerified =
+    status === 'verified' ||
+    status === 'government_verified' ||
+    status === 'official_registry_verified' ||
+    sourceVerified === 'FarmOS Verified Business'
 
   if (role === 'farmer') {
     if (isVerified) {
-      badgeText = 'FarmOS Verified Farmer'
-      badgeColor = 'bg-emerald-100 text-emerald-800 border-emerald-300'
-      badgeIcon = '🟢'
+      badge = { text: 'FarmOS Verified Farmer', bg: '#dcfce7', color: '#166534', border: '#a7f3d0', icon: 'shieldCheck' }
     } else if (status === 'pending') {
-      badgeText = 'Verification Pending'
-      badgeColor = 'bg-amber-100 text-amber-800 border-amber-300'
-      badgeIcon = '⏳'
+      badge = { text: 'Verification Pending', bg: '#fef3c7', color: '#92400e', border: '#fcd34d', icon: 'clock' }
     } else {
-      badgeText = 'Unverified Farmer'
-      badgeColor = 'bg-slate-100 text-slate-700 border-slate-300'
-      badgeIcon = '⚪'
+      badge = { text: 'Unverified Farmer', bg: '#f1f5f9', color: '#475569', border: '#cbd5e1', icon: 'circle' }
     }
   } else if (role === 'buyer') {
     if (isVerified) {
-      badgeText = 'FarmOS Verified Buyer'
-      badgeColor = 'bg-emerald-100 text-emerald-800 border-emerald-300'
-      badgeIcon = '🟢'
+      badge = { text: 'FarmOS Verified Buyer', bg: '#dcfce7', color: '#166534', border: '#a7f3d0', icon: 'shieldCheck' }
     } else if (status === 'pending') {
-      badgeText = 'FarmOS Registered Buyer (Pending Audit)'
-      badgeColor = 'bg-sky-100 text-sky-800 border-sky-300'
-      badgeIcon = '🔵'
+      badge = { text: 'Registered Buyer (Pending Audit)', bg: '#e0f2fe', color: '#075985', border: '#7dd3fc', icon: 'clock' }
     } else {
-      badgeText = 'FarmOS Registered Buyer'
-      badgeColor = 'bg-blue-100 text-blue-800 border-blue-300'
-      badgeIcon = '🔵'
+      badge = { text: 'FarmOS Registered Buyer', bg: '#dbeafe', color: '#1e40af', border: '#93c5fd', icon: 'badgeCheck' }
     }
   } else if (role === 'trader' || role === 'public_trader') {
     if (isVerified) {
-      badgeText = 'FarmOS Verified Business'
-      badgeColor = 'bg-emerald-100 text-emerald-800 border-emerald-300'
-      badgeIcon = '🟢'
+      badge = { text: 'FarmOS Verified Business', bg: '#dcfce7', color: '#166534', border: '#a7f3d0', icon: 'shieldCheck' }
     } else {
-      badgeText = 'Public Listing'
-      badgeColor = 'bg-slate-100 text-slate-700 border-slate-300'
-      badgeIcon = '📋'
+      badge = { text: 'Public Listing', bg: '#f1f5f9', color: '#475569', border: '#cbd5e1', icon: 'building' }
     }
   } else {
     // Admin or generic
-    badgeText = 'FarmOS Verified Admin'
-    badgeColor = 'bg-purple-100 text-purple-800 border-purple-300'
-    badgeIcon = '🛡️'
+    badge = { text: 'FarmOS Verified Admin', bg: '#f3e8ff', color: '#6b21a8', border: '#d8b4fe', icon: 'shieldCheck' }
   }
 
-  const sizeClasses = {
-    sm: 'text-xs px-2 py-0.5 font-medium',
-    md: 'text-sm px-2.5 py-1 font-semibold',
-    lg: 'text-base px-3 py-1.5 font-bold'
-  }[size] || 'text-sm px-2.5 py-1 font-semibold'
+  const sizeStyles = {
+    sm: { fontSize: '0.72rem', padding: '0.15rem 0.55rem', iconSize: 13 },
+    md: { fontSize: '0.8rem', padding: '0.25rem 0.7rem', iconSize: 15 },
+    lg: { fontSize: '0.9rem', padding: '0.35rem 0.85rem', iconSize: 17 },
+  }[size] || { fontSize: '0.8rem', padding: '0.25rem 0.7rem', iconSize: 15 }
 
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full border shadow-xs ${badgeColor} ${sizeClasses}`}>
-      <span>{badgeIcon}</span>
-      <span>{badgeText}</span>
+    <span
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '0.35rem',
+        borderRadius: 999,
+        border: `1px solid ${badge.border}`,
+        backgroundColor: badge.bg,
+        color: badge.color,
+        fontSize: sizeStyles.fontSize,
+        fontWeight: 700,
+        padding: sizeStyles.padding,
+        whiteSpace: 'nowrap',
+        lineHeight: 1.4,
+      }}
+    >
+      <Icon name={badge.icon} size={sizeStyles.iconSize} color={badge.color} strokeWidth={2.2} />
+      <span>{badge.text}</span>
     </span>
   )
 }

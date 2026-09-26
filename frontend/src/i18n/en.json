@@ -84,13 +84,13 @@
     "contactPrivate": "Contact information kept private per buyer request"
   },
   "badges": {
-    "sourceVerified": "🟢 FarmOS Verified Business",
-    "websiteVerified": "🌐 Public Business Info",
-    "unverified": "🏢 Public Listing",
-    "registeredBuyer": "🔵 FarmOS Registered Buyer",
-    "verifiedAccount": "🟢 Verified Account",
-    "enamRef": "🟣 e-NAM Reference Provided",
-    "udyamRef": "📜 Udyam MSME Ref Provided"
+    "sourceVerified": "FarmOS Verified Business",
+    "websiteVerified": "Public Business Info",
+    "unverified": "Public Listing",
+    "registeredBuyer": "FarmOS Registered Buyer",
+    "verifiedAccount": "Verified Account",
+    "enamRef": "e-NAM Reference Provided",
+    "udyamRef": "Udyam MSME Ref Provided"
   },
   "market": {
     "title": "Live Mandi Market Prices",
@@ -156,7 +156,7 @@
     "accountType": "Account Type",
     "roleFarmer": "Farmer (Produce Seller)",
     "roleBuyer": "Buyer (Voluntary Registered Buyer Account)",
-    "buyerBusinessProfile": "🏢 Buyer Business Profile Details",
+    "buyerBusinessProfile": "Buyer Business Profile Details",
     "businessName": "Business / Company Name",
     "optEnamRef": "Optional e-NAM Reference",
     "optUdyamRef": "Optional Udyam/MSME Ref",
@@ -166,12 +166,12 @@
     "noAccount": "Don't have an account?"
   },
   "farmer": {
-    "title": "🧑‍🌾 Farmer Dashboard",
+    "title": "Farmer Dashboard",
     "welcomeBack": "Welcome back",
     "totalListings": "Total Listings",
     "activeHarvests": "Active Harvests",
     "totalQuantity": "Total Quantity Listed",
-    "postNewHarvest": "➕ Post New Harvest",
+    "postNewHarvest": "Post New Harvest",
     "cropName": "Crop Name *",
     "unit": "Unit *",
     "pricePerUnit": "Price per Unit (₹) *",
@@ -179,12 +179,12 @@
     "harvestDesc": "Harvest Description (Optional)",
     "posting": "Posting...",
     "postHarvestBtn": "Post Harvest Listing",
-    "myHarvests": "📋 My Harvest Listings",
+    "myHarvests": "My Harvest Listings",
     "noHarvests": "No Harvest Listings Found",
     "noHarvestsDesc": "You haven't posted any harvest listings yet. Fill out the form above to add your first harvest!"
   },
   "buyer": {
-    "title": "🏢 Buyer Dashboard",
+    "title": "Buyer Dashboard",
     "browseMarketplace": "Browse Produce Marketplace",
     "myOrders": "My Purchase Orders",
     "availableProduce": "Available Produce Harvests",
@@ -194,14 +194,14 @@
     "orderStatus": "Order Status"
   },
   "admin": {
-    "title": "⚙️ FarmOS Administration Portal",
+    "title": "FarmOS Administration Portal",
     "subtitle": "Review registered buyer applications & manage external public trader directory entries.",
     "tabPendingBuyers": "⏳ Pending Buyer Approvals",
-    "tabTraderManagement": "🏬 Public Trader Directory Management",
-    "tabSystemStats": "📊 System Overview Stats",
-    "verifyBuyerBtn": "✅ Verify Buyer",
-    "rejectBuyerBtn": "❌ Reject",
-    "addPublicRecordBtn": "➕ Add Verified Public Record",
+    "tabTraderManagement": "Public Trader Directory Management",
+    "tabSystemStats": "System Overview Stats",
+    "verifyBuyerBtn": "Verify Buyer",
+    "rejectBuyerBtn": "Reject",
+    "addPublicRecordBtn": "Add Verified Public Record",
     "totalUsers": "Total Users",
     "totalFarmers": "Total Farmers",
     "totalBuyers": "Total Buyers",

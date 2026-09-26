@@ -1,5 +1,6 @@
 import React from 'react'
 import TrustBadge from '../TrustBadge'
+import { Icon } from './Icon'
 
 export const HeroBanner = ({ userName, location, verificationStatus, role = 'farmer' }) => {
   return (
@@ -19,7 +20,8 @@ export const HeroBanner = ({ userName, location, verificationStatus, role = 'far
     }}>
       <div style={{ color: '#ffffff', maxWidth: '650px', zIndex: 2 }}>
         <h1 style={{ fontSize: '1.95rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          Good morning, {userName || 'Farmer'} 🌱
+          Good morning, {userName || 'Farmer'}
+          <Icon name="sprout" size={26} color="#6ee7b7" />
         </h1>
         <p style={{ fontSize: '0.95rem', color: '#e2e8f0', marginBottom: '1rem', fontWeight: 500 }}>
           Let's find the best opportunity for your harvest today.
@@ -39,7 +41,7 @@ export const HeroBanner = ({ userName, location, verificationStatus, role = 'far
             fontWeight: 600,
             color: '#ffffff'
           }}>
-            <span>📍</span>
+            <Icon name="mapPin" size={15} color="#ffffff" />
             <span>{location || 'West Bengal, Kolkata'}</span>
           </div>
 
@@ -64,7 +66,7 @@ export const HeroBanner = ({ userName, location, verificationStatus, role = 'far
         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)'
       }}>
         <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-          <span style={{ fontSize: '1.3rem' }}>🌱</span>
+          <Icon name="sprout" size={20} color="#6ee7b7" />
           <p style={{ fontSize: '0.82rem', fontWeight: 600, lineHeight: 1.4, margin: 0 }}>
             Better decisions today. Bigger harvests tomorrow.
           </p>
