@@ -184,6 +184,9 @@
 .ag-hero-headline {
   color: #10231b;
   margin: 1.1rem 0 1.25rem 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 /* Typed brand wordmark above the tagline ("-FarmOS-") */
@@ -196,6 +199,41 @@
 }
 
 .ag-hero-headline .fx-caret { background: #0b3d2e; }
+
+/* Tagline beneath wordmark ("Connecting Every Harvest to Its Best Opportunity") */
+.ag-hero-tagline-wrap {
+  display: block;
+  min-height: 1.2em;
+  margin-top: 0.35rem;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.ag-hero-tagline,
+.ag-hero-headline .fx-gradient-text {
+  display: block;
+  font-size: clamp(1.85rem, 3.2vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #10b981;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+/* Ensure all nested words/spans in the tagline are fully visible */
+.ag-hero-tagline span,
+.ag-hero-headline .fx-gradient-text span,
+.ag-hero-headline .fx-gradient-text [style*="inline-block"] {
+  color: #10b981;
+  -webkit-text-fill-color: #10b981;
+  white-space: normal;
+  visibility: visible;
+}
 
 .ag-hero-subtext {
   color: #475569;

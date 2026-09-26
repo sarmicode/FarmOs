@@ -175,15 +175,14 @@ export const LandingPage = () => {
                   onDone={() => setHeadlineTyped(true)}
                   className="ag-hero-wordmark"
                 />
-                <br />
                 {/* …then the tagline rises in word by word. */}
-                <span style={{ display: 'inline-block', minHeight: '1.1em' }}>
+                <span className="ag-hero-tagline-wrap">
                   {headlineTyped && (
                     <SplitText
                       text="Connecting Every Harvest to Its Best Opportunity"
                       as="span"
                       delay={0.05}
-                      className="fx-gradient-text"
+                      className="ag-hero-tagline fx-gradient-text"
                     />
                   )}
                 </span>
