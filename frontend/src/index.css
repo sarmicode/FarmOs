@@ -504,3 +504,15 @@ button:focus:not(:focus-visible), a:focus:not(:focus-visible) { outline: none; }
 
 /* Headings: never overflow on narrow phones */
 h1, h2, h3 { overflow-wrap: anywhere; text-wrap: balance; }
+
+/* Prevent grid/flex children from forcing the page wider than the phone */
+.ag-hero-grid > *, .ag-engine-split > *, .nrc-grid > *, .ag-stats-grid > *, .ag-features-5grid > *,
+.farmer-dashboard-split > *, .fx-marquee, .ag-ticker-bar > * { min-width: 0; }
+.ag-container { min-width: 0; }
+.table-responsive { max-width: 100%; }
+.ag-table { min-width: 620px; }
+@media (max-width: 768px) {
+  .ag-engine-input-card, .ag-engine-table-card, .nrc-card, .ag-decision-container, .ag-feature-box { max-width: 100%; overflow: hidden; }
+  .table-responsive { margin: 0 -0.25rem; padding: 0 0.25rem; }
+  .ag-table th, .ag-table td { padding: 0.7rem 0.6rem; font-size: 0.85rem; white-space: nowrap; }
+}

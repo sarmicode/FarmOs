@@ -20,6 +20,15 @@ export const FloatingAssistant = () => {
     return () => clearTimeout(t)
   }, [hintDismissed])
 
+  // Lock page scroll behind the sheet on phones
+  useEffect(() => {
+    const isPhone = window.matchMedia('(max-width: 768px)').matches
+    if (isOpen && isPhone) {
+      document.body.style.overflow = 'hidden'
+      return () => { document.body.style.overflow = '' }
+    }
+  }, [isOpen])
+
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') setIsOpen(false) }
     window.addEventListener('keydown', onKey)
@@ -29,7 +38,7 @@ export const FloatingAssistant = () => {
   if (hidden) return null
 
   return (
-    <div className="floating-assistant-wrapper" style={{ position: 'fixed', bottom: 'calc(24px + var(--safe-bottom))', right: '24px', zIndex: 9999 }}>
+    <div className={`floating-assistant-wrapper ${isOpen ? 'is-open' : ''}`} style={{ position: 'fixed', bottom: 'calc(24px + var(--safe-bottom))', right: '24px', zIndex: 9999 }}>
       <AnimatePresence>
         {!isOpen && (
           <motion.div
@@ -130,7 +139,15 @@ export const FloatingAssistant = () => {
       <style>{`
         @media (max-width: 768px) {
           .floating-assistant-wrapper { bottom: calc(84px + var(--safe-bottom)) !important; right: 14px !important; }
-          .floating-assistant-panel { height: calc(100vh - 110px) !important; width: calc(100vw - 28px) !important; }
+          /* Open state = full-screen sheet, sized with dvh so the browser UI never covers it */
+          .floating-assistant-wrapper.is-open { inset: 0 !important; bottom: 0 !important; right: 0 !important; }
+          .floating-assistant-panel {
+            width: 100vw !important; max-width: 100vw !important;
+            height: 100dvh !important; max-height: 100dvh !important;
+            border-radius: 0 !important; border: none !important;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: var(--safe-bottom);
+          }
           .fab-hint { display: none; }
         }
         @media (max-width: 420px) {
