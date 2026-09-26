@@ -400,8 +400,16 @@ button:focus:not(:focus-visible), a:focus:not(:focus-visible) { outline: none; }
   background-size: 200% 200%;
   -webkit-background-clip: text;
   background-clip: text;
-  color: transparent;
+  -webkit-text-fill-color: transparent;
+  color: #10b981;
   animation: farmos-gradient 6s ease infinite;
+}
+
+/* Ensure nested elements (e.g. SplitText words/spans) are always clearly visible */
+.fx-gradient-text span,
+.fx-gradient-text * {
+  color: #10b981;
+  -webkit-text-fill-color: initial;
 }
 
 .fx-glow-border {

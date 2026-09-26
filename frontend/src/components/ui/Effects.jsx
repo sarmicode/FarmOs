@@ -168,24 +168,26 @@ export const SplitText = ({ text, as = 'span', delay = 0, stagger = 0.045, class
     <Tag
       className={className}
       style={style}
-      initial="hidden"
+      initial={reduce ? 'visible' : 'hidden'}
       animate="visible"
       variants={{ visible: { transition: { staggerChildren: reduce ? 0 : stagger, delayChildren: delay } } }}
       aria-label={text}
     >
       {words.map((w, i) => (
-        <span key={i} style={{ display: 'inline-block', overflow: 'hidden', verticalAlign: 'bottom', paddingBottom: '0.08em', marginBottom: '-0.08em' }}>
-          <motion.span
-            style={{ display: 'inline-block', willChange: 'transform' }}
-            variants={{
-              hidden: { y: '110%', opacity: 0, rotate: 4 },
-              visible: { y: 0, opacity: 1, rotate: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
-            }}
-          >
-            {w}
-          </motion.span>
-          {i < words.length - 1 ? '\u00A0' : ''}
-        </span>
+        <React.Fragment key={i}>
+          <span style={{ display: 'inline-block', overflow: 'hidden', verticalAlign: 'bottom', paddingBottom: '0.08em', marginBottom: '-0.08em' }}>
+            <motion.span
+              style={{ display: 'inline-block', willChange: 'transform' }}
+              variants={{
+                hidden: { y: reduce ? 0 : '110%', opacity: reduce ? 1 : 0, rotate: reduce ? 0 : 4 },
+                visible: { y: 0, opacity: 1, rotate: 0, transition: { duration: reduce ? 0 : 0.6, ease: [0.16, 1, 0.3, 1] } },
+              }}
+            >
+              {w}
+            </motion.span>
+          </span>
+          {i < words.length - 1 ? ' ' : ''}
+        </React.Fragment>
       ))}
     </Tag>
   )
