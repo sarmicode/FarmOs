@@ -486,12 +486,96 @@
   text-align: center;
 }
 
+/* ================= 0. TICKER BAR ================= */
+.ag-ticker-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #0b2319;
+  color: #e2f5ea;
+  padding: 0.45rem 1.25rem;
+  border-bottom: 1px solid rgba(16, 185, 129, 0.25);
+  font-size: 0.8rem;
+}
+.ag-ticker-label {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-weight: 900; letter-spacing: 0.12em; font-size: 0.68rem; color: #34d399;
+  padding-right: 0.85rem; border-right: 1px solid rgba(255,255,255,0.12); flex-shrink: 0;
+}
+.ag-ticker-item {
+  display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap;
+  padding: 0.25rem 0.75rem; border-radius: 999px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+}
+.ag-ticker-item strong { color: #ffffff; }
+.ag-ticker-market { color: #8fa598; }
+.ag-ticker-up { color: #34d399; font-weight: 700; }
+.ag-ticker-down { color: #f87171; font-weight: 700; }
+
+/* Hero dotted grid backdrop */
+.ag-hero-grid-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(rgba(16,185,129,0.16) 1px, transparent 1px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(ellipse at 30% 20%, #000 20%, transparent 70%);
+  mask-image: radial-gradient(ellipse at 30% 20%, #000 20%, transparent 70%);
+}
+
+.ag-hero-ghost-cta { color: #0b3d2e; }
+
+/* Floating badges around hero preview */
+.ag-float-badge {
+  position: absolute; z-index: 3;
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  background: #ffffff; border: 1px solid #d6e4db; border-radius: 999px;
+  padding: 0.45rem 0.85rem; font-size: 0.78rem; font-weight: 800; color: #10231b;
+  box-shadow: 0 12px 30px rgba(11, 35, 25, 0.12);
+  white-space: nowrap;
+}
+.ag-float-badge-a { top: -14px; left: -18px; }
+.ag-float-badge-b { bottom: 26px; right: -16px; background: #dcfce7; border-color: #a7f3d0; color: #166534; }
+
+/* ================= 1b. STATS STRIP ================= */
+.ag-stats-strip { padding: 0 0 3rem 0; margin-top: -1.5rem; position: relative; z-index: 2; }
+.ag-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.ag-stat-card {
+  background: #ffffff; border: 1px solid #d6e4db; border-radius: 18px; padding: 1.25rem 1.35rem;
+  box-shadow: var(--ag-shadow-md); height: 100%;
+  transition: transform 0.25s var(--fx-ease), box-shadow 0.25s var(--fx-ease), border-color 0.25s;
+}
+.ag-stat-card:hover { transform: translateY(-4px); border-color: #a7f3d0; box-shadow: var(--ag-shadow-lg); }
+.ag-stat-icon { width: 38px; height: 38px; border-radius: 11px; background: #dcfce7; color: #166534; display: grid; place-items: center; margin-bottom: 0.7rem; }
+.ag-stat-value { font-size: 1.75rem; font-weight: 900; color: #0b3d2e; letter-spacing: -0.03em; line-height: 1.1; }
+.ag-stat-label { font-size: 0.8rem; color: #647d70; font-weight: 600; margin-top: 0.25rem; }
+
+/* Workflow connector */
+.ag-workflow-line { position: absolute; left: 0; right: 0; top: 14px; width: 100%; height: 30px; pointer-events: none; z-index: 0; }
+.ag-workflow-card { z-index: 1; }
+.ag-workflow-node { position: relative; background-color: #ffffff; }
+.ag-workflow-step {
+  position: absolute; top: -8px; right: -8px; width: 22px; height: 22px; border-radius: 50%;
+  background: #0b3d2e; color: #fff; font-size: 0.62rem; font-weight: 900; display: grid; place-items: center;
+  border: 2px solid #fff;
+}
+
+/* Illusion / calculator section */
+.ag-illusion-section { padding: 5rem 0; background: linear-gradient(180deg, #f7faf8 0%, #ebf3ed 100%); }
+
+/* CTA banner decorations */
+.ag-footer-banner { position: relative; overflow: hidden; background: linear-gradient(120deg, #0b2319, #0b3d2e, #166534, #0b3d2e); }
+.ag-banner-orb { position: absolute; border-radius: 50%; filter: blur(40px); pointer-events: none; opacity: 0.55; }
+.ag-banner-orb-a { width: 320px; height: 320px; background: rgba(16,185,129,0.45); top: -120px; left: -80px; animation: farmos-float 9s ease-in-out infinite; }
+.ag-banner-orb-b { width: 260px; height: 260px; background: rgba(52,211,153,0.35); bottom: -110px; right: -60px; animation: farmos-float 11s ease-in-out infinite reverse; }
+
 /* RESPONSIVE BREAKPOINTS */
 @media (max-width: 1024px) {
   .ag-hero-grid {
     grid-template-columns: 1fr;
     gap: 2.5rem;
   }
+  .ag-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .ag-workflow-line { display: none; }
+  .ag-float-badge-a { left: 8px; }
+  .ag-float-badge-b { right: 8px; }
   .ag-workflow-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 1.75rem;
@@ -510,10 +594,27 @@
   }
 }
 
+@media (max-width: 768px) {
+  .ag-hero-section { padding: 2.25rem 0 3rem 0; }
+  .ag-ticker-label span { display: none; }
+  .ag-mock-stats-row { grid-template-columns: repeat(2, 1fr); }
+  .ag-float-badge { font-size: 0.7rem; padding: 0.35rem 0.65rem; }
+  .ag-decision-container { padding: 2rem 1.25rem; }
+  .ag-engine-centerpiece-section, .ag-features-section, .ag-anywhere-section, .ag-illusion-section { padding: 3.5rem 0; }
+}
+
 @media (max-width: 480px) {
   .ag-workflow-grid {
     grid-template-columns: 1fr;
   }
+  .ag-stats-grid { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+  .ag-stat-card { padding: 0.9rem; border-radius: 14px; }
+  .ag-stat-value { font-size: 1.35rem; }
+  .ag-float-badge-b { display: none; }
+  .ag-hero-mock-canvas { padding: 0.75rem; }
+  .ag-mock-dashboard-preview { padding: 0.85rem; }
+  .ag-hero-actions .fx-btn { width: 100%; }
+  .ag-hero-actions > div { width: 100%; display: block !important; }
   .ag-hero-actions {
     flex-direction: column;
     width: 100%;

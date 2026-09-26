@@ -1,10 +1,20 @@
 import React from 'react'
+import { motion } from 'framer-motion'
 import TrustBadge from '../TrustBadge'
 import { Icon } from './Icon'
 
+const greeting = () => {
+  const h = new Date().getHours()
+  if (h < 12) return { text: 'Good morning', icon: 'sun' }
+  if (h < 17) return { text: 'Good afternoon', icon: 'cloudSun' }
+  return { text: 'Good evening', icon: 'sprout' }
+}
+
 export const HeroBanner = ({ userName, location, verificationStatus, role = 'farmer' }) => {
+  const g = greeting()
+  const today = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'short' })
   return (
-    <div style={{
+    <motion.div initial={{ opacity: 0, y: 16, scale: 0.99 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="hero-banner" style={{
       position: 'relative',
       borderRadius: '20px',
       overflow: 'hidden',
@@ -20,9 +30,12 @@ export const HeroBanner = ({ userName, location, verificationStatus, role = 'far
     }}>
       <div style={{ color: '#ffffff', maxWidth: '650px', zIndex: 2 }}>
         <h1 style={{ fontSize: '1.95rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          Good morning, {userName || 'Farmer'}
-          <Icon name="sprout" size={26} color="#6ee7b7" />
+          {g.text}, {userName || (role === 'buyer' ? 'Buyer' : 'Farmer')}
+          <motion.span animate={{ rotate: [0, 12, -6, 0] }} transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 3 }} style={{ display: 'inline-flex' }}>
+            <Icon name={g.icon} size={26} color="#6ee7b7" />
+          </motion.span>
         </h1>
+        <div style={{ fontSize: '0.78rem', color: '#a7f3d0', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>{today}</div>
         <p style={{ fontSize: '0.95rem', color: '#e2e8f0', marginBottom: '1rem', fontWeight: 500 }}>
           Let's find the best opportunity for your harvest today.
         </p>
@@ -77,7 +90,11 @@ export const HeroBanner = ({ userName, location, verificationStatus, role = 'far
         @media (max-width: 900px) {
           .hidden-mobile-quote { display: none !important; }
         }
+        @media (max-width: 600px) {
+          .hero-banner { padding: 1.35rem !important; min-height: 150px !important; }
+          .hero-banner h1 { font-size: 1.45rem !important; }
+        }
       `}</style>
-    </div>
+    </motion.div>
   )
 }

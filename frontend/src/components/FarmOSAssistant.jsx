@@ -149,6 +149,41 @@ export const FarmOSAssistant = ({ isCompact = false }) => {
 
   const messagesEndRef = useRef(null)
 
+  // ---- Voice input (Web Speech API, browser-side only) ----
+  const recognitionRef = useRef(null)
+  const [listening, setListening] = useState(false)
+  const SpeechRecognition = typeof window !== 'undefined' ? (window.SpeechRecognition || window.webkitSpeechRecognition) : null
+  const voiceSupported = Boolean(SpeechRecognition)
+
+  const toggleVoice = () => {
+    if (!voiceSupported || loading) return
+    if (listening) {
+      recognitionRef.current?.stop()
+      return
+    }
+    try {
+      const rec = new SpeechRecognition()
+      rec.lang = language === 'hi' ? 'hi-IN' : 'en-IN'
+      rec.interimResults = true
+      rec.continuous = false
+      rec.onstart = () => setListening(true)
+      rec.onend = () => setListening(false)
+      rec.onerror = () => setListening(false)
+      rec.onresult = (ev) => {
+        let transcript = ''
+        for (let i = ev.resultIndex; i < ev.results.length; i++) transcript += ev.results[i][0].transcript
+        setInputMessage(transcript)
+      }
+      recognitionRef.current = rec
+      rec.start()
+    } catch (err) {
+      console.warn('Voice input unavailable:', err)
+      setListening(false)
+    }
+  }
+
+  useEffect(() => () => recognitionRef.current?.stop?.(), [])
+
   // Example Prompt Chips
   const exampleQuestions = [
     t('assistant.prompt1'),
@@ -451,45 +486,71 @@ export const FarmOSAssistant = ({ isCompact = false }) => {
           gap: '0.8rem'
         }}
       >
-        <input
-          type="text"
-          placeholder={t('assistant.inputPlaceholder')}
-          value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
-          disabled={loading}
-          style={{
-            flex: 1,
-            padding: '0.85rem 1.1rem',
-            borderRadius: '14px',
-            backgroundColor: 'rgba(255, 255, 255, 0.05)',
-            border: '1px solid var(--border-color)',
-            color: 'var(--text-primary)',
-            fontSize: '0.92rem',
-            outline: 'none'
-          }}
-        />
+        <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center' }}>
+          <input
+            type="text"
+            placeholder={listening ? (language === 'hi' ? 'सुन रहा हूँ…' : 'Listening…') : t('assistant.inputPlaceholder')}
+            value={inputMessage}
+            onChange={(e) => setInputMessage(e.target.value)}
+            disabled={loading}
+            aria-label="Message"
+            style={{
+              flex: 1,
+              padding: '0.85rem 3rem 0.85rem 1.1rem',
+              borderRadius: '14px',
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              border: `1px solid ${listening ? 'var(--accent-green-bright)' : 'var(--border-color)'}`,
+              boxShadow: listening ? '0 0 0 3px rgba(63,185,80,0.25)' : 'none',
+              color: 'var(--text-primary)',
+              fontSize: '0.92rem',
+              outline: 'none',
+              transition: 'border-color 0.2s, box-shadow 0.2s'
+            }}
+          />
+          {voiceSupported && (
+            <button
+              type="button"
+              onClick={toggleVoice}
+              disabled={loading}
+              aria-pressed={listening}
+              aria-label={listening ? 'Stop voice input' : 'Speak your question'}
+              title={listening ? 'Stop' : 'Speak your question'}
+              style={{
+                position: 'absolute', right: 8, width: 34, height: 34, borderRadius: 10,
+                background: listening ? 'var(--accent-green)' : 'rgba(255,255,255,0.08)',
+                color: listening ? '#fff' : 'var(--text-secondary)',
+                display: 'grid', placeItems: 'center',
+                animation: listening ? 'farmos-pulse-glow 1.4s ease-out infinite' : 'none'
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                <line x1="12" x2="12" y1="19" y2="22" />
+              </svg>
+            </button>
+          )}
+        </div>
 
         <button
           type="submit"
           disabled={loading || !inputMessage.trim()}
+          className="fx-btn"
           style={{
-            padding: '0.85rem 1.5rem',
+            padding: '0.85rem 1.4rem',
             borderRadius: '14px',
             background: 'linear-gradient(135deg, var(--accent-gold), var(--accent-gold-muted))',
-            color: '#080a0e',
-            fontWeight: 700,
+            color: '#ffffff',
+            fontWeight: 800,
             fontSize: '0.92rem',
-            opacity: loading || !inputMessage.trim() ? 0.6 : 1,
             boxShadow: '0 4px 14px var(--accent-gold-glow)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.4rem',
-            transition: 'all 0.2s'
+            minHeight: 46
           }}
         >
-          <span>{t('assistant.send')}</span>
-          <Icon name="arrowRight" size={16} />
+          <span className="assistant-send-label">{t('assistant.send')}</span>
+          <Icon name="send" size={16} />
         </button>
+        <style>{`@media (max-width: 480px){ .assistant-send-label{ display:none; } }`}</style>
       </form>
     </div>
   )
