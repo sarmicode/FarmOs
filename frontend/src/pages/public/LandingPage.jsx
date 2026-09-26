@@ -4,12 +4,28 @@ import { motion } from 'framer-motion'
 import {
   Wheat, TrendingUp, Scale, Truck, Coins, Trophy, BarChart3, Handshake,
   Bot, ArrowRight, CheckCircle2, Hand, Leaf, CloudSun, Droplet, Wind,
-  Tag, MapPin, Laptop, Smartphone, Sparkles
+  Tag, MapPin, Laptop, Smartphone, Sparkles, Landmark
 } from 'lucide-react'
 import { useLanguage } from '../../context/LanguageContext'
 import { Footer } from '../../components/Footer'
 import { Reveal, Stagger, StaggerItem, AnimatedNumber } from '../../components/ui/Motion'
+import { SplitText, TiltCard, SpotlightCard, Ticker, Magnetic, LivePulse, Typewriter } from '../../components/ui/Effects'
+import { Button } from '../../components/ui/Button'
+import { NetReturnCalculator } from '../../components/ui/NetReturnCalculator'
 import './LandingPage.css'
+
+// Sample snapshot used for the ambient price ticker (illustrative only).
+const TICKER_ITEMS = [
+  { crop: 'Potato', market: 'Birbhum', price: 2400, delta: +3.2 },
+  { crop: 'Onion', market: 'Lasalgaon', price: 1650, delta: -1.4 },
+  { crop: 'Tomato', market: 'Kota', price: 2450, delta: +6.8 },
+  { crop: 'Wheat', market: 'Karnal', price: 2275, delta: +0.6 },
+  { crop: 'Rice', market: 'Burdwan', price: 3120, delta: +1.9 },
+  { crop: 'Maize', market: 'Davangere', price: 2080, delta: -0.8 },
+  { crop: 'Soybean', market: 'Indore', price: 4410, delta: +2.3 },
+  { crop: 'Cotton', market: 'Rajkot', price: 7150, delta: +0.4 },
+  { crop: 'Mustard', market: 'Jaipur', price: 5480, delta: -2.1 },
+]
 
 const EASE = [0.16, 1, 0.3, 1]
 
@@ -34,6 +50,7 @@ export const LandingPage = () => {
   const [demoCrop, setDemoCrop] = useState('Potato')
   const [demoQty, setDemoQty] = useState('500')
   const [demoLocation, setDemoLocation] = useState('Kolkata')
+  const [headlineTyped, setHeadlineTyped] = useState(false)
 
   const handleDemoSubmit = (e) => {
     e.preventDefault()
@@ -102,8 +119,29 @@ export const LandingPage = () => {
 
   return (
     <div className="farmos-landing-wrapper">
+      {/* 0. AMBIENT MANDI TICKER */}
+      <div className="ag-ticker-bar" aria-label="Sample mandi price ticker">
+        <div className="ag-ticker-label">
+          <LivePulse /> <span>MANDI PULSE</span>
+        </div>
+        <Ticker
+          items={TICKER_ITEMS}
+          speed={48}
+          style={{ flex: 1 }}
+          render={(it) => (
+            <span className="ag-ticker-item">
+              <strong>{it.crop}</strong>
+              <span className="ag-ticker-market">{it.market}</span>
+              <span>₹{it.price.toLocaleString('en-IN')}/q</span>
+              <span className={it.delta >= 0 ? 'ag-ticker-up' : 'ag-ticker-down'}>{it.delta >= 0 ? '▲' : '▼'} {Math.abs(it.delta)}%</span>
+            </span>
+          )}
+        />
+      </div>
+
       {/* 1. HERO SECTION */}
       <section className="ag-hero-section">
+        <div className="ag-hero-grid-bg" aria-hidden="true" />
         {/* Animated ambient background blooms */}
         <motion.div
           aria-hidden="true"
@@ -129,8 +167,11 @@ export const LandingPage = () => {
               </motion.div>
 
               <motion.h1 variants={fadeInUp} className="ag-heading-xl ag-hero-headline">
-                Connecting Every Harvest <br />
-                <span style={{ color: '#0b3d2e' }}>to Its Best Opportunity</span>
+                <Typewriter text="Connecting Every Harvest" speed={60} delay={350} onDone={() => setHeadlineTyped(true)} />
+                <br />
+                <span style={{ display: 'inline-block', minHeight: '1.1em' }}>
+                  {headlineTyped && <SplitText text="to Its Best Opportunity" as="span" delay={0.05} className="fx-gradient-text" />}
+                </span>
               </motion.h1>
 
               <motion.p variants={fadeInUp} className="ag-body-lg ag-hero-subtext">
@@ -138,27 +179,19 @@ export const LandingPage = () => {
               </motion.p>
 
               <motion.div variants={fadeInUp} className="ag-hero-actions">
-                <motion.a
-                  whileHover={{ y: -3, scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ type: 'spring', stiffness: 320, damping: 20 }}
-                  href="/marketplace"
-                  onClick={(e) => { e.preventDefault(); navigate('/marketplace') }}
-                  className="ag-btn-primary"
-                >
-                  <span>Explore Opportunities</span>
-                  <ArrowRight size={18} />
-                </motion.a>
-                <motion.a
-                  whileHover={{ y: -3, scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ type: 'spring', stiffness: 320, damping: 20 }}
-                  href="/market-prices"
-                  onClick={(e) => { e.preventDefault(); navigate('/market-prices') }}
-                  className="ag-btn-secondary"
-                >
-                  <span>View Market Prices</span>
-                </motion.a>
+                <Magnetic>
+                  <Button variant="primary" size="lg" icon="arrowRight" iconRight onClick={() => navigate('/marketplace')}>
+                    Explore Opportunities
+                  </Button>
+                </Magnetic>
+                <Magnetic strength={0.15}>
+                  <Button variant="secondary" size="lg" icon="chartUp" onClick={() => navigate('/market-prices')}>
+                    View Market Prices
+                  </Button>
+                </Magnetic>
+                <Button variant="ghost" size="lg" icon="bot" onClick={() => navigate('/assistant')} className="ag-hero-ghost-cta">
+                  Ask AI
+                </Button>
               </motion.div>
 
               <motion.div variants={fadeInUp} className="ag-hero-trust-bar">
@@ -170,14 +203,22 @@ export const LandingPage = () => {
 
             {/* Right: Realistic Dashboard Preview Card */}
             <motion.div
-              className="ag-hero-mock-canvas"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
+              initial={{ opacity: 0, y: 40, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.3, ease: EASE }}
+              style={{ position: 'relative' }}
             >
+              {/* floating badges around the preview */}
+              <motion.div className="ag-float-badge ag-float-badge-a" animate={{ y: [0, -10, 0] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}>
+                <Truck size={16} color="#0b3d2e" /> Freight ₹3,958 · 198 km
+              </motion.div>
+              <motion.div className="ag-float-badge ag-float-badge-b" animate={{ y: [0, 10, 0] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}>
+                <TrendingUp size={16} color="#166534" /> +₹1,240 vs nearest mandi
+              </motion.div>
+            <TiltCard className="ag-hero-mock-canvas" max={6}>
               <motion.div
                 className="ag-mock-dashboard-preview"
-                animate={{ y: [0, -8, 0] }}
+                animate={{ y: [0, -6, 0] }}
                 transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
               >
                 {/* Top Bar Sim */}
@@ -261,8 +302,31 @@ export const LandingPage = () => {
                   </div>
                 </div>
               </motion.div>
+            </TiltCard>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* 1b. TRUST / IMPACT STATS */}
+      <section className="ag-stats-strip">
+        <div className="ag-container">
+          <Stagger className="ag-stats-grid" stagger={0.1}>
+            {[
+              { value: 7000, suffix: '+', label: 'APMC mandis covered', icon: Landmark },
+              { value: 300, suffix: '+', label: 'Commodities tracked', icon: Wheat },
+              { value: 24, suffix: '/7', label: 'Live weather intelligence', icon: CloudSun },
+              { value: 2, suffix: ' languages', label: 'English & हिंदी interface', icon: Sparkles },
+            ].map((st) => (
+              <StaggerItem key={st.label}>
+                <SpotlightCard className="ag-stat-card">
+                  <div className="ag-stat-icon"><st.icon size={20} /></div>
+                  <div className="ag-stat-value"><AnimatedNumber value={st.value} suffix={st.suffix} /></div>
+                  <div className="ag-stat-label">{st.label}</div>
+                </SpotlightCard>
+              </StaggerItem>
+            ))}
+          </Stagger>
         </div>
       </section>
 
@@ -329,6 +393,14 @@ export const LandingPage = () => {
           </Reveal>
 
           <Stagger className="ag-workflow-grid" stagger={0.12}>
+            <svg className="ag-workflow-line" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
+              <motion.path
+                d="M60 30 H1140"
+                fill="none" stroke="#a7f3d0" strokeWidth="3"
+                initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1.6, ease: 'easeInOut' }}
+              />
+              <path d="M60 30 H1140" fill="none" stroke="#10b981" strokeWidth="3" className="fx-dash-flow" opacity="0.7" />
+            </svg>
             {workflowSteps.map((step) => (
               <StaggerItem className="ag-workflow-card" key={step.step}>
                 <motion.div
@@ -337,6 +409,7 @@ export const LandingPage = () => {
                   transition={{ type: 'spring', stiffness: 300, damping: 15 }}
                 >
                   <step.Icon size={26} />
+                  <span className="ag-workflow-step">{step.step}</span>
                 </motion.div>
                 <div className="ag-workflow-title">{step.title}</div>
                 <div className="ag-workflow-desc">{step.desc}</div>
@@ -386,15 +459,9 @@ export const LandingPage = () => {
                   <input type="text" value={demoLocation} onChange={(e) => setDemoLocation(e.target.value)} style={{ width: '100%', padding: '0.65rem', borderRadius: '10px', border: '1px solid #d6e4db', backgroundColor: '#f7faf8' }} />
                 </div>
 
-                <motion.button
-                  type="submit"
-                  className="ag-btn-primary"
-                  style={{ width: '100%', marginTop: '0.5rem' }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
+                <Button type="submit" variant="primary" size="lg" block icon="search" style={{ marginTop: '0.5rem' }}>
                   Find Opportunities
-                </motion.button>
+                </Button>
               </form>
             </Reveal>
 
@@ -459,6 +526,22 @@ export const LandingPage = () => {
         </div>
       </section>
 
+      {/* 4b. THE GROSS PRICE ILLUSION — INTERACTIVE CALCULATOR */}
+      <section className="ag-illusion-section">
+        <div className="ag-container">
+          <Reveal style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto' }}>
+            <span className="ag-badge ag-badge-dark">Why net return matters</span>
+            <h2 className="ag-heading-lg" style={{ marginTop: '0.6rem' }}>
+              The <span className="fx-gradient-text">Gross Price Illusion</span>
+            </h2>
+            <p className="ag-body-lg" style={{ marginTop: '0.5rem' }}>
+              Portals show the highest <em>advertised</em> price. FarmOS shows what actually reaches your pocket after freight, handling, commission and spoilage.
+            </p>
+          </Reveal>
+          <NetReturnCalculator />
+        </div>
+      </section>
+
       {/* 5. EVERYTHING FARMERS NEED TO MAKE BETTER DECISIONS */}
       <section className="ag-features-section">
         <div className="ag-container">
@@ -468,12 +551,14 @@ export const LandingPage = () => {
 
           <Stagger className="ag-features-5grid" stagger={0.1}>
             {featureCards.map((f) => (
-              <StaggerItem className="ag-feature-box" key={f.id}>
+              <StaggerItem key={f.id}>
+                <SpotlightCard className="ag-feature-box" style={{ height: '100%' }}>
                 <motion.div whileHover={{ y: -4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }} style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                   <div>
-                    <div style={{ width: '48px', height: '48px', borderRadius: '14px', backgroundColor: '#ebf3ed', color: '#0b3d2e', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+                    <motion.div whileHover={{ rotate: -8, scale: 1.08 }} transition={{ type: 'spring', stiffness: 300, damping: 14 }}
+                      style={{ width: '48px', height: '48px', borderRadius: '14px', background: 'linear-gradient(135deg,#dcfce7,#ebf3ed)', color: '#0b3d2e', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem', boxShadow: 'inset 0 0 0 1px #a7f3d0' }}>
                       <f.Icon size={26} />
-                    </div>
+                    </motion.div>
                     <h3 className="ag-heading-sm" style={{ marginBottom: '0.35rem' }}>{f.title}</h3>
                     <div style={{ fontSize: '0.8rem', color: '#10b981', fontWeight: 700, marginBottom: '0.75rem' }}>{f.subtitle}</div>
                     <p className="ag-body-md">{f.description}</p>
@@ -483,6 +568,7 @@ export const LandingPage = () => {
                     <CheckCircle2 size={15} color="#10b981" /> {f.badge}
                   </div>
                 </motion.div>
+                </SpotlightCard>
               </StaggerItem>
             ))}
           </Stagger>
@@ -520,8 +606,10 @@ export const LandingPage = () => {
         </div>
 
         {/* Deep Forest Green Banner */}
-        <div className="ag-footer-banner">
-          <div className="ag-container">
+        <div className="ag-footer-banner farmos-animated-gradient">
+          <div className="ag-banner-orb ag-banner-orb-a" aria-hidden="true" />
+          <div className="ag-banner-orb ag-banner-orb-b" aria-hidden="true" />
+          <div className="ag-container" style={{ position: 'relative' }}>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -537,6 +625,10 @@ export const LandingPage = () => {
             <p style={{ fontSize: '1rem', color: '#cde0d5', marginTop: '0.5rem' }}>
               "Connecting Every Harvest to Its Best Opportunity"
             </p>
+            <Reveal style={{ display: 'flex', gap: '0.8rem', justifyContent: 'center', flexWrap: 'wrap', marginTop: '1.75rem' }} delay={0.1}>
+              <Button to="/register" variant="emerald" size="lg" icon="rocket">Create free account</Button>
+              <Button to="/login" variant="outline" size="lg">I already have one</Button>
+            </Reveal>
           </div>
         </div>
       </section>

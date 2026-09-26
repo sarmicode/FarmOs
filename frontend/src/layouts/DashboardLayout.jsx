@@ -7,12 +7,15 @@ import { Footer } from '../components/Footer'
 import { FloatingAssistant } from '../components/FloatingAssistant'
 import { MobileBottomNav } from '../components/ui/MobileBottomNav'
 import { PageTransition } from '../components/ui/Motion'
+import { ScrollProgress, BackToTop } from '../components/ui/Effects'
 
 export const DashboardLayout = () => {
   const { pathname } = useLocation()
   return (
     <div style={{ display: 'flex', minHeight: '100vh', width: '100%', backgroundColor: '#f3f7f4', overflowX: 'hidden' }}>
-      {/* Left Dark Forest Sidebar */}
+      <ScrollProgress />
+
+      {/* Left Dark Forest Sidebar (collapsible rail on tablets, hidden on phones) */}
       <div className="hidden-mobile-sidebar">
         <Sidebar />
       </div>
@@ -32,20 +35,20 @@ export const DashboardLayout = () => {
         <Footer />
       </div>
 
-      {/* Floating AI Button (Bottom Right) */}
       <FloatingAssistant />
-
-      {/* Fixed Mobile Bottom Bar */}
+      <BackToTop />
       <MobileBottomNav />
 
       <style>{`
-        @media (max-width: 900px) {
-          .hidden-mobile-sidebar {
-            display: none !important;
-          }
-          .dashboard-main-content {
-            padding: 1.25rem 1rem 90px 1rem !important;
-          }
+        @media (max-width: 1100px) {
+          .dashboard-main-content { padding: 1.5rem 1.25rem 90px 1.25rem !important; }
+        }
+        @media (max-width: 768px) {
+          .hidden-mobile-sidebar { display: none !important; }
+          .dashboard-main-content { padding: 1.25rem 1rem calc(96px + var(--safe-bottom)) 1rem !important; }
+        }
+        @media (max-width: 480px) {
+          .dashboard-main-content { padding: 1rem 0.75rem calc(96px + var(--safe-bottom)) 0.75rem !important; }
         }
       `}</style>
     </div>
